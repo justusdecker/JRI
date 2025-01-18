@@ -3,7 +3,7 @@ from bin.appinfo import VERSION
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from bin.minfuncs import getHexDoubleZeros
 from bin.constants import LC,EC,DEFAULT_LPF_FILE
-from bin.constants import LETSPLAY_PATH,THUMBNAIL_PATH,AUDIO_PATH
+from bin.constants import LETSPLAY_PATH,THUMBNAIL_PATH,AUDIO_PATH,ABSOLUTE_PATH
 from os import listdir
 from typing import Any
 
@@ -210,10 +210,10 @@ class LetsPlayFile:
     def _getBackUpPath(self):
         pass
     def createBackUp(self):
-        DM.createFolder('data\\')
-        DM.createFolder('data\\backups\\')
+        DM.createFolder(f'{ABSOLUTE_PATH}')
+        DM.createFolder(f'{LETSPLAY_PATH}backups')
         fName,ending = self.filePath.split('\\')[-1].split('.')
-        DM.save(f"data\\backups\\{fName}_backup.{ending}",self.data)
+        DM.save(f"{LETSPLAY_PATH}backups\\{fName}_backup.{ending}",self.data)
     def load(self):
         try:
             self.data = DM.loads(self.filePath)

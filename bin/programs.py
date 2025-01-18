@@ -39,19 +39,14 @@ from bin.audio2Text import Audio2Text
 from bin.fx.image import generateIcon
 from bin.images import RI_LOGO
 
-from bin.debugFunctions import debugExecutionTimeCheck,debugExecutionTimeCheckWOV,DeprecationWarn,DeprecationLineWarn,DeprecationError,OutsourceWarn
+from bin.debugFunctions import DeprecationWarn,OutsourceWarn
 
 from bin.constants import (
     AUDIO_PATH,
     LETSPLAY_PATH,
     THUMBNAIL_PATH,
-    LOGOS_PATH,
-    FONT_PATH,
-    LOWRES_PATH,
     DEFAULT_LPF_FILE,
-    ATT_PATH,
-    WAVEFORM_PATH,
-    ABSOLUTE_PATH
+    ATT_PATH
 )
 
 font.init()
@@ -60,7 +55,6 @@ font.init()
 from bin.ui_elements import (
     UIButton,
     UILabel,
-    UIProgressBar,
     UICalendar,
     UIGroup,
     UIVideoPlayer,
@@ -72,13 +66,7 @@ from bin.ui_elements import (
     UITextInput,
     UIM,
     UIC,
-    UINotification,
-    UINode,
-    UIWaveForm,
-    UICounter,
     UIBubbleText,
-    UISliderLR,
-    UIAudioWave,
     UIColorPicker,
     UIBackgroundWobble,
     UILoadingCone
@@ -1549,7 +1537,7 @@ class VideoEditor:
         if self.autoSwitchToNextEpisode.toggle: #? Auto Switch for automation
             self.letsPlayComp.change2Episode(1,self.onEpisodeLoad)
         self.lc._stop()
-    @OutsourceWarn(version='1.13.0',to='bin.lpf')
+
     def _setUploadAt(self):
         """
         set episode["uploadAt"]
@@ -1574,7 +1562,6 @@ class VideoEditor:
 
         self._changeEpisodeLeftView()
     
-    @DeprecationWarn
     def sendEp2ResolveFA(self,*_):
         """
             Uses the DVRPL for sending Davinci Resolve the current Episode
@@ -1605,7 +1592,7 @@ class VideoEditor:
         if self.autoSwitchToNextEpisode.toggle: #? Auto Switch for automation
             self.letsPlayComp.change2Episode(1,self.onEpisodeLoad)
         self.lc._stop()
-    @DeprecationWarn
+
     def sendEp2Resolve(self,*_):
         """
             Uses the DVRPL for sending Davinci Resolve the current Episode
@@ -1642,6 +1629,7 @@ class VideoEditor:
         if self.autoSwitchToNextEpisode.toggle: #? Auto Switch for automation
             self.letsPlayComp.change2Episode(1,self.onEpisodeLoad)
         self.lc._stop()
+    
     def reExctractAudio(self,*_):
         """
         Recreates audio file if broken or something
@@ -1658,6 +1646,7 @@ class VideoEditor:
         mixer.music.load(dest)
         LOG.nlog(1,f'saved Audio to $',[dest])
         self.lc._stop()
+    
     def generateComp(self):
         if not DM.existFile(self.letsPlayComp.getCompPath()):
             self.lc.start('Audio Loudness Normalization')
@@ -1672,6 +1661,7 @@ class VideoEditor:
             if DM.existFile(AUDIO_PATH + '_tmp.mp3'):
                 remove(AUDIO_PATH + '_tmp.mp3')
             self.lc._stop()
+    
     def onEpisodeLoad(self):
         self.lc.start(f'Loading Episode',1)
         display.set_caption(f'Loading...')
@@ -1753,6 +1743,7 @@ class VideoEditor:
         LOG.nlog(1,f'loaded: $ - $ ',[self.letsPlayComp.getCuLp(LC.NAME),self.letsPlayComp.getEpisodeIndex()+1])
         self._changeEpisodeLeftView()
         self.lc._stop(priority=1)
+    
     def _changeEpisodeLeftView(self,*_):
         self.audioPathLabel.UX.text = str(self.letsPlayComp.getCuEp(EC.ORIGINAL_AUDIO_PATH))
         self.audioPathLabel.setImage(self.audioPathLabel.UX.gen())
