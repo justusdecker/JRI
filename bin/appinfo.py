@@ -4,7 +4,7 @@ VERSION : Major , Minor , Micro , release_level['alpha','beta','stable','unstabl
 
 """
 
-VERSION = (1,14,0,'beta')
+VERSION = (1,14,8,'beta')
 
 TITLE = 'JuRecordingTool'
 SHORT_TITLE = 'JRT'

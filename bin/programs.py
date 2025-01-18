@@ -1,7 +1,4 @@
-import gc
-
-
-from bin.minfuncs import getDoubleZeros,getHexDoubleZeros,no
+from bin.minfuncs import getDoubleZeros,no
 from bin.appinfo import VERSION
 VERSIONSTRING = f"[{VERSION[3]}]{VERSION[0]}.{VERSION[1]}.{VERSION[2]}"
 from bin.fx.video import IVFX
@@ -15,7 +12,6 @@ from bin.application import Application
 from os import listdir, path,remove
 from bin.log import LOG
 from pygame import (
-    event,
     key,
     image,
     Color,
@@ -30,16 +26,16 @@ from pygame import (
     Clock
     )
 from time import time as TIME
-from tkinter import filedialog
 from bin.constants import LC,EC,FONT180BS
 from bin.resolvePipe import DVRPL
 from subprocess import call as callSubProcess
 from bin.crashHandler import ERRORDICT,CrashBox
 from bin.audio2Text import Audio2Text
 from bin.fx.image import generateIcon
+from bin.tree import FinalizedTree     
 from bin.images import RI_LOGO
 
-from bin.debugFunctions import DeprecationWarn,OutsourceWarn
+from bin.debugFunctions import OutsourceWarn
 
 from bin.constants import (
     AUDIO_PATH,
@@ -66,7 +62,6 @@ from bin.ui_elements import (
     UITextInput,
     UIM,
     UIC,
-    UIBubbleText,
     UIColorPicker,
     UIBackgroundWobble,
     UILoadingCone
@@ -115,9 +110,7 @@ class StateManager:
     def update(self):
         self.current.update()
         self.clock.tick(60)
-
-from bin.tree import FinalizedTree
-             
+ 
 class FileManager:
     def __init__(self,app,stateSystem:StateManager) -> None:
         self.app = app
@@ -211,21 +204,6 @@ class FileManager:
         UIM.renderQueue(self.app)
         display.set_caption(f'ft:{round((TIME()-t1)*1000,1)}ms fps: {int(1/(TIME()-t1))}')
         
-
-class Settings:
-    def __init__(self,app,stateSystem:StateManager) -> None:
-        self.app = app
-        UIM.queue.clear()
-        self.changeFastLoadLabel = UILabel(Rect(0,0,144,24),ux={'text': 'Fast Load','size': (144,24)},group = UIGroup('settings'))
-        self.changeFastLoadSwitch = UISwitch(Rect(144,0,24,24),ux={'size': (24,24)},group = UIGroup('settings'),initial_value = SETTINGS._['fastLoad'],onPressCallback=self.changeFastLoad)
-    def changeFastLoad(self,*_):
-        SETTINGS._['fastLoad'] = not SETTINGS._['fastLoad']
-        SETTINGS.save()
-    def update(self):
-        
-        UIM.renderQueue(self.app)
-
-
 class VideoEditor:
     """
     A Wrapper for all Essentials in JVE
@@ -971,7 +949,7 @@ class VideoEditor:
             layer=30
             )
 
-        self.titleBubbleShow = UIBubbleText(rect=Rect(48,48,1280-96,720-96),group=self.groupTitle,app=self.stateSystem.app,ux={'size':(1280-96,720-96)})
+        #self.titleBubbleShow = UIBubbleText(rect=Rect(48,48,1280-96,720-96),group=self.groupTitle,app=self.stateSystem.app,ux={'size':(1280-96,720-96)})
         #*Image Show
         
         self.jtgImage = UIImage(Rect(0,0,1280,720),group=self.groupJtg)
