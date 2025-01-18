@@ -637,8 +637,7 @@ class VideoEditor:
                 },
             childsInstances= [
                 ('Info & Edit',self._changeMode),
-                ('Title & Co.',self._changeMode),
-                ('Audio',self._changeMode),
+                ('Thumbnail',self._changeMode),
                 ],
             layer=100,
             group= self.groupTaskbar
@@ -1812,17 +1811,24 @@ class VideoEditor:
         #    self.changeStatusMinus(None)
         elif 'f' in KEYS:
             display.toggle_fullscreen()
-        elif '1' in KEYS:
+        elif '+' in KEYS:
+            self.changeStatus(self.changeStatusButtons[1])
+        elif '-' in KEYS:
+            self.changeStatus(self.changeStatusButtons[0])
+        elif '-' in KEYS:
+            self.sendEp2Resolve(None)
+        elif 'a' in KEYS:
             self.reExctractAudio(None)
-        elif '3' in KEYS:
+        
+        elif 's' in KEYS:
             self.sendEp2Resolve(None)
 
-        elif '5' in KEYS:
+        elif 'd' in KEYS:
             if STRG:
                 self.rerollThumbnail(None,frame=self.lastThumbnailTime)
             else:
                 self.rerollThumbnail(None,frame=-1)
-        elif '6' in KEYS:
+        """elif '6' in KEYS:
             if STRG:
                         self.rerollThumbnail(None,frame=self.lastThumbnailTime)
             else:
@@ -1834,7 +1840,7 @@ class VideoEditor:
                         LOG.nlog(3,'File not readable')
                         
                 else:
-                    LOG.nlog(3,'File cant be empty!')
+                    LOG.nlog(3,'File cant be empty!')"""
             
         
 
