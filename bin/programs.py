@@ -1831,7 +1831,7 @@ class LetsPlayPicker(Application):
         #Get all lets plays
         display.set_caption(f'{VERSIONSTRING} LetsPlayPicker')
         display.set_icon(generateIcon(RI_LOGO))
-        self.options = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH)]
+        self.options = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]
         
         if self.options.__len__() == 0:
             #! The Program crashes if no LPF exists
