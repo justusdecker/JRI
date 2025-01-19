@@ -8,7 +8,7 @@ from datetime import datetime
 import numpy
 from time import time
 from moviepy.video.io.VideoFileClip import VideoFileClip
-from bin.fx.audio import AudioWaveOnlyWvi
+#from bin.fx.audio import AudioWaveOnlyWvi
 from threading import Thread
 from bin.log import LOG
 from bin.debugFunctions import debugExecutionTimeCheck
@@ -784,7 +784,7 @@ class BubbleTextElement:
             self.preRenderedSizes[str(self.currentSize)].set_alpha(self.fade)
         return self.preRenderedSizes[str(self.currentSize)],(int((self.position[0])-(self.preRenderedSizes[str(self.currentSize)].get_width()//2)),int((self.position[1])-(self.preRenderedSizes[str(self.currentSize)].get_height()//2)))
 
-
+"""
 class UIAudioWave(UIElement):
     def __init__(self, rect: pg.Rect, **kwargs) -> None:
         super().__init__(rect, **kwargs)
@@ -794,13 +794,13 @@ class UIAudioWave(UIElement):
             self.app = kwargs['app']
         else:
             raise Exception('No App. No Game!')
-        """self.UX = UXWaveForm(
+        self.UX = UXWaveForm(
             **UnpackManager(
                 'ux',
                 kwargs,
                 {}
                 )
-            )"""
+            )
         if 'slider' in kwargs:
             self.slider = kwargs['slider']
         else:
@@ -918,7 +918,7 @@ class UIAudioWave(UIElement):
         
         
         return super().update()
-
+"""
 class UIBubbleText(UIElement):
     def __init__(self, rect: pg.Rect, **kwargs) -> None:
         super().__init__(rect, **kwargs)
