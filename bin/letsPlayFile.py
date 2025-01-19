@@ -297,9 +297,10 @@ class LetsPlayComp:
                             _deletableFiles.append(p)
                     LPF._setEpisode(episodeId,EC.STATUS,64)  # TODO : Use the new ST values
         _ = "\n".join(_deletableFiles)
-        _answer = QuestionBox(['Unused Data Detected',f'Delete? {_}'])
-        if _answer == 6:
-            self.deleteFiles(_deletableFiles)  
+        if len(_deletableFiles) > 0:
+            _answer = QuestionBox(['Unused Data Detected',f'Delete? {_}'])
+            if _answer == 6:
+                self.deleteFiles(_deletableFiles)  
     def deleteFiles(self,_data):
         for f in _data:
             
@@ -383,7 +384,6 @@ class LetsPlayComp:
         self.jtgTextSizeInput
         """
 
-        colorPicker = self.jtgColorPicker
         
         
         TAD = self.getTAD()
@@ -462,6 +462,7 @@ class LetsPlayComp:
             BG['center'] = self.csTAD.toggle
         
             TAD['background'] = BG  #* Reapply Values
+        print(TAD['background'])
         self.setTAD(TAD)
 
     def getEssentialFolderCommands(self):
