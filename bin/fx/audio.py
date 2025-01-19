@@ -48,7 +48,9 @@ class AFX:
                     '-af',
                     f'loudnorm={decibel}',
                     savePath
-                    ]
+                    ],
+                    subprocess.CREATE_NO_WINDOW,
+                    shell= True
                 )
     @debugExecutionTimeCheck
     def limiter(iFileName: str,
@@ -65,7 +67,9 @@ class AFX:
                     '-af',
                     f'compand=0|0:1|1:{limiter}:0.1:0:0:0',
                     oFileName
-                    ]
+                    ],
+                    subprocess.CREATE_NO_WINDOW,
+                    shell= True
                 )
     @debugExecutionTimeCheck
     def cvtAudio(fileName:str,#call

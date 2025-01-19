@@ -622,48 +622,6 @@ class VideoEditor:
             )
         
         self.modeButtons = [i.elementId for i in self.modeDD.childInstances]
-        self.thumbnailWin = UIWindow(
-            Rect(
-                240,
-                444,
-                256,
-                300
-                ),
-            ux={
-                'size':(256,192),
-                'text': 'Thumbnail Manipulation'
-                },
-            layer=30,
-            group=self.groupEpisodeManipulation
-            )
-        
-        self.thumbnailAutoUpdateThumbnailLabel = UILabel(
-            Rect(
-                0,
-                24,
-                128,
-                24
-                ),
-            ux={
-                'text': 'Auto Generate',
-                'size': (128,24)
-                },
-            parent=self.thumbnailWin,
-            layer=40,
-            group=self.groupEpisodeManipulation
-            )
-        
-        self.thumbnailAutoUpdateSwitch = UISwitch(
-            Rect(
-                128,
-                24,
-                24,
-                24
-                ),
-            layer=40,
-            parent=self.thumbnailWin,
-            group=self.groupEpisodeManipulation
-            )
 
         self.autoSwitchToNextEpisode = UISwitch(
             Rect(
@@ -795,6 +753,32 @@ class VideoEditor:
             group=self.groupOthers
             )
         
+        self.thumbnailAutoUpdateThumbnailLabel = UILabel(
+            Rect(
+                1032,
+                168,
+                128,
+                24
+                ),
+            ux={
+                'text': 'Auto Thumb',
+                'size': (128,24)
+                },
+            layer=40,
+            group=self.groupEpisodeManipulation
+            )
+        
+        self.thumbnailAutoUpdateSwitch = UISwitch(
+            Rect(
+                1008,
+                168,
+                24,
+                24
+                ),
+            layer=40,
+            group=self.groupEpisodeManipulation
+            )
+        
         self.videoPlayer = UIVideoPlayer(
             Rect(
                 624,
@@ -805,23 +789,7 @@ class VideoEditor:
             app=self.app,
             group=self.groupVideoPreview
             )
-        
-        """self.waveForm = UIWaveForm(
-            Rect(
-                0,
-                216,
-                384,
-                64
-                ),
-            ux={
-                'size': (384,64),
-                'wv': []
-                },
-            parent = self.videoPlayer,
-            layer=20,
-            group=self.groupOthers
-            )"""
-        
+
         self.letsPlaySettingsWin = UIWindow(
             Rect(
                 496,
@@ -1652,8 +1620,10 @@ class VideoEditor:
         #Auto Create the Comps Folder for the current Lets Play. 
         #Used for storing finished Audio Files.
         DM.createFolder(self.letsPlayComp.getCompPathWOF())
-
-        self.generateComp()
+        
+        if self.autoGenerateComp.toggle:
+            self.generateComp()
+        
         if self.autoSend2Resolve.toggle:
             self.sendEp2ResolveFA()
         #! Set Image for JTG
