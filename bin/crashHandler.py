@@ -26,6 +26,7 @@ class Icons:
 def Mbox(title, text, style):
     return ctypes.windll.user32.MessageBoxW(0, text, title, style)
 def CrashBox(error:list):
-    Mbox(error[0], error[1], Icons.STOP + Styles.OK)
+    return Mbox(error[0], error[1], Icons.STOP + Styles.OK)
 
-
+def QuestionBox(error:list):
+    return Mbox(error[0], error[1], Icons.QUESTION + Styles.YES_NO)

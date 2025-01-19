@@ -37,7 +37,6 @@ class AFX:
                     )
         pass
     def LoudnessNormalization(filePath,savePath,decibel:int = -15):
-        f"Command: ffmpeg -i {filePath} -filter:a \"loudnorm\"{decibel} {savePath}"
         
         subprocess.run(
                 [

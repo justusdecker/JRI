@@ -1,4 +1,4 @@
-from os import path,mkdir
+from os import path,mkdir,remove
 from json import load,dumps
 from bin.log import LOG
 from bin.constants import (
@@ -89,6 +89,13 @@ class DataManagement:
             
             return load(fIn)
         
+    def removeFile(filePath: str):
+        if path.isfile(filePath):
+            LOG.nlog(2,'Removed : $',[filePath])
+            remove(filePath)
+        else:
+            LOG.nlog(3,'File not found : $',[filePath])
+         
     def loadDef(filePath:str,searchL:list | tuple,default):
         """
         Returns Specific Value in a JSON File if not existing return Default

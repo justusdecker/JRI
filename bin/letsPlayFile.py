@@ -6,8 +6,9 @@ from bin.constants import LC,EC,DEFAULT_LPF_FILE
 from bin.constants import LETSPLAY_PATH,THUMBNAIL_PATH,AUDIO_PATH,ABSOLUTE_PATH
 from os import listdir
 from typing import Any
-
+from bin.crashHandler import QuestionBox
 from pygame import key,K_LCTRL
+
 class LetsPlayFile:
     #Defaults
     default_EpisodeLength: int = 900
@@ -269,23 +270,41 @@ class LetsPlayComp:
     def saveLetsPlays(self,*_): self.save()
     
     def load(self,*_):
+        
         self.letsPlayFiles = []
         self.episodesInQueue = []
 
         DIR = listdir(LETSPLAY_PATH)
         DIR = [f for f in DIR if f.endswith('.json')]
-        
         if DIR.__len__() == 0:
             return False #! Program crashed
-        
+        _deletableFiles = []
         for letsPlayIndex, filePath in enumerate(DIR):
-
+            
             LPF = LetsPlayFile(LETSPLAY_PATH + filePath)
             self.letsPlayFiles.append(LPF)
             for episodeId in range(LPF._getEpisodeCount()):
                 if LPF._getEpisodeEx(episodeId,'status') < 31: # TODO : Use the new ST values
                     self.episodesInQueue.append((letsPlayIndex,episodeId))
-    
+                else:
+                    for p in [
+                        LPF._getEpisodeEx(episodeId,EC.ORIGINAL_AUDIO_PATH),
+                        LPF._getEpisodeEx(episodeId,EC.ORIGINAL_VIDEO_PATH),
+                        LPF._getEpisodeEx(episodeId,EC.THUMBNAIL_PATH),
+                        f'{AUDIO_PATH}{LPF._getName()}\\comps\\{episodeId+1}_comp.mp3'
+                        ]:
+                        if DM.existFile(p):
+                            _deletableFiles.append(p)
+                    LPF._setEpisode(episodeId,EC.STATUS,64)  # TODO : Use the new ST values
+        _ = "\n".join(_deletableFiles)
+        _answer = QuestionBox(['Unused Data Detected',f'Delete? {_}'])
+        if _answer == 6:
+            self.deleteFiles(_deletableFiles)  
+    def deleteFiles(self,_data):
+        for f in _data:
+            
+            DM.removeFile(f)
+                    
     def save(self):
         for letsPlayFile in self.letsPlayFiles:
             letsPlayFile.save()

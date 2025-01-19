@@ -1738,8 +1738,7 @@ class VideoEditor:
         
         if self.autoForewardToNextEpisode.toggle or self.autoSend2Resolve.toggle:
             self.letsPlayComp.change2Episode(1,self.onEpisodeLoad)
-            
-             
+              
     def checkKeyBinds(self):
         
         KEYS = [str(key).lower() for key in self.app.keyboardInputs['currentKeys']]
