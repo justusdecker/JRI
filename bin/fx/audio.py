@@ -4,8 +4,6 @@ from os.path import isfile
 import subprocess
 
 from moviepy.audio.io.AudioFileClip import AudioFileClip
-import soundfile as sf
-import pyloudnorm as pyln
 
 from numba import jit
 
@@ -15,22 +13,6 @@ class AFX:
     """
     A Collection of Audio FX and Convert Methods!
     """
-    @debugExecutionTimeCheck
-    def peakNormalization(filePath,savePath,decibel:int = -1):
-        fName = AFX.cvtAudio(filePath)
-        data, rate = sf.read(fName) # load audio
-        peak_normalized_audio = pyln.normalize.peak(data, decibel)
-        sf.write(savePath,peak_normalized_audio,rate)   
-    
-    @debugExecutionTimeCheck
-    def LoudnessNormalization(filePath,savePath,decibel:int = -15):
-        #fName = AFX.cvtAudio(filePath)
-        data, rate = sf.read(filePath) # load audio
-        meter = pyln.Meter(rate) # create BS.1770 meter
-        loudness = meter.integrated_loudness(data)
-        # loudness normalize audio to -15 dB LUFS
-        loudness_normalized_audio = pyln.normalize.loudness(data, loudness, decibel)
-        sf.write(savePath,loudness_normalized_audio,rate)
     
     def _getAudioLength(filename):
         if isfile(filename):
@@ -54,6 +36,20 @@ class AFX:
                     shell= True
                     )
         pass
+    def LoudnessNormalization(filePath,savePath,decibel:int = -15):
+        f"Command: ffmpeg -i {filePath} -filter:a \"loudnorm\"{decibel} {savePath}"
+        
+        subprocess.run(
+                [
+                    'ffmpeg',
+                    '-y',
+                    '-i',
+                    filePath,
+                    '-af',
+                    f'loudnorm={decibel}',
+                    savePath
+                    ]
+                )
     @debugExecutionTimeCheck
     def limiter(iFileName: str,
                 oFileName: str,

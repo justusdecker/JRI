@@ -1750,8 +1750,6 @@ class VideoEditor:
                         if self.letsPlayComp.getCuEp(EC.STATUS) < 31 and self.videoUpdate:  # TODO : Use the new ST values
                             self.videoPlayer.visible = True
             case 1:
-                UIM.renderQueue(self.app,['taskbar','title'])
-            case 2:
                 UIM.renderQueue(self.app,['taskbar','jtg'])
         textBoxActive = any([tI.active for tI in self.textInputs])#!ESSENTIAL!
         
