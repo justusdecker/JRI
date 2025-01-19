@@ -452,7 +452,7 @@ class LetsPlayComp:
             BG['rotation'] = DM.ifane(self.dataTAD[12].text,0)
             
             BG['randomRotation'] = DM.ifane(self.dataTAD[13].text,0),DM.ifane(self.dataTAD[14].text,0)
-            BG['randomScale'] = DM.idane(self.dataTAD[15].text,1),DM.idane(self.dataTAD[16].text,1)
+            BG['randomScale'] = DM.idane(self.dataTAD[15].text,0),DM.idane(self.dataTAD[16].text,0)
             
             BG['scale'] = DM.ifane(self.dataTAD[17].text,1)
             
