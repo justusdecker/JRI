@@ -3,9 +3,6 @@ import pygame as pg
 from colorsys import hsv_to_rgb
 from random import randint,random
 from pygame import Surface,SRCALPHA,mask,Color
-class Image:
-    
-    pass
 class TupleImage:
     def __init__(self,var):
         
@@ -174,23 +171,6 @@ def Map2Surface(nMap:list):
                 col = 255
             surf.set_at((x,y),(col,col,col))
     return surf
-
-
-def PerlinNoise(nMap:tuple,iterations:int=5):
-    _ret = []
-                
-"""def PerlinNoise(nMap:list,length,iterations:int=5):
-    w = length[0]
-    h = length[1]
-    for i in range(iterations):
-        for x in range(w):
-            bL = nMap[x - 1]
-            cL = nMap[x]
-            nL = nMap[(x + 1) % w]
-            for y in range(h):
-                sum(bL[y - 1:2])
-                nMap[x][y] = (bL[y - 1] + bL[y] + bL[(y + 1) % h] + cL[y - 1] + cL[(y + 1) % h] + nL[y - 1] + nL[y] + nL[(y + 1) % h]) * .125
-    return nMap"""
 
 def Pluck(nMap:list,m:float):
     w,h = nMap.__len__(),nMap[0].__len__()
