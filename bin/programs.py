@@ -1787,12 +1787,10 @@ class VideoEditor:
         #    self.changeStatusMinus(None)
         elif 'f' in KEYS:
             display.toggle_fullscreen()
-        elif '+' in KEYS:
+        elif 'c' in KEYS:
             self.changeStatus(self.changeStatusButtons[1])
-        elif '-' in KEYS:
+        elif 'x' in KEYS:
             self.changeStatus(self.changeStatusButtons[0])
-        elif '-' in KEYS:
-            self.sendEp2Resolve(None)
         elif 'a' in KEYS:
             self.reExctractAudio(None)
         
