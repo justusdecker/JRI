@@ -42,6 +42,8 @@ class AFX:
         subprocess.run(
                 [
                     'ffmpeg',
+                    '-loglevel',
+                    'error',
                     '-y',
                     '-i',
                     filePath,
@@ -59,6 +61,8 @@ class AFX:
         subprocess.run(
                 [
                     'ffmpeg',
+                    '-loglevel',
+                    'error',
                     '-y',
                     '-i',
                     iFileName,
