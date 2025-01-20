@@ -1582,7 +1582,7 @@ class VideoEditor:
         self.lc.start('Start reextracting Audio')
         LOG.nlog(1,'Start reextracting Audio')
         dest = self.letsPlayComp.getAudioPath()
-        if path.isfile(dest):
+        if DM.existFile(dest):
             LOG.nlog(2,'Delete file Reason: Already exists')
             mixer.music.unload()
             remove(dest)
@@ -1596,10 +1596,12 @@ class VideoEditor:
         if not DM.existFile(self.letsPlayComp.getCompPath()):
             self.lc.start('Audio Loudness Normalization')
             display.set_caption('ALN')
+            LOG.nlog(0,'ALN: $ >>> $', [self.letsPlayComp.getCuEp(EC.ORIGINAL_AUDIO_PATH),AUDIO_PATH + '_tmp.mp3'])
             AFX.LoudnessNormalization(self.letsPlayComp.getCuEp(EC.ORIGINAL_AUDIO_PATH),AUDIO_PATH + '_tmp.mp3')
             DM.createFolder(self.letsPlayComp.getCompPathWOF())
             display.set_caption('ALM')
             self.lc.setInfo('Audio Limiter')
+            LOG.nlog(0,'ALM: $ >>> $', [AUDIO_PATH + '_tmp.mp3',self.letsPlayComp.getCompPath()])
             AFX.limiter(AUDIO_PATH + '_tmp.mp3',self.letsPlayComp.getCompPath())
             display.set_caption('RMF')
             self.lc.setInfo('Remove Temps')

@@ -23,8 +23,6 @@ class AFX:
         subprocess.run(
                     (
                         'ffmpeg',
-                        '-loglevel',
-                        'error',
                         '-y',
                         '-i',
                         f"{fr}",
@@ -41,8 +39,6 @@ class AFX:
         subprocess.run(
                 [
                     'ffmpeg',
-                    '-loglevel',
-                    'error',
                     '-y',
                     '-i',
                     filePath,
@@ -60,8 +56,6 @@ class AFX:
         subprocess.run(
                 [
                     'ffmpeg',
-                    '-loglevel',
-                    'error',
                     '-y',
                     '-i',
                     iFileName,
@@ -70,9 +64,7 @@ class AFX:
                     '-af',
                     f'compand=0|0:1|1:{limiter}:0.1:0:0:0',
                     oFileName
-                    ],
-                    subprocess.CREATE_NO_WINDOW,
-                    shell= True
+                    ]
                 )
     @debugExecutionTimeCheck
     def cvtAudio(fileName:str,#call

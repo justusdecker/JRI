@@ -7,10 +7,6 @@ from os import listdir
 _DEPRECATOR_CRASH = False
 
 TODO = {
-    '1.14': [
-            'Add Popups',
-            'Add Automatic question: Delete Unused Files? Yes No',
-    ],
     '1.15': [
         'Add Table UI Element',
         'Add Animated Loading',
