@@ -1587,8 +1587,10 @@ class VideoEditor:
             mixer.music.unload()
             remove(dest)
         AFX.extractAudio(self.letsPlayComp.getVideoPath(),dest)
-        self.letsPlayComp.setCuEp('audioFilePath',self.letsPlayComp.getAudioPath())
+        self.letsPlayComp.setCuEp('audioFilePath',f"{AUDIO_PATH}{self.letsPlayComp.getCuLp(LC.NAME)}\\{self.letsPlayComp.getCuEp(EC.EPISODE_NUMBER)+1}_{self.letsPlayComp.getCuLp(LC.NAME)}_track.mp3")
+
         mixer.music.load(dest)
+
         LOG.nlog(1,f'saved Audio to $',[dest])
         self.lc._stop()
     
