@@ -136,15 +136,18 @@ class Log:
         for idx,word in enumerate(entry):
             if word == '$' and varStep <= len(vars) - 1:
                 #print(vars[varStep])
-                colorPicker = [
-                isinstance(vars[varStep],int),
-                isinstance(vars[varStep],str),
-                isinstance(vars[varStep],bool),
-                isinstance(vars[varStep],float),
-                isinstance(vars[varStep],dict),
-                isinstance(vars[varStep],tuple),
-                isinstance(vars[varStep],list),
-                isinstance(vars[varStep],bytes)].index(True)
+                if vars[varStep] is not None:
+                    colorPicker = [
+                    isinstance(vars[varStep],int),
+                    isinstance(vars[varStep],str),
+                    isinstance(vars[varStep],bool),
+                    isinstance(vars[varStep],float),
+                    isinstance(vars[varStep],dict),
+                    isinstance(vars[varStep],tuple),
+                    isinstance(vars[varStep],list),
+                    isinstance(vars[varStep],bytes)].index(True)
+                else:
+                    colorPicker = 2
                 
                 
                 if colorPicker == 1:
