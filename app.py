@@ -54,7 +54,7 @@ def video_show():
             TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_EXISTS__','🟢' if isfile(ep['path']) else '🔴')
             TMP_EPISODE = TMP_EPISODE.replace('__EP_TRACK_1_EXISTS__','🟢' if ep['audioFilePath'] else '🔴')
             #! Missing Attr Track 2
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_NUMBER__',str(ep['episodeNumber']))
+            TMP_EPISODE = TMP_EPISODE.replace('__EPISODE_NUMBER__',str(ep['episodeNumber']))
             
             TMP_EPISODE = TMP_EPISODE.replace('__EP_TITLE__',str(ep['episodeTitle']))
             TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_FILE_SIZE__',str(ep['videoFileSize']) if 'videoFileSize' in ep else 'n.a.')
