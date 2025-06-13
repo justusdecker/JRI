@@ -6,7 +6,7 @@ from os import listdir
 from os.path import isfile
 
 from flask import render_template
-from json import load
+from json import load, dumps
 from markdown import markdown
 
 app = Flask(__name__)
@@ -76,7 +76,18 @@ def video_show():
         
     return site.replace("__VIDEOS_GO_HERE__",OUTPUT_STRING)
 
-
+@app.route('/get/<lp_title>/<ep_id>')
+def get_episode(lp_title: str, ep_id: str):
+    if not ep_id.isdecimal():
+        return "<h1>Somethings went wrong: (1002) episode id must be an integer</h1>"
+    lets_plays: list[LetsPlayFile] = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]
+    for lp in lets_plays:
+        if lp._getName() == lp_title:
+            return f"<p>{dumps(lp._getEpisode(int(ep_id)),indent=4).replace('\n','<br>')}</p>"
+    else:
+        return "<h1>Somethings went wrong: (1001) No Lets Play found!</h1>"
+    
+    
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
