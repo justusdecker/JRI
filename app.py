@@ -58,7 +58,7 @@ def video_show():
             
             TMP_EPISODE = TMP_EPISODE.replace('__EP_TITLE__',str(ep['episodeTitle']))
             TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_FILE_SIZE__',str(ep['videoFileSize']) if 'videoFileSize' in ep else 'n.a.')
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_LENGTH__',str(ep['videoLength']))
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_LENGTH__',str(ep['videoLength']) if 'videoLength' in ep else 'n.a.')
             
             TMP_EPISODE = TMP_EPISODE.replace('__EP_MARKER_COUNT__',str(len(ep['markers'])))
             TMP_EPISODE = TMP_EPISODE.replace('__EP_THUMBNAIL_FRAME__',str(ep['thumbnailFrame']))
