@@ -3,6 +3,11 @@ h1 , p , a {
     color:white;
 }
 
+details {
+    color:white;
+    padding-bottom: 1%;
+}
+
 body {
     background-color: #242424;
 }
@@ -12,4 +17,25 @@ td , th {
 }
 th:nth-child(even) {
     background-color: #363636;
+}
+
+textarea {
+    width: 80%;
+    padding-top: 2%;
+    resize: none;
+    text-align: center;
+}
+
+.copy_from {
+    background-color: #363636;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.copy_from:hover {
+    background-color: #484848;
+    outline: solid #969696 1px;
 }

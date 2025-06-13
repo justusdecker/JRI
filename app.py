@@ -3,6 +3,7 @@ from flask import Flask
 from bin.letsPlayFile import LetsPlayFile
 from bin.constants import LETSPLAY_PATH
 from os import listdir
+from os.path import isfile
 
 from flask import render_template
 from json import load
@@ -47,11 +48,18 @@ def video_show():
         TMP_OP_STRING += TMP_HEADER + '\n'
         
         for ep in lp._getEpisodes():
-            ep['name']
+
             TMP_EPISODE = EPISODE
-        
-        
-        
+            
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_EXISTS__','🟢' if isfile(ep['path']) else '🔴')
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_TRACK_1_EXISTS__','🟢' if ep['audioFilePath'] else '🔴')
+            #! Missing Attr Track 2
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_TITLE__',str(ep['episodeTitle']))
+            
+            
+            TMP_EPISODE = TMP_EPISODE.replace('__VIDEO_PATH__',ep['path'])
+            TMP_EPISODE = TMP_EPISODE.replace('__AUDIO_TRACK_1_PATH__',ep['audioFilePath'].replace('\\','/'))
+            TMP_OP_STRING += TMP_EPISODE + '\n'
         OUTPUT_STRING += TMP_OP_STRING
         
     return site.replace("__VIDEOS_GO_HERE__",OUTPUT_STRING)
