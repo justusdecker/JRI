@@ -1,10 +1,10 @@
-# LP_NAME
+# __LP_NAME__
 
-![IMAGE](ICON_PATH)
+![IMAGE](__ICON_PATH__)
 
 ## Stats
 
 | Stat | Val |
 | ---- | --- |
-| Length | EPISODE_LENGTH
-| game | GAME_NAME |
+| Length | __EPISODE_LENGTH__ |
+| game | __GAME_NAME__ |

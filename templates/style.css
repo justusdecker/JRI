@@ -6,3 +6,7 @@ h1 , p , a {
 body {
     background-color: #242424;
 }
+
+td , th {
+    color: #ffffff;
+}

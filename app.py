@@ -10,7 +10,9 @@ from markdown import markdown
 
 app = Flask(__name__)
 
-
+def load_file(file_path: str) -> str:
+    with open(file_path,'r') as f_in:
+        return f_in.read()
 
 
 
@@ -24,25 +26,32 @@ def video_show():
     site = render_template('all_videos.html')
     
     OUTPUT_STRING = ""
-    markdown()
-    
-    temp_string = """
-# GAME_NAME
 
-[Image](ICON_PATH)
-
-
-"""
+    HEADER = load_file("templates\\lets_play_header.html")
     
+    STATS = load_file("templates\\lets_play_episode_stats.md")
     
+    EPISODE = load_file("templates\\lets_play_episode.md")
     
     lets_plays: list[LetsPlayFile] = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]
     
-    for lp in lets_plays:
-        for ep in lp._getEpisodes():
-            pass
     
-    return site
+    
+    for lp in lets_plays:
+        TMP_OP_STRING = ''
+        
+        TMP_HEADER = HEADER
+        TMP_HEADER = TMP_HEADER.replace('__LP_NAME__',lp._getName())
+        TMP_HEADER = TMP_HEADER.replace('__ICON_PATH__',lp._getIconPath())
+        TMP_HEADER = TMP_HEADER.replace('__GAME_NAME__',lp._getGameName())
+        TMP_HEADER = TMP_HEADER.replace('__EPISODE_LENGTH__',str(lp._getEpisodeLength()))
+        
+        TMP_OP_STRING += TMP_HEADER + '\n'
+        
+        #for ep in lp._getEpisodes():
+        #    ep['name']
+        OUTPUT_STRING += TMP_OP_STRING
+    return site.replace("__VIDEOS_GO_HERE__",OUTPUT_STRING)
 
 
 

@@ -1,8 +1,12 @@
-h1 , p {
+h1 , p , a {
     text-align: center;
     color:white;
 }
 
 body {
     background-color: #242424;
+}
+
+td , th {
+    color: #ffffff;
 }
