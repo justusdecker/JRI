@@ -6,7 +6,6 @@ from pygame.display import set_icon
 
 from bin.fx.image import generateIcon
 
-from bin.images import VE_LOGO
 
 fontInit()
 mixerInit(192_000)
@@ -17,7 +16,7 @@ FONT13BS = SysFont('bahnschrift',13)
 FONT60BS = SysFont('bahnschrift',60)
 FONT50BS = SysFont('bahnschrift',50)
 FONT180BS = SysFont('bahnschrift',180)
-set_icon(generateIcon(VE_LOGO))
+#set_icon(generateIcon(VE_LOGO))
 
 del (
     set_icon,

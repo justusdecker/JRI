@@ -86,8 +86,20 @@ def get_episode(lp_title: str, ep_id: str):
             return f"<p>{dumps(lp._getEpisode(int(ep_id)),indent=4).replace('\n','<br>')}</p>"
     else:
         return "<h1>Somethings went wrong: (1001) No Lets Play found!</h1>"
-    
-    
+
+@app.route('/settings')
+def get_recording_status():
+    return "WIP"
+
+@app.route('/record/set-letsplay')
+def get_recording_status():
+    return "WIP"
+
+@app.route('/record')
+def get_recording_status():
+    return "WIP"
+
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
