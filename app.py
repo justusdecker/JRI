@@ -29,9 +29,7 @@ def video_show():
 
     HEADER = load_file("templates\\lets_play_header.html")
     
-    STATS = load_file("templates\\lets_play_episode_stats.md")
-    
-    EPISODE = load_file("templates\\lets_play_episode.md")
+    EPISODE = load_file("templates\\lets_play_episode.html")
     
     lets_plays: list[LetsPlayFile] = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]
     
@@ -48,9 +46,14 @@ def video_show():
         
         TMP_OP_STRING += TMP_HEADER + '\n'
         
-        #for ep in lp._getEpisodes():
-        #    ep['name']
+        for ep in lp._getEpisodes():
+            ep['name']
+            TMP_EPISODE = EPISODE
+        
+        
+        
         OUTPUT_STRING += TMP_OP_STRING
+        
     return site.replace("__VIDEOS_GO_HERE__",OUTPUT_STRING)
 
 

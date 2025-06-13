@@ -10,3 +10,6 @@ body {
 td , th {
     color: #ffffff;
 }
+th:nth-child(even) {
+    background-color: #363636;
+}
