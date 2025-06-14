@@ -2,7 +2,7 @@ from flask import Flask
 
 from bin.letsPlayFile import LetsPlayFile
 from bin.constants import LETSPLAY_PATH
-from os import listdir
+from os import listdir,remove
 from os.path import isfile
 
 from flask import render_template
@@ -11,6 +11,16 @@ from markdown import markdown
 
 from bin.obsow import OBSObserver
 
+from pygame.image import load as img_load, save as img_save
+from pygame.transform import scale
+
+for file in listdir('static\\img\\temps'):
+    remove( f'static\\img\\temps\\{file}')
+for lpf in [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]:
+    for ep in lpf._getEpisodes():
+        if ep['thumbnailPath']:
+            if isfile(ep['thumbnailPath']):
+                img_save(scale(img_load(ep['thumbnailPath']),(384,216)),f'static\\img\\temps\\{lpf._getName()}_{ep["episodeNumber"]}.png')
 def rgb2hex(rgb: tuple[int]) -> str:
     r,g,b = rgb
     return f"#{r:02x}{g:02x}{b:02x}"
@@ -85,7 +95,7 @@ def video_show():
             
             TMP_EPISODE = TMP_EPISODE.replace('__VIDEO_PATH__',ep['path'])
             TMP_EPISODE = TMP_EPISODE.replace('__AUDIO_TRACK_1_PATH__',ep['audioFilePath'].replace('\\','/') if ep['audioFilePath'] is not None else '')
-            
+            TMP_EPISODE = TMP_EPISODE.replace('__THUMBNAIL__',f'../static/img/temps/{lp._getName()}_{ep["episodeNumber"]}.png')
             
             TMP_OP_STRING += TMP_EPISODE + '\n'
 
