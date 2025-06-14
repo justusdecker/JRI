@@ -8,7 +8,6 @@ from bin.thumbnailGenerator import ThumbnailGenerator
 from bin.fx.audio import AFX
 from bin.letsPlayFile import LetsPlayFile,LetsPlayComp,createDefaultLPF
 from bin.settings import SETTINGS
-from bin.application import Application
 from os import listdir, path,remove
 from bin.log import LOG
 from pygame import (
@@ -1803,7 +1802,6 @@ class LetsPlayPicker(Application):
         Used for picking a Lets Play for using in RecordingIndicator
     """
     def __init__(self, size: tuple | list = SETTINGS._getWindowSize()) -> None:
-        UIM.queue.clear()
         super().__init__((256,48*10),avs=False,mov=True)
         #Get all lets plays
         display.set_caption(f'{VERSIONSTRING} LetsPlayPicker')
@@ -1827,11 +1825,6 @@ class LetsPlayPicker(Application):
             btn = UIButton(Rect(0,(idx*24),256,24),onPressCallback=self.select,ux={'text': option._getName(),'size':(256,24)})
             option.buttonId = btn.elementId
             self.buttons.append(btn)
-            
-    def update(self):
-        self.window.fill(Color('#121212'))
-        UIM.renderQueue(self)
-        return super().update()
     def select(self,*args):
         """
         Set the current Lets Play

@@ -84,7 +84,7 @@ def video_show():
             
             
             TMP_EPISODE = TMP_EPISODE.replace('__VIDEO_PATH__',ep['path'])
-            TMP_EPISODE = TMP_EPISODE.replace('__AUDIO_TRACK_1_PATH__',ep['audioFilePath'].replace('\\','/'))
+            TMP_EPISODE = TMP_EPISODE.replace('__AUDIO_TRACK_1_PATH__',ep['audioFilePath'].replace('\\','/') if ep['audioFilePath'] is not None else '')
             
             
             TMP_OP_STRING += TMP_EPISODE + '\n'

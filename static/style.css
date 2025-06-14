@@ -3,6 +3,10 @@ h1 , p , a, h3 {
     color:white;
 }
 
+a, b, p, h1, h3, th, td, textarea {
+    font-family: 'Bahnschrift';
+}
+
 details {
     color:white;
     padding-bottom: 1%;
@@ -38,4 +42,28 @@ textarea {
 .copy_from:hover {
     background-color: #484848;
     outline: solid #969696 1px;
+}
+
+.centered-div {
+    display: flex;
+    justify-content: center;
+}
+
+.no-bullet {
+    background-color: #333;
+    overflow: hidden;
+}
+
+.no-bullet a {
+    
+    background-color: #484848;
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.no-bullet-a:hover {
+    background-color: #ddd;
+    color: black;
 }

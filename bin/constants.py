@@ -6,25 +6,7 @@ from pygame.display import set_icon
 
 from bin.fx.image import generateIcon
 
-
-fontInit()
-mixerInit(192_000)
-
-FONT25BS = SysFont('bahnschrift',25)
-FONT20BS = SysFont('bahnschrift',20)
-FONT13BS = SysFont('bahnschrift',13)
-FONT60BS = SysFont('bahnschrift',60)
-FONT50BS = SysFont('bahnschrift',50)
-FONT180BS = SysFont('bahnschrift',180)
 #set_icon(generateIcon(VE_LOGO))
-
-del (
-    set_icon,
-    mixerInit,
-    fontInit,
-    SysFont,
-    generateIcon
-    )
 
 FPS = 60
 
