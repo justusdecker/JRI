@@ -24,7 +24,7 @@ th:nth-child(even) {
 }
 
 textarea {
-    width: 80%;
+    width: 20vw;
     padding-top: 2%;
     resize: none;
     text-align: center;
@@ -34,7 +34,7 @@ textarea {
     background-color: #363636;
     padding-top: 1%;
     padding-bottom: 1%;
-    width: 50%;
+    width: 22vw;
     margin-left: 25%;
     margin-right: 25%;
 }
@@ -66,4 +66,8 @@ textarea {
 .no-bullet-a:hover {
     background-color: #ddd;
     color: black;
+}
+
+.r-spacer {
+     padding-right: 2vw;
 }
