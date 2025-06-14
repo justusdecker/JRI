@@ -9,12 +9,23 @@ from flask import render_template
 from json import load, dumps
 from markdown import markdown
 
-from bin.obsObserver import OBSObserver
+from bin.obsow import OBSObserver
 
-class OBSThread:
-    def __init__(self):
-        self.obs = OBSObserver()
+def rgb2hex(rgb: tuple[int]) -> str:
+    r,g,b = rgb
+    return f"#{r:02x}{g:02x}{b:02x}"
 
+def get_lets_play(lpf: str | None = None):
+    lpf_files = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]
+    if lpf is not None:
+        for lp in lpf_files:
+            if lp._getName() == lpf:
+                return lp
+    if lpf_files:
+        return lpf_files[0]
+    
+
+OBS = OBSObserver(get_lets_play()) if [file for file in listdir(LETSPLAY_PATH) if file.endswith('.json')] else None
 
 app = Flask(__name__)
 
@@ -111,9 +122,11 @@ def set_lets_play():
 
 @app.route('/record')
 def get_recording_status():
-    temp = render_template('index.html')
-    
-    return temp.replace('__TIME_CODE__')
+    OBS.update()
+    temp = render_template('lets_play_record.html')
+    col = rgb2hex(OBS.color)
+   
+    return temp.replace('__TIME_CODE__',f'<h1 style="color:{col};">{OBS.timecode}</h1>')
 
 
 
