@@ -71,3 +71,14 @@ textarea {
 .r-spacer {
      padding-right: 2vw;
 }
+
+.ep-stats {
+    background-color: #363636;
+}
+
+.ep-stats:nth-child(even) {
+    background-color: #484848;
+}
+.tableunfold {
+    display: none;
+}
