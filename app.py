@@ -63,7 +63,7 @@ def video_show():
     lets_plays: list[LetsPlayFile] = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]
     
     
-    
+    i = 0
     for lp in lets_plays:
         TMP_OP_STRING = ''
         
@@ -76,7 +76,7 @@ def video_show():
         TMP_OP_STRING += TMP_HEADER + '\n'
         
         for ep in lp._getEpisodes():
-
+            i += 1
             TMP_EPISODE = EPISODE
             
             TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_EXISTS__','🟢' if isfile(ep['path']) else '🔴')
@@ -96,6 +96,8 @@ def video_show():
             TMP_EPISODE = TMP_EPISODE.replace('__VIDEO_PATH__',ep['path'])
             TMP_EPISODE = TMP_EPISODE.replace('__AUDIO_TRACK_1_PATH__',ep['audioFilePath'].replace('\\','/') if ep['audioFilePath'] is not None else '')
             TMP_EPISODE = TMP_EPISODE.replace('__THUMBNAIL__',f'../static/img/temps/{lp._getName()}_{ep["episodeNumber"]}.png')
+            
+            TMP_EPISODE = TMP_EPISODE.replace('__ID__',f'{i}')
             
             TMP_OP_STRING += TMP_EPISODE + '\n'
 
