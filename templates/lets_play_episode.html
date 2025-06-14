@@ -1,14 +1,20 @@
 
 <div>
-    <button onclick="toggleDisplay('tbu__ID__')">__EPISODE_NUMBER__</button>
-    <table id="tbu___EPISODE_NUMBER__">
+    
+
+    <div style="display:flex">
+        <input style="outline: none; background-color:#969696;" type="checkbox" id="vehicle1">
+        <p style="width:95vw;padding-top:0.5%;padding-bottom:0.5%;background-color:#969696;" onclick="toggleDisplay('tbu__ID__')">__EPISODE_NUMBER__</p>
+    </div>
+    
+    <table style="display:none;" id="tbu__ID__">
         <tr>
             <td class="r-spacer"><h1># __EPISODE_NUMBER__</h1></td>
             <td class="r-spacer">
                 <table>
                     
                     <tr class="ep-stats">
-                        <th>Stat</th>
+                        <th>Sftat</th>
                         <th>Value</th>
                     </tr>
                     <tr class="ep-stats">

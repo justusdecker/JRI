@@ -1,0 +1,3 @@
+function checkRecordingStatus() {
+    if (true){}
+}
