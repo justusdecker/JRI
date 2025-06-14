@@ -6,42 +6,6 @@ import sys
 from os import listdir
 _DEPRECATOR_CRASH = False
 
-TODO = {
-    '1.15': [
-        'Add Table UI Element',
-        'Add Animated Loading',
-    ],
-    '1.16': [
-        'Compare Audio Loudness',
-        'Cut Video From / To',
-        'Insert Noise Reduction'
-    ],
-    '1.17': [
-        'show graph for progress'
-    ],
-    '1.18': [
-        'Add Node UI Element'
-    ]
-}
-
-def getTodo():
-    #Search for refs
-    for file in listdir('bin\\'):
-        if DM.existFile('bin\\' + file):
-            with open('bin\\' + file,'rb') as fIn:
-                data = fIn.read()
-                data = data.decode('utf-8')
-                c = 0
-                for i,line in enumerate(data.splitlines()):
-                    if file != 'debugFunctions.py':
-                        for x in ['@OutsourceWarn','@DeprecationWarn','@DeprecationError']:
-                            if x in line:
-                        
-                                c += 1
-                                LOG.tlog(f'Remove: Method',f'{VERSION[0]}.{VERSION[1]}.{VERSION[2]}',x,file,i)
-    for key in TODO:
-        for element in TODO[key]:
-            LOG.tlog(f'{element}',key)
 def debugExecutionTimeCheckWOV(func):
     """
     Simply caching the input & output for later use
