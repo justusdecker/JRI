@@ -9,6 +9,13 @@ from flask import render_template
 from json import load, dumps
 from markdown import markdown
 
+from bin.obsObserver import OBSObserver
+
+class OBSThread:
+    def __init__(self):
+        self.obs = OBSObserver()
+
+
 app = Flask(__name__)
 
 def load_file(file_path: str) -> str:
@@ -76,7 +83,7 @@ def video_show():
         
     return site.replace("__VIDEOS_GO_HERE__",OUTPUT_STRING)
 
-@app.route('/get/<lp_title>/<ep_id>')
+@app.route('/lets-play/<lp_title>/<ep_id>')
 def get_episode(lp_title: str, ep_id: str):
     if not ep_id.isdecimal():
         return "<h1>Somethings went wrong: (1002) episode id must be an integer</h1>"
@@ -87,17 +94,26 @@ def get_episode(lp_title: str, ep_id: str):
     else:
         return "<h1>Somethings went wrong: (1001) No Lets Play found!</h1>"
 
+
+@app.route('/lets-play/options/<lp_name>')
+def option_change(lp_name:str) -> str:
+    return 'WIP'
+
+
+
 @app.route('/settings')
-def get_recording_status():
+def set_settings():
     return "WIP"
 
 @app.route('/record/set-letsplay')
-def get_recording_status():
+def set_lets_play():
     return "WIP"
 
 @app.route('/record')
 def get_recording_status():
-    return "WIP"
+    temp = render_template('index.html')
+    
+    return temp.replace('__TIME_CODE__')
 
 
 
