@@ -3,20 +3,6 @@ import pygame as pg
 from colorsys import hsv_to_rgb
 from random import randint,random
 from pygame import Surface,SRCALPHA,mask,Color
-class TupleImage:
-    def __init__(self,var):
-        
-        SURF = Surface((len(var),len(var[-1])),SRCALPHA)
-        
-        for x in range(len(var)):
-            
-            for y in range(len(var[-1])):
-                
-                if var[x][y][3] == 0: continue
-                
-                SURF.set_at((x,y),var[x][y])
-                
-        self.surf = SURF
         
 def generateIcon(var):#- Outsource
     
