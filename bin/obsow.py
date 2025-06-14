@@ -71,25 +71,27 @@ class OBSObserver:
         """
 
         try:
-            return str(self.obs.get_output_status(OUTPUT_TYPE).output_timecode)
+            return self.timecode
         except:
             return 'OBS is not activated'
     @property
     def formatted_time(self) -> int:
-        return self.get_rtime_as_int(self.timecode()),self.timecode() if self.is_recording else 0
+        return self.get_rtime_as_int(self.timecode),self.timecode if self.is_recording else 0
     @property
     def timecode(self) -> int:
         """Get The Current Time In String Form"""
-        return str(self.obs.get_output_status(OUTPUT_TYPE)[0]['outputTimecode'])
+        return str(self.obs.get_output_status(OUTPUT_TYPE).output_timecode)
     @property
     def current_filepath(self) -> str:
-        return str(self.obs.get_output_settings(OUTPUT_TYPE)[0]['outputSettings']['path'])
+        print(self.obs.get_output_settings(OUTPUT_TYPE).__dict__)
+        return str(self.obs.get_output_settings(OUTPUT_TYPE).output_settings['path'])
     @property
     def color(self) -> tuple[int,int,int]:
         """ color based on current state """
         ep_len = self.current_lp_data._getEpisodeLength()
         ft = self.formatted_time[0]
         ir = self.is_recording
+        print(ep_len, ft,ir)
         
         if ep_len <= ft and ir: return (255,0,0)
         elif ep_len - 30 <= ft and ir: return (255,255,0)
@@ -127,7 +129,7 @@ class OBSObserver:
         """
         processes events "on Stop"
         """
-        if self.is_recording and self.timecode() == '00:00:00.000':
+        if self.is_recording and self.timecode == '00:00:00.000':
             self.current_lp_data._setEpisode(-1, 'status', self.current_lp_data._getEpisodeEx(-1,'status') + 1)
             self.current_lp_data._setEpisode(-1, 'thumbnailPath',f"{THUMBNAIL_PATH}{self.current_lp_data._getName()}\\{self.current_lp_data._getEpisodeCount()}_{self.current_lp_data._getName()}_Thumbnail.png")
             self.current_lp_data.save()
@@ -173,6 +175,7 @@ class OBSObserver:
             self.on_stop()
             self.setMarker()
         except Exception as E:
+            #i dont think this stuff is needed anymore
             self.ignored_warnings += 1
             if self.ignored_warnings > 2:
                 CrashBox([f'[{ERRORIDS.JRICANTCONNECT}] JRI cant connect to OBS', 'Check Settings: IP Adress, Port, Password & timeout.\n And use Advance Settings in OBS!\nJRI close itself!'])
