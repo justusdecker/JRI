@@ -69,8 +69,9 @@ class OBSObserver:
         """
         Returns the OBS TimeCode if not avaiable it returns 'OBS is not activated'
         """
+
         try:
-            return str(self.obs.get_output_status(OUTPUT_TYPE)[0]['outputTimecode'])
+            return str(self.obs.get_output_status(OUTPUT_TYPE).output_timecode)
         except:
             return 'OBS is not activated'
     @property
