@@ -1,5 +1,6 @@
 from bin.dataManagement import DM,UnpackManager
-from pygame import image,Surface,transform,SRCALPHA,Color
+from pygame import Surface,SRCALPHA,Color
+from pygame.image import save as img_save, load as img_load
 
 from pygame.surfarray import make_surface
 from pygame.transform import scale, flip, rotate, scale_by
@@ -126,7 +127,7 @@ class ThumbnailGenerator:
 
         DM.createFolder(folder)
         
-        image.save(surface,file_name)
+        img_save(surface,file_name)
         
     def create_thumbnail(self,
                         episode_number:int,
@@ -148,12 +149,15 @@ class ThumbnailGenerator:
         .. rr::
             random_rotation
         """
-        epnum = tad['text_epNum']
+        epnum = tad['text_epNum'] # TEMP VAR for easy access
         
+        
+        # Set a default font if the given doesn't exist
         if not DM.existFile(epnum['font']):
             epnum['font'] = "C:\\Windows\\Fonts\\Arial.ttf"
             print('File Not existing')
-        #Try get C:\\Windows\\Fonts\\Bahnschrift.ttf
+            
+        # Currently i dont know whats over_image supposed to do
         if over_image is not None: 
             
             self.save_image(f'{self.get_path(title)}\\{episode_number}_{title}_Thumbnail.png',
@@ -162,7 +166,7 @@ class ThumbnailGenerator:
                        )
             
             return over_image
-        
+        # Same Episode so return Cache
         if episode_number == str(episode_number):
             
             self.text = str(episode_number)
@@ -181,20 +185,20 @@ class ThumbnailGenerator:
         
         self.render_images(tad['images'],THUMBNAIL)
         
-        _textSurface: Surface = self.get_text(
+        text_surf: Surface = self.get_text(
             epnum['font'],
             epnum['size'],
             str(episode_number),epnum['outline'],
             (255,255,255) if not 'color' in epnum else epnum['color']
             )
         
-        _textSurface: Surface = transform.rotate(_textSurface,epnum['rot'])
+        text_surf: Surface = rotate(text_surf,epnum['rot'])
         
-        textX = int(epnum['pos'][0] - (_textSurface.get_width() *.5))
+        textX = int(epnum['pos'][0] - (text_surf.get_width() *.5))
         
-        textY = int(epnum['pos'][1] - (_textSurface.get_height() *.5))
+        textY = int(epnum['pos'][1] - (text_surf.get_height() *.5))
         
-        THUMBNAIL.blit(_textSurface,(textX,textY))
+        THUMBNAIL.blit(text_surf,(textX,textY))
         
         DM.createFolder(self.get_path(title))
         
@@ -227,28 +231,38 @@ class ThumbnailGenerator:
             rp_y = rint(0,rp_y)
 
         return rp_x, rp_y
+    
     def render_images(self,images: list,thumbnail: Surface):
+        """
+        Render each item in ``ThumbnailAutomationData['images']`` on the thumbnail
+        """
+        
         for entry in images:
+            
+            # What happens here?
+            # load image, scale it, again(by), rotate & crop
+            # render image on thumbnail
             
             if not DM.existFile(entry['path']):
                 
                 continue
             
-            surf : Surface = image.load(entry['path'])
+            surf = img_load(entry['path'])
             
-            surf : Surface = scale(surf,self.default_size)
+            surf = scale(surf,self.default_size)
             
-            surf : Surface = scale_by(surf,entry['scale'])
+            surf = scale_by(surf,entry['scale'])
             
-            surf : Surface = rotate(surf,entry['rot'])
+            surf = rotate(surf,entry['rot'])
             
-            surf : Surface = IVFX.cropping(*entry['cropping'],surf)
+            surf = IVFX.cropping(*entry['cropping'],surf)
             
             x = int(entry['pos'][0] - (surf.get_width() *.5))
             
             y = int(entry['pos'][1] - (surf.get_height() *.5))
             
             thumbnail.blit(surf,(x,y))
+    
     def render_background(self,
                           tad,
                           video_path,
