@@ -60,7 +60,7 @@ class OBSObserver:
             #CrashBox([f'[{ERRORIDS.OBSWSTE}] OBS cant connect {E.errno}', str(E)])
             self.connection_established = False
         except _exceptions.WebSocketTimeoutException as E: #! Some error occured
-            CrashBox([f'[{ERRORIDS.OBSWE}] OBS cant connect [WS-TimeOut]', str(E)])
+            #CrashBox([f'[{ERRORIDS.OBSWE}] OBS cant connect [WS-TimeOut]', str(E)])
             self.connection_established = False
         self.login_thread = False
     @property
