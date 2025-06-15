@@ -4,7 +4,7 @@ VERSIONSTRING = f"[{VERSION[3]}]{VERSION[0]}.{VERSION[1]}.{VERSION[2]}"
 from bin.fx.video import IVFX
 from bin.dataManagement import DM
 from bin.runtimeSettingsRI import RUNTIMESETTIGS,JTGFONTPATH,JTGIMGPATH
-from bin.thumbnailGenerator import ThumbnailGenerator
+from bin.thumbnail_generator import ThumbnailGenerator
 from bin.fx.audio import AFX
 from bin.letsPlayFile import LetsPlayFile,LetsPlayComp,createDefaultLPF
 from bin.settings import SETTINGS
@@ -25,10 +25,9 @@ from pygame import (
     Clock
     )
 from time import time as TIME
-from bin.constants import LC,EC,FONT180BS
+from bin.constants import LC,EC
 from bin.resolvePipe import DVRPL
 from subprocess import call as callSubProcess
-from bin.crashHandler import ERRORDICT,CrashBox
 from bin.audio2Text import Audio2Text
 from bin.fx.image import generateIcon
 from bin.tree import FinalizedTree     
@@ -1460,7 +1459,7 @@ class VideoEditor:
         self.lc.start('Generating Thumbnail...')
         LOG.nlog(1,'Generating Thumbnail...')
         self.lastThumbnailTime = self.letsPlayComp.getCuEp(EC.THUMBNAIL_FRAME)
-        self.thumbnailGenerator.createThumbnail(self.letsPlayComp.getEpisodeIndex()+1,
+        self.thumbnailGenerator.create_thumbnail(self.letsPlayComp.getEpisodeIndex()+1,
                                                 self.letsPlayComp.getCuEp(EC.ORIGINAL_VIDEO_PATH),
                                                 frame,
                                                 self.letsPlayComp.getCuLp(LC.THUMBNAIL_AUTOMATION_DATA),
