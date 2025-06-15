@@ -41,5 +41,8 @@ class Settings:
     @property
     def obs_timeout(self) -> int:
         return self.__settings.get('obsTimeout',1)
+    @property
+    def window_size(self) -> tuple[int,int]:
+        return self.width, self.height
 
 SETTINGS = Settings()

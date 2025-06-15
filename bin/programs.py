@@ -183,9 +183,6 @@ class FileManager:
             if file == _[0].elementId:
                 
                 print(self.lpfs[index]._getEpisode(self.epi[index][1]-1))
-    def changeFastLoad(self,*_):
-        SETTINGS._['fastLoad'] = not SETTINGS._['fastLoad']
-        SETTINGS.save()
     def update(self):
         t1 = TIME()
         self.min += (self.app.scrollY*24)
@@ -1800,7 +1797,7 @@ class LetsPlayPicker(Application):
     The LetsPlayPicker:
         Used for picking a Lets Play for using in RecordingIndicator
     """
-    def __init__(self, size: tuple | list = SETTINGS._getWindowSize()) -> None:
+    def __init__(self, size: tuple | list = SETTINGS.window_size) -> None:
         super().__init__((256,48*10),avs=False,mov=True)
         #Get all lets plays
         display.set_caption(f'{VERSIONSTRING} LetsPlayPicker')
@@ -1838,7 +1835,7 @@ class RecordingIndicator(Application):
     """
     The Recording Indicator
     """
-    def __init__(self, size: tuple | list = SETTINGS._getWindowSize()) -> None:
+    def __init__(self, size: tuple | list = SETTINGS.window_size) -> None:
         super().__init__((512,217),avs=False,mov=True)
         UIM.queue.clear()
 

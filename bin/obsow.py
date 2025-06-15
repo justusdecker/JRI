@@ -7,8 +7,7 @@ from bin.dataManagement import DM
 from bin.fx.audio import AFX
 from threading import Thread
 from keyboard import is_pressed
-from bin.thumbnailGenerator import ThumbnailGenerator
-from bin.crashHandler import CrashBox,ERRORIDS
+from bin.thumbnail_generator import ThumbnailGenerator
 
 from bin.constants import THUMBNAIL_PATH, AUDIO_PATH
 
@@ -34,10 +33,10 @@ class OBSObserver:
         self.pressed_key = ''
         self.jtg: ThumbnailGenerator = ThumbnailGenerator()
         self.options = {
-            'host': SETTINGS._['obsHost'],
-            'port': SETTINGS._['obsPort'],
-            'password': SETTINGS._['obsPassword'],
-            'timeout': SETTINGS._['obsTimeout']
+            'host': SETTINGS.obs_ip,
+            'port': SETTINGS.obs_port,
+            'password': SETTINGS.obs_pw,
+            'timeout': SETTINGS.obs_timeout
             }
         self.connect()
         self.current_lp_data: LetsPlayFile = lets_play_file
@@ -176,11 +175,12 @@ class OBSObserver:
             self.setMarker()
         except Exception as E:
             #i dont think this stuff is needed anymore
-            self.ignored_warnings += 1
-            if self.ignored_warnings > 2:
-                CrashBox([f'[{ERRORIDS.JRICANTCONNECT}] JRI cant connect to OBS', 'Check Settings: IP Adress, Port, Password & timeout.\n And use Advance Settings in OBS!\nJRI close itself!'])
-            else:
-                CrashBox([f'[{ERRORIDS.OBSMO}] OBS moved out', str(E) + str({E.args})])
+            #self.ignored_warnings += 1
+            #if self.ignored_warnings > 2:
+                #CrashBox([f'[{ERRORIDS.JRICANTCONNECT}] JRI cant connect to OBS', 'Check Settings: IP Adress, Port, Password & timeout.\n And use Advance Settings in OBS!\nJRI close itself!'])
+            #else:
+                
+                #CrashBox([f'[{ERRORIDS.OBSMO}] OBS moved out', str(E) + str({E.args})])
             self.connection_established = False
             if not self.login_thread: 
                 self.login_thread = True
