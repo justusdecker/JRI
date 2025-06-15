@@ -2,11 +2,11 @@ from bin.dataManagement import DM,UnpackManager
 from pygame import image,Surface,transform,SRCALPHA,Color
 
 from pygame.surfarray import make_surface
-from pygame.transform import scale, flip
+from pygame.transform import scale, flip, rotate, scale_by
 from pygame.font import Font
 
 from moviepy.video.io.VideoFileClip import VideoFileClip
-from random import random,randint
+from random import random as rnd,randint as rint
 from numpy import rot90
 from bin.fx.image import IFXHSVManipulation,outLining
 from bin.fx.video import IVFX
@@ -68,7 +68,7 @@ class ThumbnailGenerator:
 
             if frame == -1: 
                 # Frame is not valid so take a random value from 0 to video.duration
-                frame = random()*(self.video_src.duration)
+                frame = rnd()*(self.video_src.duration)
             
             # Sets the index for the last image. Use: Pick the last Thumbnail
             self.idx = frame if frame >= 0 and frame  <= self.video_src.duration else 0 
@@ -100,6 +100,8 @@ class ThumbnailGenerator:
         
         w1,h1 = img.get_size()
         
+        # timg is used to outline text
+        
         timg = Surface((w1 * 1.05,h1 * 1.05),SRCALPHA)
         
         w2,h2 = timg.get_size()
@@ -120,186 +122,217 @@ class ThumbnailGenerator:
         
         return timg
     
-    def save_image(self,fileName: str,folderPath,surface:Surface):
-        #FAILSAFE If not saveable!
-        DM.createFolder(folderPath)
+    def save_image(self,file_name: str,folder: str,surface:Surface) -> None:
+
+        DM.createFolder(folder)
         
-        image.save(surface,fileName)
+        image.save(surface,file_name)
         
-    def createThumbnail(self,
-                        episodeNumber:int,
-                        videoPath: str | None,
+    def create_thumbnail(self,
+                        episode_number:int,
+                        video_path: str | None,
                         frame: int,
                         tad:dict, # Thumbnail Automation Data
-                        episodeTitle:str,
-                        overImage: Surface | None = None):
-        if not DM.existFile(tad['text_epNum']['font']):
-            tad['text_epNum']['font'] = "C:\\Windows\\Fonts\\Arial.ttf"
+                        title:str,
+                        over_image: Surface | None = None):
+        """
+        Call this function to get a new thumbnail from a video!
+        
+        
+        .. p::
+            position
+        .. rp_x::
+            random_x_position
+        .. rp_y::
+            random_y_position
+        .. rr::
+            random_rotation
+        """
+        epnum = tad['text_epNum']
+        
+        if not DM.existFile(epnum['font']):
+            epnum['font'] = "C:\\Windows\\Fonts\\Arial.ttf"
             print('File Not existing')
         #Try get C:\\Windows\\Fonts\\Bahnschrift.ttf
-        if overImage is not None: 
+        if over_image is not None: 
             
-            self.save_image(f'{THUMBNAIL_PATH}{episodeTitle}\\{episodeNumber}_{episodeTitle}_Thumbnail.png',
-                       f'{THUMBNAIL_PATH}{episodeTitle}',
-                       overImage
+            self.save_image(f'{self.get_path(title)}\\{episode_number}_{title}_Thumbnail.png',
+                       self.get_path(title),
+                       over_image
                        )
             
-            return overImage
+            return over_image
         
-        if episodeNumber == str(episodeNumber):
+        if episode_number == str(episode_number):
             
-            self.text = str(episodeNumber)
+            self.text = str(episode_number)
             
             return self.surface
         
         THUMBNAIL = Surface(self.default_size)
         
-        if videoPath is None: #! Video Path does not exist so fill Background
-            
+        if video_path is None: 
+            #! Video Path does not exist so fill Background
             THUMBNAIL.fill(Color('#535353'))
             
         else:
-            
-            _surface = self.get_src_image(videoPath,frame)
-            
-            position: tuple[int,int] = (0,0)
-            
-            
-            if 'background' in tad:
-                
-                backgroundData = tad['background']
 
-                center: bool = UnpackManager('center',backgroundData,False)
-
-                position: tuple[int,int] = UnpackManager('position',backgroundData,(0,0))
-                
-                randomPositionX: int = UnpackManager('randomPositionX',backgroundData,0)
-                
-                randomPositionY: int = UnpackManager('randomPositionY',backgroundData,0)
-                
-                if randomPositionX < 0:
-                    
-                    randomPositionX = randint(randomPositionX,0)
-                    
-                elif randomPositionX > 0:
-                    
-                    randomPositionX = randint(0,randomPositionX)
-                    
-                if randomPositionY < 0:
-                    
-                    randomPositionY = randint(randomPositionY,0)
-                    
-                elif randomPositionY > 0:
-                    
-                    randomPositionY = randint(0,randomPositionY)
-                
-                position: tuple[int,int] = position[0] + randomPositionX , position[1] + randomPositionY
-                
-                randomRotation: tuple[int,int] = UnpackManager('randomRotation',backgroundData,[0,0])
-                
-                if randint(0,1) == 1:
-                    
-                    randomRotation: float = random() * randomRotation[1]
-                    
-                else:
-                    
-                    randomRotation: float = random() * randomRotation[0]
-                
-                rotation: float | int = UnpackManager('rotation',backgroundData,0) + randomRotation
-                
-                scale: float = UnpackManager('scale',backgroundData,0)
-                
-                randomScale: int = UnpackManager('randomScale',backgroundData,0)
-                
-                if randint(0,1) == 1:
-                    
-                    randomScale: float = random() * randomScale[1]
-                    
-                else:
-                    
-                    randomScale: float = random() * randomScale[0]
-                
-                if randomScale != 0:#? The Random Values are 0 so dont add data
-                    scale = scale + randomScale
-                
-                hue = UnpackManager('hue',backgroundData,0)
-                
-                saturation = UnpackManager('saturation',backgroundData,1)
-                
-                lightness = UnpackManager('lightness',backgroundData,1)
-                
-                w,h = _surface.get_size()
-                
-                w,h = int(w*scale),int(h*scale)
-                
-                _surface = transform.scale(_surface,(w,h))
-                
-                _surface = transform.rotate(_surface,rotation)
-                
-                
-                
-                if hue != 0 and saturation != 1 and lightness != 1:
-                    _surface = IFXHSVManipulation(THUMBNAIL,hue,saturation,lightness)
-
-                if center:
-                    
-                    w , h = _surface.get_size()
-                    
-                    w , h = w * .5, h * .5
-                    
-                    x , y = self.default_size[0] * .5 , self.default_size[1] * .5
-                    
-                    position = x - w , y - h
-                    
-                THUMBNAIL.blit(_surface,position)
-                    
-            else:
-                
-                THUMBNAIL.blit(_surface,position)
+            self.render_background()
         
-        for entry in tad['images']:
-            
-            if not DM.existFile(entry['path']):
-                
-                continue
-            
-            _surface : Surface = image.load(entry['path'])
-            
-            _surface : Surface = transform.scale(_surface,self.default_size)
-            
-            _surface : Surface = transform.scale_by(_surface,entry['scale'])
-            
-            _surface : Surface = transform.rotate(_surface,entry['rot'])
-            
-            _surface : Surface = IVFX.cropping(*entry['cropping'],_surface)
-            
-            x = int(entry['pos'][0] - (_surface.get_width() *.5))
-            
-            y = int(entry['pos'][1] - (_surface.get_height() *.5))
-            
-            THUMBNAIL.blit(_surface,(x,y))
+        self.render_images(tad['images'],THUMBNAIL)
         
         _textSurface: Surface = self.get_text(
-            tad['text_epNum']['font'],
-            tad['text_epNum']['size'],
-            str(episodeNumber),tad['text_epNum']['outline'],
-            (255,255,255) if not 'color' in tad['text_epNum'] else tad['text_epNum']['color']
+            epnum['font'],
+            epnum['size'],
+            str(episode_number),epnum['outline'],
+            (255,255,255) if not 'color' in epnum else epnum['color']
             )
         
-        _textSurface: Surface = transform.rotate(_textSurface,tad['text_epNum']['rot'])
+        _textSurface: Surface = transform.rotate(_textSurface,epnum['rot'])
         
-        textX = int(tad['text_epNum']['pos'][0] - (_textSurface.get_width() *.5))
+        textX = int(epnum['pos'][0] - (_textSurface.get_width() *.5))
         
-        textY = int(tad['text_epNum']['pos'][1] - (_textSurface.get_height() *.5))
+        textY = int(epnum['pos'][1] - (_textSurface.get_height() *.5))
         
         THUMBNAIL.blit(_textSurface,(textX,textY))
-        DM.createFolder(f"{THUMBNAIL_PATH}{episodeTitle}")
-        self.save_image(f'{THUMBNAIL_PATH}{episodeTitle}\\{episodeNumber}_{episodeTitle}_Thumbnail.png',
-                       f'{THUMBNAIL_PATH}{episodeTitle}',
+        
+        DM.createFolder(self.get_path(title))
+        
+        self.save_image(f'{self.get_path(title)}\\{episode_number}_{title}_Thumbnail.png',
+                       self.get_path(title),
                        THUMBNAIL
                        )
         #LOG all values
         self.surface = THUMBNAIL
         
         return self.surface
-    
+    def get_path(self, title: str) -> str:
+        return f"{THUMBNAIL_PATH}{title}"
+    def get_rnd_pos(self,rp_x,rp_y) -> tuple:
+        
+        if rp_x < 0:
+                    
+            rp_x = rint(rp_x,0)
+            
+        elif rp_x > 0:
+            
+            rp_x = rint(0,rp_x)
+            
+        if rp_y < 0:
+            
+            rp_y = rint(rp_y,0)
+            
+        elif rp_y > 0:
+            
+            rp_y = rint(0,rp_y)
+
+        return rp_x, rp_y
+    def render_images(self,images: list,thumbnail: Surface):
+        for entry in images:
+            
+            if not DM.existFile(entry['path']):
+                
+                continue
+            
+            surf : Surface = image.load(entry['path'])
+            
+            surf : Surface = scale(surf,self.default_size)
+            
+            surf : Surface = scale_by(surf,entry['scale'])
+            
+            surf : Surface = rotate(surf,entry['rot'])
+            
+            surf : Surface = IVFX.cropping(*entry['cropping'],surf)
+            
+            x = int(entry['pos'][0] - (surf.get_width() *.5))
+            
+            y = int(entry['pos'][1] - (surf.get_height() *.5))
+            
+            thumbnail.blit(surf,(x,y))
+    def render_background(self,
+                          tad,
+                          video_path,
+                          frame,
+                          thumbnail: Surface):
+        surf = self.get_src_image(video_path,frame)
+            
+        p: tuple[int,int] = (0,0)
+        
+        
+        if 'background' in tad:
+            
+            bg_data: dict = tad['background']
+
+            center: bool = bg_data.get('center', False)
+
+            p: tuple[int,int] = bg_data.get('position', (0,0))
+            
+            rp_x: int = bg_data.get('randomPositionX', 0)
+            
+            rp_y: int = bg_data.get('randomPositionY', 0)
+            
+            rp_x, rp_y = self.get_rnd_pos(rp_x,rp_y)
+            
+            p: tuple[int,int] = p[0] + rp_x , p[1] + rp_y
+            
+            rr: tuple[int,int] = bg_data.get('randomRotation', (0,0))
+            
+            if rint(0,1) == 1:
+                
+                rr: float = rnd() * rr[1]
+                
+            else:
+                
+                rr: float = rnd() * rr[0]
+            
+            r: float | int = bg_data.get('rotation', 0) + rr
+            
+            s: float = bg_data.get('scale', 0)
+            
+            rs: int = bg_data.get('randomScale', 0)
+            
+            if rint(0,1) == 1:
+                
+                rs: float = rnd() * rs[1]
+                
+            else:
+                
+                rs: float = rnd() * rs[0]
+            
+            if rs != 0:#? The Random Values are 0 so dont add data
+                s = s + rs
+            
+            hue = UnpackManager('hue',bg_data,0)
+            
+            saturation = UnpackManager('saturation',bg_data,1)
+            
+            lightness = UnpackManager('lightness',bg_data,1)
+            
+            w,h = surf.get_size()
+            
+            w,h = int(w*s),int(h*s)
+            
+            surf = scale(surf,(w,h))
+            
+            surf = rotate(surf,r)
+            
+            
+            
+            if hue != 0 and saturation != 1 and lightness != 1:
+                surf = IFXHSVManipulation(thumbnail,hue,saturation,lightness)
+
+            if center:
+                
+                w , h = surf.get_size()
+                
+                w , h = w * .5, h * .5
+                
+                x , y = self.default_size[0] * .5 , self.default_size[1] * .5
+                
+                p = x - w , y - h
+                
+            thumbnail.blit(surf,p)
+                
+        else:
+            
+            thumbnail.blit(surf,p)
