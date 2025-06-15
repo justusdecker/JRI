@@ -1,6 +1,6 @@
 from os import path,mkdir,remove
 from json import load,dumps
-from bin.log import LOG
+#from bin.log import LOG
 from bin.constants import (
     ABSOLUTE_PATH,
     AUDIO_PATH,
@@ -70,7 +70,7 @@ class DataManagement:
         """
         Saves the Data in JSON File Format With Indent 4
         """
-        LOG.nlog(1,'save file: $',[filePath])
+        #LOG.nlog(1,'save file: $',[filePath])
         with open(filePath,'w') as fOut:
             
             fOut.write(
@@ -84,17 +84,18 @@ class DataManagement:
         """
         Reads the Data from JSON File Format and converts it to Dict or List
         """
-        LOG.nlog(1,'load file: $',[filePath])
+        #LOG.nlog(1,'load file: $',[filePath])
         with open(filePath,'r') as fIn:
             
             return load(fIn)
         
     def removeFile(filePath: str):
         if path.isfile(filePath):
-            LOG.nlog(2,'Removed : $',[filePath])
+            #LOG.nlog(2,'Removed : $',[filePath])
             remove(filePath)
         else:
-            LOG.nlog(3,'File not found : $',[filePath])
+            pass
+            #LOG.nlog(3,'File not found : $',[filePath])
          
     def loadDef(filePath:str,searchL:list | tuple,default):
         """
@@ -133,7 +134,7 @@ class DataManagement:
     def createFolder(filePath):
         
         if not path.isdir(filePath):
-            LOG.nlog(1,'created Folder: $',[filePath])
+            #LOG.nlog(1,'created Folder: $',[filePath])
             mkdir(filePath)
 
 DM = DataManagement

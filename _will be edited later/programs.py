@@ -4,7 +4,7 @@ VERSIONSTRING = f"[{VERSION[3]}]{VERSION[0]}.{VERSION[1]}.{VERSION[2]}"
 from bin.fx.video import IVFX
 from bin.dataManagement import DM
 from bin.runtimeSettingsRI import RUNTIMESETTIGS,JTGFONTPATH,JTGIMGPATH
-from bin.thumbnail_generator import ThumbnailGenerator
+from bin.automation.thumbnail_generator import ThumbnailGenerator
 from bin.fx.audio import AFX
 from bin.letsPlayFile import LetsPlayFile,LetsPlayComp,createDefaultLPF
 from bin.settings import SETTINGS
@@ -26,7 +26,7 @@ from pygame import (
     )
 from time import time as TIME
 from bin.constants import LC,EC
-from bin.resolvePipe import DVRPL
+from bin.automation.resolvePipe import DVRPL
 from subprocess import call as callSubProcess
 from bin.audio2Text import Audio2Text
 from bin.fx.image import generateIcon

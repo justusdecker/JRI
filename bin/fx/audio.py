@@ -7,7 +7,7 @@ from moviepy.audio.io.AudioFileClip import AudioFileClip
 
 from numba import jit
 
-from bin.debugFunctions import debugExecutionTimeCheck
+#from bin.debugFunctions import debugExecutionTimeCheck
 
 class AFX:
     """
@@ -18,7 +18,7 @@ class AFX:
         if isfile(filename):
             return AudioFileClip(filename).duration
         return -1
-    @debugExecutionTimeCheck
+    #@debugExecutionTimeCheck
     def extractAudio(fr:str,to:str,t:int=1):
         subprocess.run(
                     (
@@ -49,7 +49,7 @@ class AFX:
                     subprocess.CREATE_NO_WINDOW,
                     shell= True
                 )
-    @debugExecutionTimeCheck
+    #@debugExecutionTimeCheck
     def limiter(iFileName: str,
                 oFileName: str,
                 limiter: str = '0/-3|10/-3|20/-3'):
@@ -66,7 +66,7 @@ class AFX:
                     oFileName
                     ]
                 )
-    @debugExecutionTimeCheck
+    #@debugExecutionTimeCheck
     def cvtAudio(fileName:str,#call
                     fromType:str= '.mp3',
                     toType:str= '.wav'):
@@ -84,7 +84,7 @@ class AFX:
                     shell= True
                 )
             return fileName.split('.')[0] + toType
-    @debugExecutionTimeCheck
+    #@debugExecutionTimeCheck
     def cvtAudioEx(fromName,toName):
             """Convert Audio Formats"""
             subprocess.run(
@@ -127,7 +127,7 @@ class AFX:
                 #'-ac',      #Set the number of audio channels.
                 #'2',        #Set the number of audio channels.
     """
-    @debugExecutionTimeCheck
+    #@debugExecutionTimeCheck
     def cvtAudioNew(fileName:str,#call
                     fromType:str= '.mp3',
                     toType:str= '.wav'):

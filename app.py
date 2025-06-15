@@ -9,7 +9,7 @@ from flask import render_template
 from json import load, dumps
 from markdown import markdown
 
-from bin.obsow import OBSObserver
+from bin.automation.obsow import OBSObserver
 
 from pygame.image import load as img_load, save as img_save
 from pygame.transform import scale

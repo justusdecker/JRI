@@ -7,7 +7,7 @@ from bin.dataManagement import DM
 from bin.fx.audio import AFX
 from threading import Thread
 from keyboard import is_pressed
-from bin.thumbnail_generator import ThumbnailGenerator
+from bin.automation.thumbnail_generator import ThumbnailGenerator
 
 from bin.constants import THUMBNAIL_PATH, AUDIO_PATH
 

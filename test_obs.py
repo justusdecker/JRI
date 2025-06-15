@@ -1,4 +1,4 @@
-from bin.obsow import OBSObserver
+from bin.automation.obsow import OBSObserver
 from bin.letsPlayFile import LetsPlayFile
 def c_text(text:str, color: tuple) -> str:
     r,g,b = color
