@@ -1,5 +1,6 @@
 from time import time
-from bin.appinfo import VERSION
+from bin.constants import VERSION, Styles, Icons
+import ctypes
 from bin.log import LOG
 from bin.dataManagement import DM
 import sys
@@ -80,3 +81,12 @@ def OutsourceWarn(version,to,crash=False):
             return _ret
         return wrapper
     return decorator
+
+
+def Mbox(title, text, style):
+    return ctypes.windll.user32.MessageBoxW(0, text, title, style)
+def CrashBox(error:list):
+    return Mbox(error[0], error[1], Icons.STOP + Styles.OK)
+
+def QuestionBox(error:list):
+    return Mbox(error[0], error[1], Icons.QUESTION + Styles.YES_NO)

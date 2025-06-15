@@ -1,5 +1,5 @@
 from bin.minfuncs import getDoubleZeros,no
-from bin.appinfo import VERSION
+from bin.constants import VERSION
 VERSIONSTRING = f"[{VERSION[3]}]{VERSION[0]}.{VERSION[1]}.{VERSION[2]}"
 from bin.fx.video import IVFX
 from bin.dataManagement import DM
@@ -32,7 +32,6 @@ from bin.crashHandler import ERRORDICT,CrashBox
 from bin.audio2Text import Audio2Text
 from bin.fx.image import generateIcon
 from bin.tree import FinalizedTree     
-from bin.images import RI_LOGO
 
 from bin.debugFunctions import OutsourceWarn
 

@@ -1,14 +1,8 @@
-from pygame.font import SysFont,init as fontInit
-
-from pygame.mixer import init as mixerInit
-
-from pygame.display import set_icon
-
-from bin.fx.image import generateIcon
-
-#set_icon(generateIcon(VE_LOGO))
-
 FPS = 60
+
+VERSION = (1,14,24,'beta')
+
+NATIVE_FILE_EXTENSION_LPF = '.lpf'
 
 DAVINCIRESOLVESCRIPTFOLDER = "C:\\Users\\Justus\\AppData\\Roaming\\Blackmagic Design\\DaVinci Resolve\\Support\\Fusion\\Scripts\\Edit"
 
@@ -178,8 +172,30 @@ class LC:
     THUMBNAIL_AUTOMATION_DATA = 'thumbnailAutomationData'
     TAGS = 'tags'
 
-
-
-
-
 DAVINCIRESOLVESCRIPTFOLDER = "C:\\Users\\Justus\\AppData\\Roaming\\Blackmagic Design\\DaVinci Resolve\\Support\\Fusion\\Scripts\\Edit"
+
+#! ERRORS
+
+class ERRORIDS:
+    OBSWSTE : int = 1
+    OBSWE : int = 2
+    OBSMO : int = 3
+    LPFNAMEEMPTY : int = 4
+    JRICANTCONNECT : int = 5
+class ERRORDICT:
+    NOLPFEXIST_JRI : list = ['JRI Crashed','No LPF File in destination\ndefault.json created.\nProgram closes!']
+    NOLPFEXIST_JVE : list = ['JVE Crashed','No LPF File in destination']
+    OBSCANTCONNECT : list = ['OBS cant connect', '']
+class Styles:
+    OK =                    0
+    OK_CANCEL =             1
+    ABORT_RETRY_IGNORE =    2
+    YES_NO_CANCEL =         3
+    YES_NO =                4
+    RETRY_NO =              5
+    CANCEL_RETRY_CONTINUE = 6
+class Icons:
+    STOP        =   16
+    QUESTION    =   32
+    EXCLAMATION =   48
+    INFORMATION =   64
