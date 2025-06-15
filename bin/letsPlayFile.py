@@ -7,7 +7,40 @@ from bin.constants import LETSPLAY_PATH,THUMBNAIL_PATH,AUDIO_PATH,ABSOLUTE_PATH
 from os import listdir
 from typing import Any
 from pygame import key,K_LCTRL
-from debugFunctions import DeprecationError
+
+class LetsPlayFile:
+    def __init__(self,file_path:str) -> None:
+        self.file_path = file_path
+        self.load()
+
+    @property
+    def episodes(self) -> list:
+        return self.data.get('episodes',[])
+    
+    @property
+    def episode_count(self) -> int:
+        return len(self.episodes)
+    
+    @property
+    def game_name(self) -> str:
+        return self.data.get('gameName',[])
+    
+    @property
+    def name(self) -> str:
+        return self.data.get('name',[])
+    
+    @property
+    def title_ending(self) -> str:
+        return self.data.get('titleEnding',[])
+    
+    @property
+    def description(self) -> str:
+        return self.data.get('description',[])
+    
+    @property
+    def icon_path(self) -> str:
+        return self.data.get('icon',[])
+    
 
 class LetsPlayFile:
     #Defaults
@@ -297,11 +330,10 @@ class LetsPlayComp:
                             _deletableFiles.append(p)
                     LPF._setEpisode(episodeId,EC.STATUS,64)  # TODO : Use the new ST values
         _ = "\n".join(_deletableFiles)
-        #if len(_deletableFiles) > 0:
-        #    _answer = QuestionBox(['Unused Data Detected',f'Delete? {_}'])
-        #    if _answer == 6:
-        #        self.deleteFiles(_deletableFiles)  
-        # NO DELETE!
+        if len(_deletableFiles) > 0:
+            _answer = QuestionBox(['Unused Data Detected',f'Delete? {_}'])
+            if _answer == 6:
+                self.deleteFiles(_deletableFiles)  
     def deleteFiles(self,_data):
         for f in _data:
             
