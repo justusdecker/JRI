@@ -33,7 +33,7 @@ class DataManagement:
         else:
             return default
         
-    def getFileSize(filePath:str):
+    def get_file_size(filePath:str):
         """
         Returns the fileSize in Bytes
         """
@@ -65,7 +65,7 @@ class DataManagement:
             
             return load(fIn)
         
-    def removeFile(filePath: str):
+    def remove_file(filePath: str):
         if path.isfile(filePath):
             #LOG.nlog(2,'Removed : $',[filePath])
             remove(filePath)
@@ -73,7 +73,7 @@ class DataManagement:
             pass
             #LOG.nlog(3,'File not found : $',[filePath])
          
-    def loadDef(filePath:str,searchL:list | tuple,default):
+    def load_def(filePath:str,searchL:list | tuple,default):
         """
         Returns Specific Value in a JSON File if not existing return Default
         """
@@ -94,7 +94,7 @@ class DataManagement:
                     
             return _ret
         
-    def loadSave(filePath:str,data:dict | tuple | list):
+    def load_save(filePath:str,data:dict | tuple | list):
         """
         Load, Edit & Save
         """
@@ -104,10 +104,10 @@ class DataManagement:
         _sav |= data
         
         DataManagement.save(filePath,_sav)
-    def existFile(filePath):
+    def exist_file(filePath):
         if filePath is not None:
             return path.isfile(filePath)
-    def createFolder(filePath):
+    def create_folder(filePath):
         
         if not path.isdir(filePath):
             #LOG.nlog(1,'created Folder: $',[filePath])
@@ -117,12 +117,11 @@ DM = DataManagement
 #! essentialFAFOnStart
 
 
-DM.createFolder(PATHS.root)
-
-DM.createFolder(PATHS.audio)
-DM.createFolder(PATHS.letsplay)
-DM.createFolder(PATHS.thumbnail)
-DM.createFolder(PATHS.logos)
-DM.createFolder(PATHS.fonts)
-DM.createFolder(PATHS.att)
-DM.createFolder(PATHS.wv)
+DM.create_folder(PATHS.root)
+DM.create_folder(PATHS.audio)
+DM.create_folder(PATHS.letsplay)
+DM.create_folder(PATHS.thumbnail)
+DM.create_folder(PATHS.logos)
+DM.create_folder(PATHS.fonts)
+DM.create_folder(PATHS.att)
+DM.create_folder(PATHS.wv)
