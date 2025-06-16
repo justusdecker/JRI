@@ -1,64 +1,53 @@
+<tr>
 
-<div>
-    
+    <td class="r-spacer"><h1># __EPISODE_NUMBER__</h1></td>
+    <td class="r-spacer">
+        <table>
+            
+            <tr class="ep-stats">
+                <th>Sftat</th>
+                <th>Value</th>
+            </tr>
+            <tr class="ep-stats">
+                <td>video exists</td>
+                <td>__EP_VIDEO_EXISTS__</td>
+            </tr>
+            <tr class="ep-stats">
+                <td>audio track 1 exists</td>
+                <td>__EP_TRACK_1_EXISTS__</td>
+            </tr>
+            <tr class="ep-stats">
+                <td>audio track 2 exists</td>
+                <td>__EP_TRACK_2_EXISTS__</td>
+            </tr>
+            <tr class="ep-stats">
+                <td>title</td>
+                <td>__EP_TITLE__</td>
+            </tr>
+            <tr class="ep-stats">
+                <td>video file size</td>
+                <td>__EP_VIDEO_FILE_SIZE__</td>
+            </tr>
+            <tr class="ep-stats">
+                <td>video length</td>
+                <td>__EP_VIDEO_LENGTH__</td>
+            </tr>
+            <tr class="ep-stats">
+                <td>markers</td>
+                <td>__EP_MARKER_COUNT__</td>
+            </tr>
+            <tr class="ep-stats">
+                <td>thumbnail frame</td>
+                <td> __EP_THUMBNAIL_FRAME__</td>
+            </tr>
+        </table>
 
-    <div style="display:flex">
-        <input style="outline: none; background-color:#969696;" type="checkbox" id="vehicle1">
-        <p style="width:95vw;padding-top:0.5%;padding-bottom:0.5%;background-color:#969696;" onclick="toggleDisplay('tbu__ID__')">__EPISODE_NUMBER__</p>
-    </div>
-    
-    <table style="display:none;" id="tbu__ID__">
-        <tr>
-            <td class="r-spacer"><h1># __EPISODE_NUMBER__</h1></td>
-            <td class="r-spacer">
-                <table>
-                    
-                    <tr class="ep-stats">
-                        <th>Sftat</th>
-                        <th>Value</th>
-                    </tr>
-                    <tr class="ep-stats">
-                        <td>video exists</td>
-                        <td>__EP_VIDEO_EXISTS__</td>
-                    </tr>
-                    <tr class="ep-stats">
-                        <td>audio track 1 exists</td>
-                        <td>__EP_TRACK_1_EXISTS__</td>
-                    </tr>
-                    <tr class="ep-stats">
-                        <td>audio track 2 exists</td>
-                        <td>__EP_TRACK_2_EXISTS__</td>
-                    </tr>
-                    <tr class="ep-stats">
-                        <td>title</td>
-                        <td>__EP_TITLE__</td>
-                    </tr>
-                    <tr class="ep-stats">
-                        <td>video file size</td>
-                        <td>__EP_VIDEO_FILE_SIZE__</td>
-                    </tr>
-                    <tr class="ep-stats">
-                        <td>video length</td>
-                        <td>__EP_VIDEO_LENGTH__</td>
-                    </tr>
-                    <tr class="ep-stats">
-                        <td>markers</td>
-                        <td>__EP_MARKER_COUNT__</td>
-                    </tr>
-                    <tr class="ep-stats">
-                        <td>thumbnail frame</td>
-                        <td> __EP_THUMBNAIL_FRAME__</td>
-                    </tr>
-                </table>
-    
-            </td>
-            <td class="r-spacer">
-                <p align="center"><img src="__THUMBNAIL__"></p>
-            </td>
-            <td class="r-spacer">
-                <p class="copy_from">Video:<br><textarea disabled>__VIDEO_PATH__</textarea></p>
-                <p class="copy_from">Audio:<br><textarea disabled>__AUDIO_TRACK_1_PATH__</textarea></p>
-            </td>
-        </tr>
-    </table>
-</div>
+    </td>
+    <td class="r-spacer">
+        <p align="center"><img src="__THUMBNAIL__"></p>
+    </td>
+    <td class="r-spacer">
+        <p class="copy_from">Video:<br><textarea disabled>__VIDEO_PATH__</textarea></p>
+        <p class="copy_from">Audio:<br><textarea disabled>__AUDIO_TRACK_1_PATH__</textarea></p>
+    </td>
+</tr>

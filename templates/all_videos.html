@@ -15,7 +15,19 @@
     </div>
     <br><br>
     <h1>Welcome to JRI!</h1>
+    <form action="/all_videos">
+        <input id="searcher" type="text" placeholder="Search.." name="search">
+        <button type="submit"><i class="fa fa-search">SUBMIT</i></button>
+    </form>
 
-    __VIDEOS_GO_HERE__
+    <table>
+        <tr>
+            <th style="background-color:#242424;">Episode Number</th>
+            <th style="background-color:#242424;">Stats</th>
+            <th style="background-color:#242424;">Thumbnail</th>
+            <th style="background-color:#242424;">Paths</th>
+        </tr>
+        __VIDEOS_GO_HERE__
+    </table>
 </body>
 </html>

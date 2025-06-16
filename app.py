@@ -1,11 +1,12 @@
 from flask import Flask
 
+
 from bin.letsplay_file import LetsPlayFile
 from bin.constants import PATHS
 from os import listdir,remove
 from os.path import isfile
 
-from flask import render_template
+from flask import render_template, request
 from json import load, dumps
 from markdown import markdown
 
@@ -44,7 +45,11 @@ def load_file(file_path: str) -> str:
         return f_in.read()
 
 
-
+def getsearch(string: str) -> str:
+    if not string: return ""
+    for i in string.split('?'):
+        if 'search=' in i:
+            return i.split('=')[1]
 
 @app.route('/')
 def index():
@@ -52,11 +57,15 @@ def index():
 
 @app.route('/all_videos/')
 def video_show():
+    
+    
     site = render_template('all_videos.html')
+    
+    # GET QUERY
+    search = getsearch(request.query_string.decode())
     
     OUTPUT_STRING = ""
 
-    HEADER = load_file("templates\\lets_play_header.html")
     
     EPISODE = load_file("templates\\lets_play_episode.html")
     
@@ -66,40 +75,28 @@ def video_show():
     i = 0
     for lp in lets_plays:
         TMP_OP_STRING = ''
-        
-        TMP_HEADER = HEADER
-        TMP_HEADER = TMP_HEADER.replace('__LP_NAME__',lp.name)
-        TMP_HEADER = TMP_HEADER.replace('__ICON_PATH__',lp.icon_path)
-        TMP_HEADER = TMP_HEADER.replace('__GAME_NAME__',lp.game_name)
-        TMP_HEADER = TMP_HEADER.replace('__EPISODE_LENGTH__',str(lp.episode_length))
-        
-        TMP_OP_STRING += TMP_HEADER + '\n'
-        
+
         for ep in lp.episodes:
             i += 1
             TMP_EPISODE = EPISODE
+            for before, after in (
+                ('__EP_VIDEO_EXISTS__','🟢' if isfile(ep.video_path) else '🔴'),
+                ('__EP_TRACK_1_EXISTS__','🟢' if ep.audio_path else '🔴'),#! Missing Attr Track 2
+                ('__EPISODE_NUMBER__',str(ep.episode_number)),
+                ('__EP_TITLE__',str(ep.title)),
+                ('__EP_VIDEO_FILE_SIZE__',str(ep.video_size)),
+                ('__EP_VIDEO_LENGTH__',str(ep.video_length)),
+                ('__EP_MARKER_COUNT__',str(len(ep.markers))),
+                ('__EP_THUMBNAIL_FRAME__',str(ep.frame)),
+                ('__VIDEO_PATH__',ep.video_path),
+                ('__AUDIO_TRACK_1_PATH__',ep.audio_path.replace('\\','/') if ep.audio_path is not None else 'n.a.'),
+                ('__THUMBNAIL__',f'../static/img/temps/{lp.name}_{ep.episode_number}.png'),
+                ('__ID__',f'{i}')
+            ):
+                TMP_EPISODE = TMP_EPISODE.replace(before, after)
             
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_EXISTS__','🟢' if isfile(ep.video_path) else '🔴')
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_TRACK_1_EXISTS__','🟢' if ep.audio_path else '🔴')
-            #! Missing Attr Track 2
-            TMP_EPISODE = TMP_EPISODE.replace('__EPISODE_NUMBER__',str(ep.episode_number))
-            
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_TITLE__',str(ep.title))
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_FILE_SIZE__',str(ep.video_size))
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_LENGTH__',str(ep.video_length))
-            
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_MARKER_COUNT__',str(len(ep.markers)))
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_THUMBNAIL_FRAME__',str(ep.frame))
-            
-            
-            
-            TMP_EPISODE = TMP_EPISODE.replace('__VIDEO_PATH__',ep['path'])
-            TMP_EPISODE = TMP_EPISODE.replace('__AUDIO_TRACK_1_PATH__',ep.audio_path.replace('\\','/') if ep['audioFilePath'] is not None else '')
-            TMP_EPISODE = TMP_EPISODE.replace('__THUMBNAIL__',f'../static/img/temps/{lp.name}_{ep["episodeNumber"]}.png')
-            
-            TMP_EPISODE = TMP_EPISODE.replace('__ID__',f'{i}')
-            
-            TMP_OP_STRING += TMP_EPISODE + '\n'
+            if not search or search in TMP_EPISODE :
+                TMP_OP_STRING += TMP_EPISODE + '\n'
 
         
         OUTPUT_STRING += TMP_OP_STRING
