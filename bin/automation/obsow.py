@@ -167,6 +167,9 @@ class OBSObserver:
             self.kb_pressed = False
         
     def update(self):
+        self.on_start()
+        self.on_stop()
+        self.setMarker()
         try:
             self.on_start()
             self.on_stop()
