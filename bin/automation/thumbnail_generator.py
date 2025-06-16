@@ -4,8 +4,8 @@ from pygame.image import save as img_save, load as img_load
 
 from pygame.surfarray import make_surface
 from pygame.transform import scale, flip, rotate, scale_by
-from pygame.font import Font
-
+from pygame.font import Font, init
+init()
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from random import random as rnd,randint as rint
 from numpy import rot90

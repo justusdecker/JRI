@@ -187,55 +187,55 @@ class Episode:
         return self.data.get('path','')
     @video_path.setter
     def video_path(self, value: str):
-        self.video_path = value
+        self.data['path'] = value
     @property
     def episode_number(self) -> int:
         return self.data.get('episodeNumber','')
     @episode_number.setter
     def episode_number(self, value: int):
-        self.episode_number = value
+        self.data['episodeNumber'] = value
     @property
     def status(self) -> int:
         return self.data.get('status','')
     @status.setter
     def status(self, value: int):
-        self.status = value
+        self.data['status'] = value
     @property
     def markers(self) -> list[str]:
         return self.data.get('markers',[''])
     @markers.setter
     def markers(self, value: list[str]):
-        self.markers = value
+        self.data['markers'] = value
     @property
     def title(self) -> str:
         return self.data.get('episodeTitle','')
     @title.setter
     def title(self, value: str):
-        self.title = value
+        self.data['episodeTitle'] = value
     @property
     def thumbnail_path(self) -> str:
         return self.data.get('thumbnailPath','')
     @thumbnail_path.setter
     def thumbnail_path(self, value: str):
-        self.thumbnail_path = value
+        self.data['thumbnailPath'] = value
     @property
     def frame(self) -> int | float:
-        return self.data.get('episodeFrame','')
+        return self.data.get('thumbnailFrame','')
     @frame.setter
     def frame(self, value: int | float):
-        self.frame = value
+        self.data['thumbnailFrame'] = value
     @property
     def upload_at(self) -> str:
         return self.data.get('uploadAt','')
     @upload_at.setter
     def upload_at(self, value: str):
-        self.upload_at = value
+        self.data['uploadAt'] = value
     @property
     def audio_path(self) -> str:
         return self.data.get('audioFilePath','')
     @audio_path.setter
     def audio_path(self, value: str):
-        self.audio_path = value
+        self.data['audioFilePath'] = value
 class LetsPlayFile:
     #Defaults
     default_ThumbnailAutomationData: dict = {
