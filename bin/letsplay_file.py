@@ -236,6 +236,18 @@ class Episode:
     @audio_path.setter
     def audio_path(self, value: str):
         self.data['audioFilePath'] = value
+    @property
+    def video_size(self) -> int:
+        return self.data.get('videoFileSize',-1)
+    @video_size.setter
+    def video_size(self, value: int):
+        self.data['videoFileSize'] = value
+    @property
+    def video_length(self) -> int:
+        return self.data.get('videoLength',-1)
+    @video_length.setter
+    def video_length(self, value: int):
+        self.data['videoLength'] = value
 class LetsPlayFile:
     #Defaults
     default_ThumbnailAutomationData: dict = {
