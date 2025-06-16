@@ -18,9 +18,9 @@ for file in listdir('static\\img\\temps'):
     remove( f'static\\img\\temps\\{file}')
 for lpf in [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]:
     for ep in lpf.episodes:
-        if ep['thumbnailPath']:
-            if isfile(ep['thumbnailPath']):
-                img_save(scale(img_load(ep['thumbnailPath']),(384,216)),f'static\\img\\temps\\{lpf.name}_{ep["episodeNumber"]}.png')
+        if ep.thumbnail_path:
+            if isfile(ep.thumbnail_path):
+                img_save(scale(img_load(ep.thumbnail_path),(384,216)),f'static\\img\\temps\\{lpf.name}_{ep.episode_number}.png')
 def rgb2hex(rgb: tuple[int]) -> str:
     r,g,b = rgb
     return f"#{r:02x}{g:02x}{b:02x}"
@@ -79,23 +79,23 @@ def video_show():
             i += 1
             TMP_EPISODE = EPISODE
             
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_EXISTS__','🟢' if isfile(ep['path']) else '🔴')
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_TRACK_1_EXISTS__','🟢' if ep['audioFilePath'] else '🔴')
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_EXISTS__','🟢' if isfile(ep.video_path) else '🔴')
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_TRACK_1_EXISTS__','🟢' if ep.audio_path else '🔴')
             #! Missing Attr Track 2
-            TMP_EPISODE = TMP_EPISODE.replace('__EPISODE_NUMBER__',str(ep['episodeNumber']))
+            TMP_EPISODE = TMP_EPISODE.replace('__EPISODE_NUMBER__',str(ep.episode_number))
             
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_TITLE__',str(ep['episodeTitle']))
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_FILE_SIZE__',str(ep['videoFileSize']) if 'videoFileSize' in ep else 'n.a.')
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_LENGTH__',str(ep['videoLength']) if 'videoLength' in ep else 'n.a.')
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_TITLE__',str(ep.title))
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_FILE_SIZE__',str(ep.video_size))
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_VIDEO_LENGTH__',str(ep.video_length))
             
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_MARKER_COUNT__',str(len(ep['markers'])))
-            TMP_EPISODE = TMP_EPISODE.replace('__EP_THUMBNAIL_FRAME__',str(ep['thumbnailFrame']))
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_MARKER_COUNT__',str(len(ep.markers)))
+            TMP_EPISODE = TMP_EPISODE.replace('__EP_THUMBNAIL_FRAME__',str(ep.frame))
             
             
             
             TMP_EPISODE = TMP_EPISODE.replace('__VIDEO_PATH__',ep['path'])
-            TMP_EPISODE = TMP_EPISODE.replace('__AUDIO_TRACK_1_PATH__',ep['audioFilePath'].replace('\\','/') if ep['audioFilePath'] is not None else '')
-            TMP_EPISODE = TMP_EPISODE.replace('__THUMBNAIL__',f'../static/img/temps/{lp._getName()}_{ep["episodeNumber"]}.png')
+            TMP_EPISODE = TMP_EPISODE.replace('__AUDIO_TRACK_1_PATH__',ep.audio_path.replace('\\','/') if ep['audioFilePath'] is not None else '')
+            TMP_EPISODE = TMP_EPISODE.replace('__THUMBNAIL__',f'../static/img/temps/{lp.name}_{ep["episodeNumber"]}.png')
             
             TMP_EPISODE = TMP_EPISODE.replace('__ID__',f'{i}')
             
@@ -112,8 +112,8 @@ def get_episode(lp_title: str, ep_id: str):
         return "<h1>Somethings went wrong: (1002) episode id must be an integer</h1>"
     lets_plays: list[LetsPlayFile] = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     for lp in lets_plays:
-        if lp._getName() == lp_title:
-            return f"<p>{dumps(lp._getEpisode(int(ep_id)),indent=4).replace('\n','<br>')}</p>"
+        if lp.name == lp_title:
+            return f"<p>{dumps(lp.get_episode(int(ep_id)).asdict(),indent=4).replace('\n','<br>')}</p>"
     else:
         return "<h1>Somethings went wrong: (1001) No Lets Play found!</h1>"
 
