@@ -1,4 +1,4 @@
-from bin.dataManagement import DM
+from bin.data_management import DM
 
 class Settings:
     def __init__(self) -> None:

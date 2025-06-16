@@ -1,4 +1,4 @@
-from bin.dataManagement import DM
+from bin.data_management import DM
 from bin.constants import VERSION
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from bin.minfuncs import getHexDoubleZeros
