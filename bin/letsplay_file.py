@@ -185,30 +185,57 @@ class Episode:
     @property
     def video_path(self) -> str:
         return self.data.get('path','')
+    @video_path.setter
+    def video_path(self, value: str):
+        self.video_path = value
     @property
     def episode_number(self) -> int:
         return self.data.get('episodeNumber','')
+    @episode_number.setter
+    def episode_number(self, value: int):
+        self.episode_number = value
     @property
     def status(self) -> int:
         return self.data.get('status','')
+    @status.setter
+    def status(self, value: int):
+        self.status = value
     @property
     def markers(self) -> list[str]:
         return self.data.get('markers',[''])
+    @markers.setter
+    def markers(self, value: list[str]):
+        self.markers = value
     @property
     def title(self) -> str:
         return self.data.get('episodeTitle','')
+    @title.setter
+    def title(self, value: str):
+        self.title = value
     @property
     def thumbnail_path(self) -> str:
         return self.data.get('thumbnailPath','')
+    @thumbnail_path.setter
+    def thumbnail_path(self, value: str):
+        self.thumbnail_path = value
     @property
     def frame(self) -> int | float:
         return self.data.get('episodeFrame','')
+    @frame.setter
+    def frame(self, value: int | float):
+        self.frame = value
     @property
     def upload_at(self) -> str:
         return self.data.get('uploadAt','')
+    @upload_at.setter
+    def upload_at(self, value: str):
+        self.upload_at = value
     @property
     def audio_path(self) -> str:
         return self.data.get('audioFilePath','')
+    @audio_path.setter
+    def audio_path(self, value: str):
+        self.audio_path = value
 class LetsPlayFile:
     #Defaults
     default_ThumbnailAutomationData: dict = {
@@ -323,7 +350,7 @@ class LetsPlayFile:
         """ Appends a new episode's data to the 'episodes' list. """
         self.data['episodes'].append(data) #! change this to get(set)
     def get_episode(self,index: int) -> Episode:
-        return Episode(self.episodes[index])
+        return self.episodes[index]
     def get_episode_ex(self,index: int, key: str) -> Any:
         return self.get_episode(index)[key]
     def get_key_exist_in_episode(self,index: int, key: str):
