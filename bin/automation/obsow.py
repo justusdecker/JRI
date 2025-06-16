@@ -9,7 +9,7 @@ from threading import Thread
 from keyboard import is_pressed
 from bin.automation.thumbnail_generator import ThumbnailGenerator
 
-from bin.constants import THUMBNAIL_PATH, AUDIO_PATH
+from bin.constants import PATHS
 
 OUTPUT_TYPE = 'adv_file_output'
 
@@ -130,7 +130,7 @@ class OBSObserver:
         """
         if self.is_recording and self.timecode == '00:00:00.000':
             self.current_lp_data._setEpisode(-1, 'status', self.current_lp_data._getEpisodeEx(-1,'status') + 1)
-            self.current_lp_data._setEpisode(-1, 'thumbnailPath',f"{THUMBNAIL_PATH}{self.current_lp_data._getName()}\\{self.current_lp_data._getEpisodeCount()}_{self.current_lp_data._getName()}_Thumbnail.png")
+            self.current_lp_data._setEpisode(-1, 'thumbnailPath',f"{PATHS.thumbnail}{self.current_lp_data._getName()}\\{self.current_lp_data._getEpisodeCount()}_{self.current_lp_data._getName()}_Thumbnail.png")
             self.current_lp_data.save()
             
             #! VERY UNSAFE Implementation of threads! Make sure that threads are accessible to stop the app from moving on!
@@ -188,7 +188,7 @@ class OBSObserver:
     
     
     def thumbnailGeneration(self,epn):
-        DM.createFolder(THUMBNAIL_PATH + self.current_lp_data._getName())
+        DM.createFolder(PATHS.thumbnail + self.current_lp_data._getName())
         self.jtg.create_thumbnail(self.current_lp_data._getEpisodeCount(),
                                  self.current_filepath,
                                  -1,
@@ -225,8 +225,8 @@ class OBSObserver:
     def audioExtraction(self,epn):
         """Audio Extraction out of current Episode Video File"""
         
-        DM.createFolder(f'{AUDIO_PATH}{self.current_lp_data._getName()}\\')
-        AFX.extractAudio(self.current_lp_data._getEpisodeEx(-1,'path'),f"{AUDIO_PATH}{self.current_lp_data._getName()}\\{self.current_lp_data._getEpisodeCount()}_{self.current_lp_data._getName()}_track.mp3")
+        DM.createFolder(f'{PATHS.audio}{self.current_lp_data._getName()}\\')
+        AFX.extractAudio(self.current_lp_data._getEpisodeEx(-1,'path'),f"{PATHS.audio}{self.current_lp_data._getName()}\\{self.current_lp_data._getEpisodeCount()}_{self.current_lp_data._getName()}_track.mp3")
 
         self.current_lp_data._setEpisode(
             epn - 1,
@@ -236,7 +236,7 @@ class OBSObserver:
         self.current_lp_data._setEpisode(
             epn - 1,
             'audioFilePath',
-            f"{AUDIO_PATH}{self.current_lp_data._getName()}\\{epn}_{self.current_lp_data._getName()}_track.mp3"
+            f"{PATHS.audio}{self.current_lp_data._getName()}\\{epn}_{self.current_lp_data._getName()}_track.mp3"
             )
         self.current_lp_data.save()
 

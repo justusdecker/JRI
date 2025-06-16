@@ -1,17 +1,7 @@
 from os import path,mkdir,remove
 from json import load,dumps
 #from bin.log import LOG
-from bin.constants import (
-    ABSOLUTE_PATH,
-    AUDIO_PATH,
-    LETSPLAY_PATH,
-    THUMBNAIL_PATH,
-    LOGOS_PATH,
-    FONT_PATH,
-    LOWRES_PATH,
-    ATT_PATH,
-    WAVEFORM_PATH
-)
+from bin.constants import PATHS
 def UnpackManager(arg:str,
                   kwargs,
                   default = None
@@ -141,12 +131,12 @@ DM = DataManagement
 #! essentialFAFOnStart
 
 
-DM.createFolder(ABSOLUTE_PATH)
+DM.createFolder(PATHS.root)
 
-DM.createFolder(AUDIO_PATH)
-DM.createFolder(LETSPLAY_PATH)
-DM.createFolder(THUMBNAIL_PATH)
-DM.createFolder(LOGOS_PATH)
-DM.createFolder(FONT_PATH)
-DM.createFolder(ATT_PATH)
-DM.createFolder(WAVEFORM_PATH)
+DM.createFolder(PATHS.audio)
+DM.createFolder(PATHS.letsplay)
+DM.createFolder(PATHS.thumbnail)
+DM.createFolder(PATHS.logos)
+DM.createFolder(PATHS.fonts)
+DM.createFolder(PATHS.att)
+DM.createFolder(PATHS.wv)

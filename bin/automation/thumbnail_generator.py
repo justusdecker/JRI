@@ -11,7 +11,7 @@ from random import random as rnd,randint as rint
 from numpy import rot90
 from bin.fx.image import IFXHSVManipulation,outLining
 from bin.fx.video import IVFX
-from bin.constants import THUMBNAIL_PATH
+from bin.constants import PATHS
 class ThumbnailGenerator:
     """
     A Thumbnail Generator will take a video source & output a full thumbnail based on usersettings
@@ -232,7 +232,7 @@ class ThumbnailGenerator:
         """
         Constructs the Thumbnail/filepath with lets play name
         """
-        return f"{THUMBNAIL_PATH}{title}"
+        return f"{PATHS.thumbnail}{title}"
     
     def __get_rnd_pos(self,rp_x: float | int,rp_y: float | int) -> tuple:
         """

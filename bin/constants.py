@@ -38,7 +38,7 @@ class Paths:
     @property
     def wv(self) -> str:
         return f'{self.root}wv\\'
-
+PATHS = Paths()
 DEFAULT_LPF_FILE = {
     "name": "",
     "icon": "",
