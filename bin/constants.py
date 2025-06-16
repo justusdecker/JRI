@@ -141,19 +141,6 @@ DEFAULT_LPF_FILE = {
     ]
 }
 
-SettingCollection: dict = {
-            'width': 480,
-            'height': 720,
-            'obsDirPath': "C:\\Program Files (x86)\\Steam\\steamapps\\common\\OBS Studio\\bin\\64bit\\",
-            'obsHost': '192.168.0.12',
-            'obsPort': 4455,
-            'obsPassword': '',
-            'obsTimeout': 1,
-            'fastLoad': False,
-            'autoSave': True,
-            'videoPlaybackFps': 8
-        }
-
 class EC:
     """
     ! All keys listed for reading & writing to any episode

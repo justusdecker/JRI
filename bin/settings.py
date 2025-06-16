@@ -1,17 +1,15 @@
 from bin.dataManagement import DM
-from bin.constants import SettingCollection
 
 class Settings:
     def __init__(self) -> None:
         if not DM.existFile('settings.json'):
             DM.save('settings.json',
-                 SettingCollection)
+                 self.__get())
         self.__settings: dict = DM.loads('settings.json')
         if not isinstance(self.__settings,dict):
             raise TypeError('SETTINGS MUST BE A DICT')
-        
-    def save_settings(self) -> None:
-        DM.save('settings.json',{
+    def __get(self)-> dict:
+        return {
             'width': self.width,
             'height': self.height,
             'obsDirPath': self.obs_path,
@@ -19,7 +17,9 @@ class Settings:
             'obsPassword': self.obs_pw,
             'obsPort': self.obs_port,
             'obsTimeout': self.obs_timeout
-        })
+        }
+    def save_settings(self) -> None:
+        DM.save('settings.json',self.__get())
     @property
     def width(self) -> int:
         return self.__settings.get('width',1280)
