@@ -1,7 +1,7 @@
 from flask import Flask
 
-from bin.letsPlayFile import LetsPlayFile
-from bin.constants import LETSPLAY_PATH
+from bin.letsplay_file import LetsPlayFile
+from bin.constants import PATHS
 from os import listdir,remove
 from os.path import isfile
 
@@ -16,26 +16,26 @@ from pygame.transform import scale
 
 for file in listdir('static\\img\\temps'):
     remove( f'static\\img\\temps\\{file}')
-for lpf in [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]:
-    for ep in lpf._getEpisodes():
+for lpf in [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]:
+    for ep in lpf.episodes:
         if ep['thumbnailPath']:
             if isfile(ep['thumbnailPath']):
-                img_save(scale(img_load(ep['thumbnailPath']),(384,216)),f'static\\img\\temps\\{lpf._getName()}_{ep["episodeNumber"]}.png')
+                img_save(scale(img_load(ep['thumbnailPath']),(384,216)),f'static\\img\\temps\\{lpf.name}_{ep["episodeNumber"]}.png')
 def rgb2hex(rgb: tuple[int]) -> str:
     r,g,b = rgb
     return f"#{r:02x}{g:02x}{b:02x}"
 
 def get_lets_play(lpf: str | None = None):
-    lpf_files = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]
+    lpf_files = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     if lpf is not None:
         for lp in lpf_files:
-            if lp._getName() == lpf:
+            if lp.name == lpf:
                 return lp
     if lpf_files:
         return lpf_files[0]
     
 
-OBS = OBSObserver(get_lets_play()) if [file for file in listdir(LETSPLAY_PATH) if file.endswith('.json')] else None
+OBS = OBSObserver(get_lets_play()) if [file for file in listdir(PATHS.letsplay) if file.endswith('.json')] else None
 
 app = Flask(__name__)
 
@@ -60,7 +60,7 @@ def video_show():
     
     EPISODE = load_file("templates\\lets_play_episode.html")
     
-    lets_plays: list[LetsPlayFile] = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]
+    lets_plays: list[LetsPlayFile] = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     
     
     i = 0
@@ -68,14 +68,14 @@ def video_show():
         TMP_OP_STRING = ''
         
         TMP_HEADER = HEADER
-        TMP_HEADER = TMP_HEADER.replace('__LP_NAME__',lp._getName())
-        TMP_HEADER = TMP_HEADER.replace('__ICON_PATH__',lp._getIconPath())
-        TMP_HEADER = TMP_HEADER.replace('__GAME_NAME__',lp._getGameName())
-        TMP_HEADER = TMP_HEADER.replace('__EPISODE_LENGTH__',str(lp._getEpisodeLength()))
+        TMP_HEADER = TMP_HEADER.replace('__LP_NAME__',lp.name)
+        TMP_HEADER = TMP_HEADER.replace('__ICON_PATH__',lp.icon_path)
+        TMP_HEADER = TMP_HEADER.replace('__GAME_NAME__',lp.game_name)
+        TMP_HEADER = TMP_HEADER.replace('__EPISODE_LENGTH__',str(lp.episode_length))
         
         TMP_OP_STRING += TMP_HEADER + '\n'
         
-        for ep in lp._getEpisodes():
+        for ep in lp.episodes:
             i += 1
             TMP_EPISODE = EPISODE
             
@@ -110,7 +110,7 @@ def video_show():
 def get_episode(lp_title: str, ep_id: str):
     if not ep_id.isdecimal():
         return "<h1>Somethings went wrong: (1002) episode id must be an integer</h1>"
-    lets_plays: list[LetsPlayFile] = [LetsPlayFile(LETSPLAY_PATH + file) for file in listdir(LETSPLAY_PATH) if file.endswith('.json')]
+    lets_plays: list[LetsPlayFile] = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     for lp in lets_plays:
         if lp._getName() == lp_title:
             return f"<p>{dumps(lp._getEpisode(int(ep_id)),indent=4).replace('\n','<br>')}</p>"

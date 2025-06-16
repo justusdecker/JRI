@@ -166,7 +166,49 @@ class ThumbnailAutomationData:
                             [ 50, 50, 50 ]]
             })
 
-
+class Episode:
+    def __init__(self,data:dict) -> None:
+        self.data = data
+        
+    def asdict(self) -> dict:
+        return {
+            'path': self.video_path,
+            'episodeNumber': self.episode_number,
+            'status': self.status,
+            'markers': self.markers,
+            'episodeTitle': self.title,
+            'thumbnailPath': self.thumbnail_path,
+            'thumbnailFrame': self.frame,
+            'uploadAt': self.upload_at,
+            'audioFilePath': self.audio_path
+        }
+    @property
+    def video_path(self) -> str:
+        return self.data.get('path','')
+    @property
+    def episode_number(self) -> int:
+        return self.data.get('episodeNumber','')
+    @property
+    def status(self) -> int:
+        return self.data.get('status','')
+    @property
+    def markers(self) -> list[str]:
+        return self.data.get('markers',[''])
+    @property
+    def title(self) -> str:
+        return self.data.get('episodeTitle','')
+    @property
+    def thumbnail_path(self) -> str:
+        return self.data.get('thumbnailPath','')
+    @property
+    def frame(self) -> int | float:
+        return self.data.get('episodeFrame','')
+    @property
+    def upload_at(self) -> str:
+        return self.data.get('uploadAt','')
+    @property
+    def audio_path(self) -> str:
+        return self.data.get('audioFilePath','')
 class LetsPlayFile:
     #Defaults
     default_ThumbnailAutomationData: dict = {
@@ -224,8 +266,8 @@ class LetsPlayFile:
     # So the code will be much easier to maintain.
 
     @property
-    def episodes(self) -> list[dict]:
-        return self.data['episodes']
+    def episodes(self) -> list[Episode]:
+        return [Episode(i) for i in self.data['episodes']]
     @property
     def episode_count(self) -> int:
         return len(self.episodes)
@@ -280,8 +322,8 @@ class LetsPlayFile:
     def add_episode(self,data:dict):
         """ Appends a new episode's data to the 'episodes' list. """
         self.data['episodes'].append(data) #! change this to get(set)
-    def get_episode(self,index: int) -> dict:
-        return self.episode_count[index]
+    def get_episode(self,index: int) -> Episode:
+        return Episode(self.episodes[index])
     def get_episode_ex(self,index: int, key: str) -> Any:
         return self.get_episode(index)[key]
     def get_key_exist_in_episode(self,index: int, key: str):
@@ -312,9 +354,7 @@ class LetsPlayFile:
     def save(self):
         DM.save(self.filePath,self.data)
 
-class Episode:
-    def __init__(self,data:dict) -> None:
-        pass
+
 
 class LetsPlayComp:
     def __init__(self,fontPath,imgPath) -> None:

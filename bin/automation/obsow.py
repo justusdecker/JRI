@@ -39,7 +39,7 @@ class OBSObserver:
             'timeout': SETTINGS.obs_timeout
             }
         self.connect()
-        self.current_lp_data: LetsPlayFile = lets_play_file
+        self.lpf: LetsPlayFile = lets_play_file
         self.kb_pressed = False
         self.ignored_warnings = 0
     
@@ -87,7 +87,7 @@ class OBSObserver:
     @property
     def color(self) -> tuple[int,int,int]:
         """ color based on current state """
-        ep_len = self.current_lp_data._getEpisodeLength()
+        ep_len = self.lpf.episode_length
         ft = self.formatted_time[0]
         ir = self.is_recording
         print(ep_len, ft,ir)
@@ -110,9 +110,9 @@ class OBSObserver:
         """
         if self.timecode != '00:00:00.000' and not self.is_recording:
             self.is_recording = True
-            self.current_lp_data._addEpisode({
+            self.lpf.add_episode({
                 "path": self.current_filepath,
-                "episodeNumber": self.current_lp_data._getEpisodeCount() + 1,
+                "episodeNumber": self.lpf.episode_count + 1,
                 "status": 0,
                 "markers": [],
                 "episodeTitle": '',
@@ -122,20 +122,21 @@ class OBSObserver:
                 "audioFilePath": None
             }
             )
-            self.current_lp_data.save()
+            self.lpf.save()
     
     def on_stop(self):
         """
         processes events "on Stop"
         """
         if self.is_recording and self.timecode == '00:00:00.000':
-            self.current_lp_data._setEpisode(-1, 'status', self.current_lp_data._getEpisodeEx(-1,'status') + 1)
-            self.current_lp_data._setEpisode(-1, 'thumbnailPath',f"{PATHS.thumbnail}{self.current_lp_data._getName()}\\{self.current_lp_data._getEpisodeCount()}_{self.current_lp_data._getName()}_Thumbnail.png")
-            self.current_lp_data.save()
+            ep = self.lpf.get_episode(-1)
+            ep.status += 1
+            ep.thumbnail_path = f"{PATHS.thumbnail}{self.lpf.name}\\{self.lpf.episode_count}_{self.lpf.name}_Thumbnail.png"
+            self.lpf.save()
             
             #! VERY UNSAFE Implementation of threads! Make sure that threads are accessible to stop the app from moving on!
-            Thread(target=self.thumbnailGeneration,args=[self.current_lp_data._getEpisodeCount()]).start()
-            Thread(target=self.audioExtraction,args=[self.current_lp_data._getEpisodeCount()]).start()
+            Thread(target=self.thumbnailGeneration,args=[self.lpf.episode_count]).start()
+            Thread(target=self.audioExtraction,args=[self.lpf.episode_count]).start()
             self.is_recording = False
             self.warnings = False
 
@@ -148,22 +149,19 @@ class OBSObserver:
         """
         if is_pressed('K') and not self.kb_pressed and self.is_recording:
             self.pressed_key = 'K'
-            markers = self.current_lp_data._getEpisodeEx(-1,'markers')
-            markers.append(f'<$TimeLapse:{self.time}>')
-            self.current_lp_data._setEpisode(-1,'markers',markers)
+            ep = self.lpf.get_episode(-1)
+            ep.markers.append(f'<$TimeLapse:{self.time}>')
 
-
-            self.current_lp_data.save()
+            self.lpf.save()
             self.kb_pressed = True
         if not is_pressed('K') and self.kb_pressed and self.pressed_key == 'K':
             self.kb_pressed = False
         if is_pressed('L') and not self.kb_pressed and self.is_recording:
             self.pressed_key = 'L'
-            markers = self.current_lp_data._getEpisodeEx(-1,'markers')
-            markers.append(f'<$Interest:{self.time}>')
-            self.current_lp_data._setEpisode(-1,'markers',markers)
+            ep = self.lpf.get_episode(-1)
+            ep.markers.append(f'<$Interest:{self.time}>')
 
-            self.current_lp_data.save()
+            self.lpf.save()
             self.kb_pressed = True
         if not is_pressed('L') and self.kb_pressed and self.pressed_key == 'L':
             self.kb_pressed = False
@@ -188,25 +186,18 @@ class OBSObserver:
     
     
     def thumbnailGeneration(self,epn):
-        DM.createFolder(PATHS.thumbnail + self.current_lp_data._getName())
-        self.jtg.create_thumbnail(self.current_lp_data._getEpisodeCount(),
+        DM.createFolder(PATHS.thumbnail + self.lpf.name)
+        self.jtg.create_thumbnail(self.lpf.episode_count,
                                  self.current_filepath,
                                  -1,
-                                 self.current_lp_data._getThumbnailAutomationData(),
-                                 self.current_lp_data._getName()
+                                 self.lpf.tad.asdict(),
+                                 self.lpf.name
                                  )
+        ep = self.lpf.get_episode(epn - 1)
+        ep.status += 2
+        ep.frame = self.jtg.idx
 
-        self.current_lp_data._setEpisode(
-            epn - 1,
-            'status',
-            self.current_lp_data._getEpisodeEx(epn - 1,'status') + 2  # TODO : Use the new ST values
-            )
-        self.current_lp_data._setEpisode(
-            epn - 1,
-            'thumbnailFrame',
-            self.jtg.idx
-            )
-        self.current_lp_data.save()
+        self.lpf.save()
         
     def _cvtAudio(fileName:str,
                  fromType:str= '.mp3',
@@ -224,19 +215,12 @@ class OBSObserver:
 
     def audioExtraction(self,epn):
         """Audio Extraction out of current Episode Video File"""
-        
-        DM.createFolder(f'{PATHS.audio}{self.current_lp_data._getName()}\\')
-        AFX.extractAudio(self.current_lp_data._getEpisodeEx(-1,'path'),f"{PATHS.audio}{self.current_lp_data._getName()}\\{self.current_lp_data._getEpisodeCount()}_{self.current_lp_data._getName()}_track.mp3")
+        ep = self.lpf.get_episode(-1)
+        DM.createFolder(f'{PATHS.audio}{self.lpf.name}\\')
+        AFX.extractAudio(ep.video_path,f"{PATHS.audio}{self.lpf.name}\\{self.lpf.episode_count}_{self.lpf.name}_track.mp3")
+        ep.status += 4
 
-        self.current_lp_data._setEpisode(
-            epn - 1,
-            'status',
-            self.current_lp_data._getEpisodeEx(epn - 1,'status') + 4 # TODO : Use the new ST values
-            )
-        self.current_lp_data._setEpisode(
-            epn - 1,
-            'audioFilePath',
-            f"{PATHS.audio}{self.current_lp_data._getName()}\\{epn}_{self.current_lp_data._getName()}_track.mp3"
-            )
-        self.current_lp_data.save()
+        ep.audio_path = f"{PATHS.audio}{self.lpf.name}\\{epn}_{self.lpf.name}_track.mp3"
+
+        self.lpf.save()
 
