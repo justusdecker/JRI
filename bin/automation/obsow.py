@@ -30,6 +30,7 @@ class OBSObserver:
     login_thread: bool = False # is false if connection establishment is all right otherwise true
     
     def __init__(self, lets_play_file: LetsPlayFile):
+        self.threads = []
         self.pressed_key = ''
         self.jtg: ThumbnailGenerator = ThumbnailGenerator()
         self.options = {
@@ -39,10 +40,13 @@ class OBSObserver:
             'timeout': SETTINGS.obs_timeout
             }
         self.connect()
-        self.lpf: LetsPlayFile = lets_play_file
+        self.load_lpf(lets_play_file)
         self.kb_pressed = False
         self.ignored_warnings = 0
-    
+    def load_lpf(self,lpf: LetsPlayFile):
+        if not self.is_recording and not self.threads_active:
+            self.lpf: LetsPlayFile = lpf
+            print(f'updated lets play to {lpf.name}')
     def connect(self):
         """
         Establish Connection to OBS Webserver
@@ -97,6 +101,12 @@ class OBSObserver:
         elif ir: return (0,128,0)
         else: return (255,255,255)
     
+    @property
+    def threads_active(self) -> bool:
+        if self.threads:
+            return any([i.is_alive() for i in self.threads])
+        return self.threads
+    
     def get_rtime_as_int(self,t = '00:00:00.000') -> int:
         """ 
         Converts a "hh:mm:ss:{ms}" like string to an integer
@@ -134,9 +144,13 @@ class OBSObserver:
             ep.thumbnail_path = f"{PATHS.thumbnail}{self.lpf.name}\\{self.lpf.episode_count}_{self.lpf.name}_Thumbnail.png"
             self.lpf.save()
             
-            #! VERY UNSAFE Implementation of threads! Make sure that threads are accessible to stop the app from moving on!
-            Thread(target=self.thumbnailGeneration,args=[self.lpf.episode_count]).start()
-            Thread(target=self.audioExtraction,args=[self.lpf.episode_count]).start()
+            
+            self.threads = [
+                Thread(target=self.thumbnailGeneration,args=[self.lpf.episode_count]),
+                Thread(target=self.audioExtraction,args=[self.lpf.episode_count])
+                ]
+            for i in self.threads:
+                i.start()
             self.is_recording = False
             self.warnings = False
 

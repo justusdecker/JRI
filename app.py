@@ -15,13 +15,13 @@ from bin.automation.obsow import OBSObserver
 from pygame.image import load as img_load, save as img_save
 from pygame.transform import scale
 
-for file in listdir('static\\img\\temps'):
+"""for file in listdir('static\\img\\temps'):
     remove( f'static\\img\\temps\\{file}')
 for lpf in [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]:
     for ep in lpf.episodes:
         if ep.thumbnail_path:
             if isfile(ep.thumbnail_path):
-                img_save(scale(img_load(ep.thumbnail_path),(384,216)),f'static\\img\\temps\\{lpf.name}_{ep.episode_number}.png')
+                img_save(scale(img_load(ep.thumbnail_path),(384,216)),f'static\\img\\temps\\{lpf.name}_{ep.episode_number}.png')"""
 def rgb2hex(rgb: tuple[int]) -> str:
     r,g,b = rgb
     return f"#{r:02x}{g:02x}{b:02x}"
@@ -35,7 +35,6 @@ def get_lets_play(lpf: str | None = None):
     if lpf_files:
         return lpf_files[0]
     
-
 OBS = OBSObserver(get_lets_play()) if [file for file in listdir(PATHS.letsplay) if file.endswith('.json')] else None
 
 app = Flask(__name__)
@@ -126,16 +125,27 @@ def option_change(lp_name:str) -> str:
 def set_settings():
     return "WIP"
 
-@app.route('/record/set-letsplay')
+@app.route('/picker', methods=['GET', 'POST'])
 def set_lets_play():
-    return "WIP"
+    
+    if request.method == "POST" and 'lp' in request.form:
+        OBS.load_lpf(LetsPlayFile(PATHS.letsplay + request.form['lp']))
+        
+    site = render_template('lets_play_picker.html')
+    TMP = '<form method="POST">'
+    for idx, lp in enumerate(listdir(PATHS.letsplay)):
+       TMP += f'<p><input type="radio" name="lp" value="{lp}">{lp}</p>'
+    site = site.replace('__LETS_PLAY_GO_HERE__', TMP) + '<p><input type="submit"></p></form>'
+    return site
 
 @app.route('/record')
 def get_recording_status():
     OBS.update()
     temp = render_template('lets_play_record.html')
     col = rgb2hex(OBS.color)
-   
+    
+    
+        
     return temp.replace('__TIME_CODE__',f'<h1 style="color:{col};">{OBS.timecode}</h1>')
 
 
