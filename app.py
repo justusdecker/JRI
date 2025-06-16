@@ -79,6 +79,7 @@ def video_show():
         for ep in lp.episodes:
             i += 1
             TMP_EPISODE = EPISODE
+            _is_in = []
             for before, after in (
                 ('__EP_VIDEO_EXISTS__','🟢' if isfile(ep.video_path) else '🔴'),
                 ('__EP_TRACK_1_EXISTS__','🟢' if ep.audio_path else '🔴'),#! Missing Attr Track 2
@@ -94,8 +95,8 @@ def video_show():
                 ('__ID__',f'{i}')
             ):
                 TMP_EPISODE = TMP_EPISODE.replace(before, after)
-            
-            if not search or search in TMP_EPISODE :
+                _is_in.append(after) #nasty but it works
+            if not search or search.lower() in "".join(_is_in).lower():
                 TMP_OP_STRING += TMP_EPISODE + '\n'
 
         
