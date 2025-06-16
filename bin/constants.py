@@ -6,20 +6,38 @@ NATIVE_FILE_EXTENSION_LPF = '.lpf'
 
 DAVINCIRESOLVESCRIPTFOLDER = "C:\\Users\\Justus\\AppData\\Roaming\\Blackmagic Design\\DaVinci Resolve\\Support\\Fusion\\Scripts\\Edit"
 
-from os import getlogin
-
-USERNAME = getlogin()
-
-ABSOLUTE_PATH = f'C:\\Users\\{USERNAME}\\jri_data\\'
-
-AUDIO_PATH = f'{ABSOLUTE_PATH}audio\\'#!Switch to if all eps are gone
-LETSPLAY_PATH = f'{ABSOLUTE_PATH}lps\\'
-THUMBNAIL_PATH = f'{ABSOLUTE_PATH}thumbs\\'
-LOGOS_PATH = f'{ABSOLUTE_PATH}logos\\'
-FONT_PATH = f'{ABSOLUTE_PATH}fonts\\'
-LOWRES_PATH = f'{ABSOLUTE_PATH}lowres\\'
-ATT_PATH = f'{ABSOLUTE_PATH}att\\'
-WAVEFORM_PATH = f'{ABSOLUTE_PATH}wv\\'
+class Paths:
+    """
+    Created for issue #31 this class will result in less imports
+    """
+    def __init__(self):
+        from os import getlogin
+        self.root = f'C:\\Users\\{getlogin()}\\jri_data\\'
+        del getlogin
+    @property
+    def audio(self) -> str:
+        return f'{self.root}audio\\'
+    @property
+    def letsplay(self) -> str:
+        return f'{self.root}lps\\'
+    @property
+    def thumbnail(self) -> str:
+        return f'{self.root}thumbs\\'
+    @property
+    def logos(self) -> str:
+        return f'{self.root}logos\\'
+    @property
+    def fonts(self) -> str:
+        return f'{self.root}fonts\\'
+    @property
+    def lowres(self) -> str:
+        return f'{self.root}lowres\\'
+    @property
+    def att(self) -> str:
+        return f'{self.root}att\\'
+    @property
+    def wv(self) -> str:
+        return f'{self.root}wv\\'
 
 DEFAULT_LPF_FILE = {
     "name": "",
