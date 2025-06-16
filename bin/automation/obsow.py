@@ -1,5 +1,5 @@
 from bin.settings import SETTINGS
-from bin.letsPlayFile import LetsPlayFile
+from bin.letsplay_file import LetsPlayFile
 import obsws_python as obsws
 from websocket import _exceptions
 from subprocess import call as callSubProcess

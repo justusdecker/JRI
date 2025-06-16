@@ -88,11 +88,16 @@ class ThumbnailAutomationData:
         self.image_tad_instances: list[TADImage] = [TADImage(i) for i in self.data.get('images',[])]
     
     def asdict(self) -> dict:
+        #! Some data is missing for random rotating images and stuff!
         return {
             'text_epNum': {
                 'font': self.font,
                 'align': self.text_align,
-                'size': self.font_size
+                'size': self.font_size,
+                'pos': self.text_pos,
+                'rot': self.text_rot,
+                'cropping': self.text_cropping,
+                'outline': self.text_outline
             },
             'images': [i.asdict() for i in self.image_tad_instances]
         }
@@ -104,8 +109,8 @@ class ThumbnailAutomationData:
     def image_count(self) -> int:
         return len(self.image_tad_instances)
     @property
-    def __images(self) -> dict:
-        return self.data.get('images',[])
+    def images(self) -> list[TADImage]:
+        return self.image_tad_instances
     @property
     def __epnum(self) -> dict:
         return self.data.get('text_epNum',{}) #! Add a default value
@@ -255,8 +260,8 @@ class LetsPlayFile:
     def tags(self,value: list[str]):
         self.data['tags'] = value
     @property
-    def tad(self) -> dict:
-        return self.data.get('thumbnailAutomationData',{}) #! INSERT HERE A DEFAULT
+    def tad(self) -> ThumbnailAutomationData:
+        return ThumbnailAutomationData(self.data.get('thumbnailAutomationData',{}))
     @property
     def icon_path(self) -> str:
         return self.data.get('icon',"")
@@ -281,36 +286,20 @@ class LetsPlayFile:
         return self.get_episode(index)[key]
     def get_key_exist_in_episode(self,index: int, key: str):
         return key in self.get_episode(index)
-    
-    
-    def _setEpisode(self,episodeId:int,key:str,value:list):
-        self.data['episodes'][episodeId][key] = value
-        
-    def _setThumbnailAutomationData(self,key:str,value):
-        if not self._isIn('thumbnailAutomationData',self.data):
-            raise Exception('No TAD')
-        self.data['thumbnailAutomationData'][key] = value
-    
-    def _setThumbnailAutomationDataFont(self,value:str):
-        if not self._isIn('thumbnailAutomationData',self.data):
-            raise Exception('No TAD')
-        self.data['thumbnailAutomationData']['text_epNum']['font'] = value
-        
-    def _setThumbnailAutomationDataLogo(self,value:str):
-        if not self._isIn('thumbnailAutomationData',self.data):
-            raise Exception('No TAD')
-        self.data['thumbnailAutomationData']['images'][0]['path'] = value
+    def set_episode(self,index: int, key: str, value: Any) -> None:
+        self.episodes[index][key] = value
+    def set_tad(self,attr: str, value: Any) -> None:
+        self.tad.__setattr__(attr, value)
+    def set_image_tad(self,index:int, attr: str, value: Any) -> None:
+        self.tad.images[index].__setattr__(attr,value)
+
 
     
-    
-    def _isIn(self,key:str='',data:dict={}):
-        return key in data
-    
     def createBackUp(self):
-        DM.createFolder(f'{ABSOLUTE_PATH}')
-        DM.createFolder(f'{LETSPLAY_PATH}backups')
+        DM.createFolder(f'{PATHS.root}')
+        DM.createFolder(f'{PATHS.letsplay}backups')
         fName,ending = self.filePath.split('\\')[-1].split('.')
-        DM.save(f"{LETSPLAY_PATH}backups\\{fName}_backup.{ending}",self.data)
+        DM.save(f"{PATHS.letsplay}backups\\{fName}_backup.{ending}",self.data)
     def load(self):
         try:
             self.data: dict = DM.loads(self.filePath)
@@ -370,14 +359,14 @@ class LetsPlayComp:
         self.letsPlayFiles = []
         self.episodesInQueue = []
 
-        DIR = listdir(LETSPLAY_PATH)
+        DIR = listdir(PATHS.letsplay)
         DIR = [f for f in DIR if f.endswith('.json')]
         if DIR.__len__() == 0:
             return False #! Program crashed
         _deletableFiles = []
         for letsPlayIndex, filePath in enumerate(DIR):
             
-            LPF = LetsPlayFile(LETSPLAY_PATH + filePath)
+            LPF = LetsPlayFile(PATHS.letsplay + filePath)
             self.letsPlayFiles.append(LPF)
             for episodeId in range(LPF.episode_count):
                 if LPF.get_episode_ex(episodeId,'status') < 31: # TODO : Use the new ST values
@@ -387,7 +376,7 @@ class LetsPlayComp:
                         LPF.get_episode_ex(episodeId,EC.ORIGINAL_AUDIO_PATH),
                         LPF.get_episode_ex(episodeId,EC.ORIGINAL_VIDEO_PATH),
                         LPF.get_episode_ex(episodeId,EC.THUMBNAIL_PATH),
-                        f'{AUDIO_PATH}{LPF._getName()}\\comps\\{episodeId+1}_comp.mp3'
+                        f'{PATHS.audio}{LPF.name()}\\comps\\{episodeId+1}_comp.mp3'
                         ]:
                         if DM.existFile(p):
                             _deletableFiles.append(p)
@@ -456,7 +445,7 @@ class LetsPlayComp:
         self.getLPF()._setEpisode(self.getEpisodeIndex(),key,value)
 
     def getThumbnailPath(self):
-        return f'{THUMBNAIL_PATH}{self.getCuLp(LC.NAME)}\\{self.getCuEp(EC.EPISODE_NUMBER)}_{self.getCuLp(LC.NAME)}_Thumbnail.png'
+        return f'{PATHS.thumbnail}{self.getCuLp(LC.NAME)}\\{self.getCuEp(EC.EPISODE_NUMBER)}_{self.getCuLp(LC.NAME)}_Thumbnail.png'
     
     def getVideoPath(self):
         return self.getCuEp(EC.ORIGINAL_VIDEO_PATH)
@@ -465,10 +454,10 @@ class LetsPlayComp:
         return self.getCuEp(EC.ORIGINAL_AUDIO_PATH)
 
     def getCompPathWOF(self):
-        return f'{AUDIO_PATH}{self.getCuLp(LC.NAME)}\\comps\\'
+        return f'{PATHS.audio}{self.getCuLp(LC.NAME)}\\comps\\'
 
     def getCompPath(self):
-        return f'{AUDIO_PATH}{self.getCuLp(LC.NAME)}\\comps\\{self.getCuEp(EC.EPISODE_NUMBER)}_comp.mp3'
+        return f'{PATHS.audio}{self.getCuLp(LC.NAME)}\\comps\\{self.getCuEp(EC.EPISODE_NUMBER)}_comp.mp3'
     
     def setTAD(self,data):
         self.getLPF().data[LC.THUMBNAIL_AUTOMATION_DATA] = data
@@ -569,9 +558,9 @@ class LetsPlayComp:
             _path += i + '\\'
         return [
             f"explorer {self.getLPF().filePath}",
-            f"explorer {AUDIO_PATH}{self.getCuLp(LC.NAME)}",
+            f"explorer {PATHS.audio}{self.getCuLp(LC.NAME)}",
             f"explorer {_temp}",
-            f"explorer {THUMBNAIL_PATH}{self.getCuLp(LC.NAME)}",
+            f"explorer {PATHS.thumbnail}{self.getCuLp(LC.NAME)}",
         ]
     
     def updateLetsPlaySettings(self,*_):
@@ -588,4 +577,4 @@ class LetsPlayComp:
  
  
 def createDefaultLPF(*_):
-    DM.save(LETSPLAY_PATH + 'default.json',DEFAULT_LPF_FILE)
+    DM.save(PATHS.letsplay + 'default.json',DEFAULT_LPF_FILE)
