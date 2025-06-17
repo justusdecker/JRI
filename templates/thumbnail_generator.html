@@ -1,0 +1,80 @@
+{% extends "default.html" %}
+
+{% block title %}
+Thumbnail Generator
+{% endblock %}
+
+{% block c_content %}
+
+<img src="../static/img/temps/thumbnail_generator_tmp.png">
+<form action="/thumbnail-generator">
+    <table>
+        <tr><td><h2>Text</h2></td></tr>
+        <tr>
+            <td>Position: </td>
+            <td><input id="text_p_x" type="number" placeholder="X"><input id="text_p_y" type="number" placeholder="Y"><br></td>
+        </tr>
+        <tr>
+            <td>Font: </td>
+            <td><input id="text_font" type="text" placeholder="X"><br></td>
+        </tr>
+        <tr>
+            <td>Align: </td>
+            <td>
+                <select name="text_align" id="">
+                    <option value="align_center">center</option>
+                    <option value="align_left">left</option>
+                    <option value="align_right">right</option>
+                </select>
+                <br></td>
+        </tr>
+
+        <tr><td><h2>Background</h2></td></tr>
+        <tr>
+            <td>Position: </td>
+            <td><input id="p_x" type="number" placeholder="X"><input id="p_y" type="number" placeholder="Y"><br></td>
+        </tr>
+        <tr>
+            <td>Random position: </td>
+            <td><input id="rp_x" type="number" placeholder="X"><input id="rp_y" type="number" placeholder="Y"><br></td>
+        </tr>
+        <tr>
+            <td>Rotation: </td>
+            <td><input id="r" type="number" placeholder="ROT"><br></td>
+        </tr>
+        <tr>
+            <td>Random rotation: </td>
+            <td><input id="rr_x" type="number" placeholder="X"><input id="rr_y" type="number" placeholder="Y"><br></td>
+        </tr>
+
+        <tr>
+            <td>Scale: </td>
+            <td><input id="s" type="number" placeholder="S"><br></td>
+        </tr>
+
+        <tr>
+            <td>Random Scale: </td>
+            <td><input id="rs_x" type="number" placeholder="X"><input id="rs_y" type="number" placeholder="Y"><br></td>
+        </tr>
+
+        <tr>
+            <td>Random Scale: </td>
+            <td><input id="hue" type="number" placeholder="H"><input id="sat" type="number" placeholder="S"><input id="lig" type="number" placeholder="V"><br></td>
+        </tr>
+
+        <tr>
+            <td>Center: </td>
+            <td><input id="center" type="checkbox" ><br></td>
+        </tr>
+
+        <tr>
+            <td>Image: </td>
+            <td>
+                <input name="background" type="file" size="50" accept=".png"> 
+            </td>
+        </tr>
+
+    </table>
+    <button type="submit"><i>SUBMIT</i></button>
+</form>
+{% endblock %}

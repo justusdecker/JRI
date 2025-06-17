@@ -176,5 +176,9 @@ def get_recording_status():
 def help_site():
     return render_template('help.html')
 
+@app.route('/thumbnail-generator')
+def thumbnail_gen():
+    return render_template('thumbnail_generator.html')
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
