@@ -88,3 +88,9 @@ textarea {
     border-radius: 3px;
     width: 20vw;
 }
+
+input[type=text] , input[type=number] {
+    background-color: #363636;
+    color: #ffffff;
+}
+
