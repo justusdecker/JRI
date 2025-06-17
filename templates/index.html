@@ -1,26 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JRI Main</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="no-bullet">
-        <a class="no-bullet-a" href="/all_videos">To your videos</a>
-        <a class="no-bullet-a" href="/record">Record</a>
-        <a class="no-bullet-a" href="/picker">Picker</a>
-        
-    </div>
-    <br><br>
-    <p align="center"><img class="centered_image" src="static/img/logo.png"/></p>
-    <h1>Welcome to JRI!</h1>
-    <p>This Application is currently in Alpha some functions may not work properly, can cause crashes or data loss!</p>
+{% extends "default.html" %}
 
-    
-
-    
-    
-</body>
-</html>
+{% block title %}Main{% endblock %}

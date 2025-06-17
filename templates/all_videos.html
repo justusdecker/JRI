@@ -1,33 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JRI Videos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="../static/all_videos.js"></script>
-</head>
-<body>
-    <div class="no-bullet">
-        <a class="no-bullet-a" href="../all_videos">To your videos</a>
-        <a class="no-bullet-a" href="../record">Record</a>
-        <a class="no-bullet-a" href="/picker">Picker</a>
-    </div>
-    <br><br>
-    <h1>Welcome to JRI!</h1>
-    <form action="/all_videos">
-        <input id="searcher" type="text" placeholder="Search.." name="search">
-        <button type="submit"><i class="fa fa-search">SUBMIT</i></button>
-    </form>
+{% extends "default.html" %}
 
-    <table>
-        <tr>
-            <th style="background-color:#242424;">Episode Number</th>
-            <th style="background-color:#242424;">Stats</th>
-            <th style="background-color:#242424;">Thumbnail</th>
-            <th style="background-color:#242424;">Paths</th>
-        </tr>
-        __VIDEOS_GO_HERE__
-    </table>
-</body>
-</html>
+{% block title %}
+Videos
+{% endblock %}
+
+{% block c_content %}
+<form action="/all_videos">
+    <input id="searcher" type="text" placeholder="Search.." name="search">
+    <button type="submit"><i class="fa fa-search">SUBMIT</i></button>
+</form>
+
+<table>
+    <tr>
+        <th style="background-color:#242424;">Episode Number</th>
+        <th style="background-color:#242424;">Stats</th>
+        <th style="background-color:#242424;">Thumbnail</th>
+        <th style="background-color:#242424;">Paths</th>
+    </tr>
+    __VIDEOS_GO_HERE__
+</table>
+{% endblock %}
+
+{% block scripts %}
+<script src="../static/all_videos.js"></script>
+{% endblock %}
