@@ -66,7 +66,7 @@ This setter updates the 'gameName' entry within the instance's
 
 Title ending is used for yt uploads.
 
-> [NOTE] `self.data['episode']['title']` + `self.data['titleEnding']`
+> [NOTE] `self.data['episode']['title']` + `self.data`['titleEnding']`
 
 #### set
 
