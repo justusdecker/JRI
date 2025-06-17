@@ -1,4 +1,4 @@
-from bin.dataManagement import DM,UnpackManager
+from bin.data_management import DM
 from pygame import Surface,SRCALPHA,Color
 from pygame.image import save as img_save, load as img_load
 
@@ -357,11 +357,11 @@ class ThumbnailGenerator:
             if rs != 0:#? The Random Values are 0 so dont add data
                 s = s + rs
             
-            hue = UnpackManager('hue',bg_data,0)
+            hue = bg_data.get('hue', 0)
             
-            saturation = UnpackManager('saturation',bg_data,1)
+            saturation = bg_data.get('saturation', 0)
             
-            lightness = UnpackManager('lightness',bg_data,1)
+            lightness = bg_data.get('lightness', 0)
             
             w,h = surf.get_size()
             

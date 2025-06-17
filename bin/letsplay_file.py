@@ -377,19 +377,21 @@ class LetsPlayFile:
 
     
     def createBackUp(self):
-        DM.createFolder(f'{PATHS.root}')
-        DM.createFolder(f'{PATHS.letsplay}backups')
+        DM.create_folder(f'{PATHS.root}')
+        DM.create_folder(f'{PATHS.letsplay}backups')
         fName,ending = self.filePath.split('\\')[-1].split('.')
         DM.save(f"{PATHS.letsplay}backups\\{fName}_backup.{ending}",self.data)
     def load(self):
         try:
             self.data: dict = DM.loads(self.filePath)
             self.createBackUp()
-        except:
-            fName,ending = self.filePath.split('\\')[-1].split('.')
+        except Exception as E:
+            print(E)
+            raise Exception("Something went wrong")
+            #fName,ending = self.filePath.split('\\')[-1].split('.')
             
-            self.data: dict = DM.loads(f"data\\backups\\{fName}_backup.{ending}",self.data)
-            DM.save()
+            #self.data: dict = DM.loads(f"data\\backups\\{fName}_backup.{ending}")
+            #DM.save()
     def save(self):
         DM.save(self.filePath,self.data)
 

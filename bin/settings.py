@@ -2,7 +2,7 @@ from bin.data_management import DM
 
 class Settings:
     def __init__(self) -> None:
-        if not DM.existFile('settings.json'):
+        if not DM.exist_file('settings.json'):
             DM.save('settings.json',
                  self.__get())
         self.__settings: dict = DM.loads('settings.json')

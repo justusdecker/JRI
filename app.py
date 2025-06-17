@@ -27,6 +27,7 @@ def rgb2hex(rgb: tuple[int]) -> str:
     return f"#{r:02x}{g:02x}{b:02x}"
 
 def get_lets_play(lpf: str | None = None):
+    t= [(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     lpf_files = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     if lpf is not None:
         for lp in lpf_files:

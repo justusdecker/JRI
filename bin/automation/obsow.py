@@ -3,7 +3,7 @@ from bin.letsplay_file import LetsPlayFile
 import obsws_python as obsws
 from websocket import _exceptions
 from subprocess import call as callSubProcess
-from bin.dataManagement import DM
+from bin.data_management import DM
 from bin.fx.audio import AFX
 from threading import Thread
 from keyboard import is_pressed
