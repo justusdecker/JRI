@@ -104,6 +104,10 @@ def video_show():
         
     return site.replace("__VIDEOS_GO_HERE__",OUTPUT_STRING)
 
+@app.route('/create')
+def create():
+    return render_template('lets_play_create.html')
+
 @app.route('/lets-play/<lp_title>/<ep_id>')
 def get_episode(lp_title: str, ep_id: str):
     if not ep_id.isdecimal():
@@ -125,6 +129,8 @@ def option_change(lp_name:str) -> str:
 @app.route('/settings')
 def set_settings():
     return "WIP"
+
+
 
 @app.route('/picker', methods=['GET', 'POST'])
 def set_lets_play():
