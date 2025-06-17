@@ -44,6 +44,9 @@ class OBSObserver:
         self.kb_pressed = False
         self.ignored_warnings = 0
     def load_lpf(self,lpf: LetsPlayFile):
+        if not isinstance(lpf,LetsPlayFile): 
+            print(f'given item is not a lpf')
+            return
         if not self.is_recording and not self.threads_active:
             self.lpf: LetsPlayFile = lpf
             print(f'updated lets play to {lpf.name}')

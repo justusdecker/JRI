@@ -7,6 +7,7 @@ from bin.constants import PATHS
 from os import listdir
 from typing import Any
 from pygame import key,K_LCTRL
+import hashlib
 class TADImage: 
     """
     ThumbnailAutomationData Image Data
@@ -166,6 +167,8 @@ class ThumbnailAutomationData:
                             [ 50, 50, 50 ]]
             })
 
+
+
 class Episode:
     def __init__(self,data:dict) -> None:
         self.data = data
@@ -303,7 +306,11 @@ class LetsPlayFile:
         
     # In 1.14.77 get / set methods are mostly replaced by property & setter if possible
     # So the code will be much easier to maintain.
-
+    @property
+    def hash(self) -> str:
+        h = hashlib.new('SHA256')
+        h.update(self.name.encode())
+        return h.hexdigest()
     @property
     def episodes(self) -> list[Episode]:
         return [Episode(i) for i in self.data['episodes']]
@@ -394,6 +401,19 @@ class LetsPlayFile:
             #DM.save()
     def save(self):
         DM.save(self.filePath,self.data)
+
+def get_lpf_by_hash(lpf: list[LetsPlayFile],item: str) -> LetsPlayFile | None:
+    hashmap = set()
+    _ret = None
+    for lp in lpf:
+        
+        if lp in hashmap:
+            raise NameError('Lets Play duplicate found!')
+        else:
+            hashmap.add(lp.hash)
+            if item == lp.hash:
+                _ret = lp
+    return _ret
 
 
 

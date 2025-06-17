@@ -1,12 +1,12 @@
 from flask import Flask
 
 
-from bin.letsplay_file import LetsPlayFile
+from bin.letsplay_file import LetsPlayFile,get_lpf_by_hash
 from bin.constants import PATHS
 from os import listdir,remove
 from os.path import isfile
 
-from flask import render_template, request
+from flask import render_template, request, redirect
 from json import load, dumps
 from markdown import markdown
 
@@ -14,7 +14,6 @@ from bin.automation.obsow import OBSObserver
 
 from pygame.image import load as img_load, save as img_save
 from pygame.transform import scale
-
 from bin.convert_help import whelp
 whelp()
 
@@ -30,8 +29,8 @@ def rgb2hex(rgb: tuple[int]) -> str:
     return f"#{r:02x}{g:02x}{b:02x}"
 
 def get_lets_play(lpf: str | None = None):
-    t= [(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     lpf_files = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
+    
     if lpf is not None:
         for lp in lpf_files:
             if lp.name == lpf:
@@ -111,6 +110,19 @@ def video_show():
 def create():
     return render_template('lets_play_create.html')
 
+@app.route('/edit')
+def edit():
+    return render_template('lets_play_edit.html')
+
+@app.route('/delete')
+def delete():
+
+    """
+    ! DELETE CODE HERE
+    ? GET QUERY 'lp name'
+    """
+    return redirect('/')
+
 @app.route('/lets-play/<lp_title>/<ep_id>')
 def get_episode(lp_title: str, ep_id: str):
     if not ep_id.isdecimal():
@@ -137,14 +149,16 @@ def set_settings():
 
 @app.route('/picker', methods=['GET', 'POST'])
 def set_lets_play():
-    
+    lpfs = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     if request.method == "POST" and 'lp' in request.form:
-        OBS.load_lpf(LetsPlayFile(PATHS.letsplay + request.form['lp']))
+        print(request.form['lp'])
+        
+        OBS.load_lpf(get_lpf_by_hash(lpfs,request.form['lp']))
         
     site = render_template('lets_play_picker.html')
     TMP = '<form method="POST">'
-    for idx, lp in enumerate(listdir(PATHS.letsplay)):
-       TMP += f'<p><input type="radio" name="lp" value="{lp}">{lp}</p>'
+    for idx, lp in enumerate(lpfs):
+       TMP += f'<p><input type="radio" name="lp" value="{lp.hash}">{lp.name}</p>'
     site = site.replace('__LETS_PLAY_GO_HERE__', TMP) + '<p><input type="submit"></p></form>'
     return site
 
