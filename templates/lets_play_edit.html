@@ -1,0 +1,33 @@
+{% extends "default.html" %}
+
+{% block title %}
+Create a Lets Play
+{% endblock %}
+
+{% block c_content %}
+<form action="/create">
+    <table>
+        <tr>
+            <td>name: </td>
+            <td><input id="name" type="text" placeholder="__NAME__"><br></td>
+        </tr>
+        <tr>
+            <td>icon path: </td>
+            <td><input id="icon_path" type="text" placeholder="__ICON_PATH__"><br></td>
+        </tr>
+        <tr>
+            <td>game name: </td>
+            <td><input id="gameName" type="text" placeholder="__GAME_NAME__"><br></td>
+        </tr>
+        <tr>
+            <td>title ending: </td>
+            <td><input id="titleEnding" type="text" placeholder="titleEnding"><br></td>
+        </tr>
+        <tr>
+            <td>ep len in minutes: </td>
+            <td><input type="range" min="10" max="60" value="15" class="slider" id="myRange"><br></td>
+        </tr>
+    </table>
+    <button type="submit"><i>SUBMIT</i></button>
+</form>
+{% endblock %}

@@ -1,16 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JRI Main</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <p align="center"><img class="centered_image" src="static/img/logo.png"/></p>
-    <h1>Welcome to JRI!</h1>
-    <p>This Application is currently in Alpha some functions may not work properly, can cause crashes or data loss!</p>
-    <a href="/">Back to main</a>
-    
-</body>
-</html>
+{% extends "default.html" %}
+
+{% block title %}
+Create a Lets Play
+{% endblock %}
+
+{% block c_content %}
+<h1>Welcome to the JRI WIKI</h1>
+<p><a href="#you-need-the-following-libs-installed">YOU NEED THIS</a></p>
+<h1>You need the following libs installed</h1>
+<blockquote>
+<p>[NOTE]
+ some librarys may be added in the future!</p>
+</blockquote>
+<ul>
+<li>flask</li>
+<li>moviepy</li>
+<li>obsws-python</li>
+<li>colorsys</li>
+<li>pygame-ce</li>
+</ul>
+<h1>Lets Play File</h1>
+<blockquote>
+<p>This class contains the recording data &amp; lets play information.</p>
+</blockquote>
+<h2>Propertys</h2>
+<h3>episodes</h3>
+<p>This property iterates through the 'episodes'
+<code>data</code> dictionary and converts each entry into an <code>Episode</code> object.</p>
+<blockquote>
+<p>Returns:</p>
+<p>list[Episode]: A list containing <code>Episode</code> objects, each initialized
+with data from the corresponding entry in <code>self.data['episodes']</code>.</p>
+</blockquote>
+<h3>episode_count</h3>
+<blockquote>
+<p>Returns the length of self.data['episodes']</p>
+</blockquote>
+<h3>episode_length</h3>
+<h4>set</h4>
+<p>This setter updates the 'episode_length' entry within the instance's
+    <code>data</code> dictionary with the provided integer value.</p>
+<blockquote>
+<p>Args:
+value (int): The integer value to set as the episode length.</p>
+</blockquote>
+<h4>get</h4>
+<blockquote>
+<p>Returns self.data['episodeLength']</p>
+</blockquote>
+<h3>game_name</h3>
+<h4>set</h4>
+<p>This setter updates the 'gameName' entry within the instance's
+    <code>data</code> dictionary with the provided string value.</p>
+<blockquote>
+<p>Args:
+value (str): The string value to set as the game name.</p>
+</blockquote>
+<h4>get</h4>
+<blockquote>
+<p>Returns self.data['gameName']</p>
+</blockquote>
+<h3>title_ending</h3>
+<p>Title ending is used for yt uploads.</p>
+<blockquote>
+<p>[NOTE] <code>self.data['episode']['title']</code> + <code>self.data['titleEnding']</code></p>
+</blockquote>
+<h4>set</h4>
+<p>This setter updates the 'gameName' entry within the instance's
+    <code>data</code> dictionary with the provided string value.</p>
+<blockquote>
+<p>Args:
+value (str): The string value to set as the game name.</p>
+</blockquote>
+<h4>get</h4>
+<blockquote>
+<p>Returns self.data['gameName']</p>
+</blockquote>
+<h3>description</h3>
+<p>Description is used for yt uploads.</p>
+<h4>set</h4>
+<p>This setter updates the 'description' entry within the instance's
+    <code>data</code> dictionary with the provided string value.</p>
+<blockquote>
+<p>Args:
+value (str): The string value to set as the description.</p>
+</blockquote>
+<h4>get</h4>
+<blockquote>
+<p>Returns self.data['description']</p>
+</blockquote>
+{% endblock %}
+{% block css %}<link rel="stylesheet" href="{{ url_for('static', filename='help_style.css') }}">{% endblock %}

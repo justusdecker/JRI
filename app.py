@@ -15,6 +15,9 @@ from bin.automation.obsow import OBSObserver
 from pygame.image import load as img_load, save as img_save
 from pygame.transform import scale
 
+from bin.convert_help import whelp
+whelp()
+
 """for file in listdir('static\\img\\temps'):
     remove( f'static\\img\\temps\\{file}')
 for lpf in [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]:
@@ -155,7 +158,9 @@ def get_recording_status():
         
     return temp.replace('__TIME_CODE__',f'<h1 style="color:{col};">{OBS.timecode}</h1>')
 
-
+@app.route('/help')
+def help_site():
+    return render_template('help.html')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
