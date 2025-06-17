@@ -91,7 +91,7 @@ class ThumbnailAutomationData:
     def asdict(self) -> dict:
         #! Some data is missing for random rotating images and stuff!
         return {
-            'text_epNum': {
+            'text': {
                 'font': self.font,
                 'align': self.text_align,
                 'size': self.font_size,
@@ -168,7 +168,6 @@ class ThumbnailAutomationData:
             })
 
 
-
 class Episode:
     def __init__(self,data:dict) -> None:
         self.data = data
@@ -176,14 +175,15 @@ class Episode:
     def asdict(self) -> dict:
         return {
             'path': self.video_path,
-            'episodeNumber': self.episode_number,
+            'episode_number': self.episode_number,
             'status': self.status,
             'markers': self.markers,
-            'episodeTitle': self.title,
-            'thumbnailPath': self.thumbnail_path,
-            'thumbnailFrame': self.frame,
-            'uploadAt': self.upload_at,
-            'audioFilePath': self.audio_path
+            'episode_title': self.title,
+            'thumbnail_path': self.thumbnail_path,
+            'thumbnail_frame': self.frame,
+            'upload_at': self.upload_at,
+            'audio_file_path': self.audio_path,
+            'flags': None
         }
     @property
     def video_path(self) -> str:
@@ -306,6 +306,18 @@ class LetsPlayFile:
         
     # In 1.14.77 get / set methods are mostly replaced by property & setter if possible
     # So the code will be much easier to maintain.
+    def asdict(self) -> dict:
+        return {
+            'name': self.name,
+            'episode_length': self.episode_length,
+            'game_name': self.game_name,
+            'title_ending': self.title_ending,
+            'description': self.description,
+            'tags': self.tags,
+            'episodes': [i.asdict() for i in self.episodes],
+            'tad': self.tad.asdict()
+        }
+    
     @property
     def hash(self) -> str:
         h = hashlib.new('SHA256')
@@ -325,16 +337,16 @@ class LetsPlayFile:
         self.data['episode_length'] = value
     @property
     def game_name(self) -> str:
-        return self.data.get('gameName','')
+        return self.data.get('game_name','')
     @game_name.setter
     def game_name(self,value: str):
-        self.data['gameName'] = value
+        self.data['game_name'] = value
     @property
     def title_ending(self) -> str:
-        return self.data.get('titleEnding','')
+        return self.data.get('title_ending','')
     @title_ending.setter
     def title_ending(self,value: str):
-        self.data['titleEnding'] = value
+        self.data['title_ending'] = value
     @property
     def description(self) -> str:
         return self.data.get('description','')
@@ -349,7 +361,7 @@ class LetsPlayFile:
         self.data['tags'] = value
     @property
     def tad(self) -> ThumbnailAutomationData:
-        return ThumbnailAutomationData(self.data.get('thumbnailAutomationData',{}))
+        return ThumbnailAutomationData(self.data.get('tad',{}))
     @property
     def icon_path(self) -> str:
         return self.data.get('icon',"")

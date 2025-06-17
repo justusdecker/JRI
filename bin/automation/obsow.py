@@ -206,7 +206,7 @@ class OBSObserver:
     
     
     def thumbnailGeneration(self,epn):
-        DM.createFolder(PATHS.thumbnail + self.lpf.name)
+        DM.create_folder(PATHS.thumbnail + self.lpf.name)
         self.jtg.create_thumbnail(self.lpf.episode_count,
                                  self.current_filepath,
                                  -1,
