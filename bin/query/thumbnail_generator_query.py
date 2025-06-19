@@ -117,20 +117,20 @@ class ThumbnailGeneratorQuery:
     .. hue::
         `float` the hue value of each pixel manipulation in the image
         
-        !hue
+        *hue
     .. sat::
         `float` the saturation value of each pixel manipulation in the image
         
-        !sat
+        *sat
     .. lig::
         `float` the lightness value of each pixel manipulation in the image
         
-        !lig
+        *lig
 
     .. background::
      `str` Defines the location of the background image(If not set the image will be fetched out of the video!)
      
-        !bg
+        *bg
     """
     def __init__(self,query: str):
         self.query = {}
@@ -139,6 +139,56 @@ class ThumbnailGeneratorQuery:
             if len(v) == 2:
                 self.query[v[0]] = v[1]
     
+    def asdict(self) -> dict:
+        """
+        Format the query into [LPF - TAD] like
+        """
+        return {
+            "tad": {
+                "text": {
+                    "font": self.font,
+                    "align": self.text_align,
+                    "size": self.font_size,
+                    "pos": [self.text_pos_x,self.text_pos_y],
+                    "rot": self.text_rotation,
+                    "cropping": [0,0,0,0],
+                    "outline": {
+                        "xMinus": 2,
+                        "xPlus": 2,
+                        "yMinus": 2,
+                        "yPlus": 2,
+                        "color": [
+                            [50,50,50],
+                            [14,14,14],
+                            [14,14,14],
+                            [50,50,50]
+                        ]
+                    }
+                },
+                "images": {
+                    "path": self.logo_path,
+                    "scale": self.logo_scale,
+                    "pos": [self.logo_pos_x, self.logo_pos_y],
+                    "rot": self.logo_rot,
+                    "align": self.logo_align,
+                    "cropping": [0,0,0,0]
+                    },
+                "background": {
+                    "position": [self.bg_pos_x,self.bg_pos_y],
+                    "random_position": [self.bg_rpos_x, self.bg_rpos_y],
+                    "rotation": self.bg_rot,
+                    "random_rotation": [self.bg_rrot_x,self.bg_rrot_y],
+                    "random_scale": [self.bg_rscale_x,self.bg_rscale_y],
+                    "scale": self.bg_scale,
+                    "hue": self.hue,
+                    "sat": self.sat,
+                    "lig": self.lig,
+                    "background": self.bg
+                }
+                    
+                
+            }
+        }
     # LP
     
     @property
@@ -292,7 +342,7 @@ class ThumbnailGeneratorQuery:
     def __lig(self) -> str:
         return self.query.get('lig', '')
     @property
-    def bg_lig(self) -> float:
+    def lig(self) -> float:
         return self.__lig if isnumeric(self.__lig) else 0
     @property
     def bg(self) -> str:

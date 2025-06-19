@@ -84,11 +84,60 @@ class TADImage:
     @cropping.setter
     def cropping(self,value: str):
         self.data['cropping'] = value
+
+class Background:
+    def __init__(self, data: dict):
+        self.data = data
+    
+    def asdict(self) -> dict:
+        return {
+            "position": self.position,
+            "random_position": self.random_position,
+            "rotation": self.rotation,
+            "random_rotation": self.random_rotation,
+            "random_scale": self.random_scale,
+            "scale": self.scale,
+            "hue": self.hue,
+            "sat": self.sat,
+            "lig": self.lig,
+            "background": self.background
+        }
+    
+    @property
+    def position(self) -> str:
+        return self.data.get('position','')
+    @property
+    def random_position(self) -> str:
+        return self.data.get('random_position','')
+    @property
+    def rotation(self) -> str:
+        return self.data.get('rotation','')
+    @property
+    def random_rotation(self) -> str:
+        return self.data.get('random_rotation','')
+    @property
+    def random_scale(self) -> str:
+        return self.data.get('random_scale','')
+    @property
+    def scale(self) -> str:
+        return self.data.get('scale','')
+    @property
+    def hue(self) -> str:
+        return self.data.get('hue','')
+    @property
+    def sat(self) -> str:
+        return self.data.get('sat','')
+    @property
+    def lig(self) -> str:
+        return self.data.get('lig','')
+    @property
+    def background(self) -> str:
+        return self.data.get('background','')
 class ThumbnailAutomationData:
     def __init__(self, data: dict):
         self.data = data
         self.image_tad_instances: list[TADImage] = [TADImage(i) for i in self.data.get('images',[])]
-    
+        self.background = Background(self.data.get('background'))
     def asdict(self) -> dict:
         #! Some data is missing for random rotating images and stuff!
         return {
@@ -101,7 +150,8 @@ class ThumbnailAutomationData:
                 'cropping': self.text_cropping,
                 'outline': self.text_outline
             },
-            'images': [i.asdict() for i in self.image_tad_instances]
+            'images': [i.asdict() for i in self.image_tad_instances],
+            'background': self.background.asdict()
         }
     
     def get_image(self,index: int) -> TADImage:
