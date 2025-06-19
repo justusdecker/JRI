@@ -1,3 +1,4 @@
+from bin.minfuncs import isnumeric
 class ThumbnailGeneratorQuery:
     """
     
@@ -32,40 +33,40 @@ class ThumbnailGeneratorQuery:
         
         *text_align
     .. font_s::
-        `float` The Font size
+        `int` The Font size
         
-        !font_size
+        *font_size
     .. text_r::
         `float` The Font rotation
         
-        !text_rotation
+        *text_rotation
     
     Logo
     -----
     .. logo_path:
         `str` Defines the location of the logo image
         
-        !logo_path
+        *logo_path
     .. logo_r::
         `float` The Logo rotation
         
-        !logo_rot
+        *logo_rot
     .. logo_s::
         `float` The Logo scale
         
-        !logo_scale
+        *logo_scale
     .. logo_x::
         `int` The Logo position X
         
-        !logo_pos_x
+        *logo_pos_x
     .. logo_y::
         `int` The Logo position Y
         
-        !logo_pos_y
+        *logo_pos_y
     .. logo_align::
         `str` Alignment **center, left, right**
         
-        !logo_align
+        *logo_align
     
     Background
     -----
@@ -137,9 +138,21 @@ class ThumbnailGeneratorQuery:
             v = arg.split('=')
             if len(v) == 2:
                 self.query[v[0]] = v[1]
+    
+    # LP
+    
     @property
     def lp(self) -> str:
         return self.query.get('lp', '')
+    
+    # TEXT
+         
+    @property
+    def __tr(self) -> str:
+        return self.query.get('font_s', '')
+    @property
+    def text_rotation(self) -> float:
+        return self.__tr if isnumeric(self.__tr) else 13
     @property
     def font(self) -> str:
         return self.query.get('text_font', '')
@@ -150,6 +163,12 @@ class ThumbnailGeneratorQuery:
     def __text_px(self) -> str:
         return self.query.get('px', '')
     @property
+    def __fs(self) -> str:
+        return self.query.get('font_s', '')
+    @property
+    def font_size(self) -> int:
+        return self.__fs if self.__fs.isdecimal() else 13
+    @property
     def text_pos_x(self) -> int:
         return self.__text_px if self.__text_px.isdecimal() else 0
     @property
@@ -159,23 +178,39 @@ class ThumbnailGeneratorQuery:
     def text_pos_y(self) -> int:
         return self.__text_py if self.__text_py.isdecimal() else 0
     
-"""
-
-
-
-
-p_x             int
-p_y             int
-rp_x            int
-rp_y            int
-r               float
-rr_x            float
-rr_y            float
-s               float
-rs_x            float
-rs_y            float
-hue             float
-sat             float
-lig             float
-background      str
-"""
+    # LOGO
+    
+    @property
+    def logo_path(self) -> str:
+        return self.query.get('logo_path', '')
+    @property
+    def __logo_r(self) -> str:
+        return self.query.get('logo_r', '')
+    @property
+    def logo_rot(self) -> float:
+        return self.__logo_r if isnumeric(self.__logo_r) else 0
+    @property
+    def __logo_s(self) -> str:
+        return self.query.get('logo_s', '')
+    @property
+    def logo_scale(self) -> float:
+        return self.__logo_s if isnumeric(self.__logo_s) else 1.
+    @property
+    def __lx(self) -> str:
+        return self.query.get('logo_x', '')
+    @property
+    def logo_pos_x(self) -> int:
+        return self.__lx if self.__lx.isdecimal() else 0
+    @property
+    def __ly(self) -> str:
+        return self.query.get('logo_y', '')
+    @property
+    def logo_pos_y(self) -> int:
+        return self.__ly if self.__ly.isdecimal() else 0
+    @property
+    def logo_align(self) -> str:
+        return self.query.get('logo_align', 'center')
+    
+    # BACKGROUND
+    
+    
