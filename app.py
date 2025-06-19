@@ -15,6 +15,8 @@ from bin.automation.obsow import OBSObserver
 from pygame.image import load as img_load, save as img_save
 from pygame.transform import scale
 from bin.convert_help import whelp
+
+from bin.query.thumbnail_generator_query import ThumbnailGeneratorQuery
 whelp()
 
 """for file in listdir('static\\img\\temps'):
