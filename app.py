@@ -119,29 +119,13 @@ def get_recording_status():
 
 @app.route('/help')
 def help_site():
-    return render_template('help.html')
-
-class ThumbnailGeneratorQuery:
-    """
-    
-    A Wrapper to get a bunch of values without a BIG HEADACHE because some elements don't exist!
-    
-    """
-    def __init__(self,query: str):
-        self.query = {}
-        for arg in query.split('&'):
-            v = arg.split('=')
-            if len(v) == 2:
-                self.query[v[0]] = v[1]
-    @property
-    def key(self) -> str:
-        return ''
-        
-        
+    return render_template('help.html')     
 
 @app.route('/thumbnail-generator', methods=['GET', 'POST'])
 def thumbnail_gen():
-    ThumbnailGeneratorQuery(request.query_string.decode()).query
+    TGQ = ThumbnailGeneratorQuery(request.query_string.decode())
+    
+    print(TGQ.pos_x,TGQ.pos_y)
     return render_template('thumbnail_generator.html',lps=[LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')])
 
 if __name__ == '__main__':
