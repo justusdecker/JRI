@@ -60,8 +60,11 @@ def index():
 @app.route('/all_videos/')
 def video_show():
     
+    lets_plays: list[LetsPlayFile] = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
+    return render_template('all_videos.html', lps=lets_plays,isfile=isfile,l=len)
     
-    site = render_template('all_videos.html')
+    
+    
     
     # GET QUERY
     search = getsearch(request.query_string.decode())
@@ -149,7 +152,6 @@ def set_settings():
 
 @app.route('/picker', methods=['GET', 'POST'])
 def set_lets_play():
-    #! REWRITE TO JINJa
     lpfs = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     if request.method == "POST" and 'lp' in request.form:
         print(request.form['lp'])

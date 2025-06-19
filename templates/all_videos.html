@@ -9,7 +9,6 @@ Videos
     <input id="searcher" type="text" placeholder="Search.." name="search">
     <button type="submit"><i>SUBMIT</i></button>
 </form>
-
 <table>
     <tr>
         <th style="background-color:#242424;">Episode Number</th>
@@ -17,9 +16,96 @@ Videos
         <th style="background-color:#242424;">Thumbnail</th>
         <th style="background-color:#242424;">Paths</th>
     </tr>
-    __VIDEOS_GO_HERE__
+{% for lp in lps %}
+{% for ep in lp.episodes %}
+
+    <tr>
+        <td><h1>{{ep.episode_number}}</h1></td>
+        <td>
+            <table>
+                <tr class="ep-stats">
+                    <th>Stat</th>
+                    <th>Value</th>
+                </tr>
+                
+                    
+                    <tr class="ep-stats">
+                        <td>episode number</td>
+                        <td>{{ep.episode_number}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>status</td>
+                        <td>{{ep.status}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>markers</td>
+                        <td>{{l(ep.markers)}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>name</td>
+                        <td>{{ep.title}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>hash</td>
+                        <td>{{lp.hash}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>video exist</td>
+                        <td>{{'🟢' if ep.video_exist else '🔴'}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>video path</td>
+                        <td>{{ep.video_path}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>audio exist</td>
+                        <td>{{'🟢' if ep.audio_exist else '🔴'}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>audio path</td>
+                        <td>{{ep.audio_path}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>thubmnail exist</td>
+                        <td>{{'🟢' if ep.thumbnail_exist else '🔴'}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>thumbnail path</td>
+                        <td>{{ep.thumbnail_path}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>thumbnail frame</td>
+                        <td>{{ep.frame}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>upload at</td>
+                        <td>{{ep.upload_at}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>video size</td>
+                        <td>{{ep.video_size}}</td>
+                    </tr>
+                    <tr class="ep-stats">
+                        <td>video length</td>
+                        <td>{{ep.video_length}}</td>
+                    </tr>
+                    
+                    
+                
+            </table>
+        </td>
+        <td>
+        <img src="../static/img/temps/{{lp.name}}_{{ep.episode_number}}.png" alt="">
+        </td>
+    </tr>
+    
+    
+
+{% endfor %}
+{% endfor %}
 </table>
 {% endblock %}
+
 
 {% block scripts %}
 <script src="../static/all_videos.js"></script>
