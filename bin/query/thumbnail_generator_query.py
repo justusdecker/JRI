@@ -73,46 +73,46 @@ class ThumbnailGeneratorQuery:
     .. p_x::
         `int` position X
         
-        !bg_pos_x
+        *bg_pos_x
     .. p_y::
         `int` position Y
         
-        !bg_pos_y
+        *bg_pos_y
 
     .. rp_x::
         `int` random position X
         
-        !bg_pos_x
+        *bg_rpos_x
     .. rp_y::
         `int` random position Y
         
-        !bg_pos_y
+        *bg_rpos_y
 
     .. r::
         `float` rotation
         
-        !bg_rot
+        *bg_rot
     .. rr_x::
         `float` random rotation
         
-        !bg_rrot_x
+        *bg_rrot_x
     .. rr_y::
         `float` random rotation
         
-        !bg_rrot_y
+        *bg_rrot_y
 
     .. s::
         `float` scale
         
-        !bg_rot
+        *bg_scale
     .. rs_x::
         `float` random scale
         
-        !bg_rscale_x
+        *bg_rscale_x
     .. rs_y::
         `float` random scale
         
-        !bg_rscale_y
+        *bg_rscale_y
     
     .. hue::
         `float` the hue value of each pixel manipulation in the image
@@ -213,4 +213,87 @@ class ThumbnailGeneratorQuery:
     
     # BACKGROUND
     
+    @property
+    def __bgx(self) -> str:
+        return self.query.get('p_x', '')
+    @property
+    def bg_pos_x(self) -> int:
+        return self.__bgx if self.__bgx.isdecimal() else 0
+    @property
+    def __bgy(self) -> str:
+        return self.query.get('p_y', '')
+    @property
+    def bg_pos_y(self) -> int:
+        return self.__bgy if self.__bgy.isdecimal() else 0
+    @property
+    def __bgrx(self) -> str:
+        return self.query.get('rp_x', '')
+    @property
+    def bg_rpos_x(self) -> int:
+        return self.__bgrx if self.__bgrx.isdecimal() else 0
+    @property
+    def __bgry(self) -> str:
+        return self.query.get('rp_y', '')
+    @property
+    def bg_rpos_y(self) -> int:
+        return self.__bgry if self.__bgry.isdecimal() else 0
     
+    @property
+    def __bg_r(self) -> str:
+        return self.query.get('r', '')
+    @property
+    def bg_rot(self) -> float:
+        return self.__bg_r if isnumeric(self.__bg_r) else 0
+    @property
+    def __bg_rx(self) -> str:
+        return self.query.get('rr_x', '')
+    @property
+    def bg_rrot_x(self) -> float:
+        return self.__bg_rx if isnumeric(self.__bg_rx) else 0
+    @property
+    def __bg_ry(self) -> str:
+        return self.query.get('rr_y', '')
+    @property
+    def bg_rrot_y(self) -> float:
+        return self.__bg_ry if isnumeric(self.__bg_ry) else 0
+    
+    @property
+    def __bg_s(self) -> str:
+        return self.query.get('s', '')
+    @property
+    def bg_scale(self) -> float:
+        return self.__bg_s if isnumeric(self.__bg_s) else 0
+    @property
+    def __bg_sx(self) -> str:
+        return self.query.get('rs_x', '')
+    @property
+    def bg_rscale_x(self) -> float:
+        return self.__bg_sx if isnumeric(self.__bg_sx) else 0
+    @property
+    def __bg_sy(self) -> str:
+        return self.query.get('rs_y', '')
+    @property
+    def bg_rscale_y(self) -> float:
+        return self.__bg_sy if isnumeric(self.__bg_sy) else 0
+    
+    @property
+    def __hue(self) -> str:
+        return self.query.get('hue', '')
+    @property
+    def hue(self) -> float:
+        return self.__hue if isnumeric(self.__hue) else 0
+    @property
+    def __sat(self) -> str:
+        return self.query.get('sat', '')
+    @property
+    def sat(self) -> float:
+        return self.__sat if isnumeric(self.__sat) else 0
+    @property
+    def __lig(self) -> str:
+        return self.query.get('lig', '')
+    @property
+    def bg_lig(self) -> float:
+        return self.__lig if isnumeric(self.__lig) else 0
+    @property
+    def bg(self) -> str:
+        return self.query.get('background', '')
