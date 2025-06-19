@@ -16,7 +16,7 @@ TG.create_thumbnail(
     TGQ.ep,
     lp.get_episode(TGQ.ep).video_path,
     -1,
-    ThumbnailAutomationData(TGQ.asdict()),
+    lp.tad,
     lp.name
 
 )

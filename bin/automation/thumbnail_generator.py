@@ -13,6 +13,9 @@ from bin.fx.image import IFXHSVManipulation,outLining
 from bin.fx.video import IVFX
 from bin.constants import PATHS
 from bin.letsplay_file import ThumbnailAutomationData
+
+
+
 class ThumbnailGenerator:
     """
     A Thumbnail Generator will take a video source & output a full thumbnail based on usersettings

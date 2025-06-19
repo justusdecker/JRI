@@ -141,40 +141,5 @@ DEFAULT_LPF_FILE = {
     ]
 }
 
-class EC:
-    """
-    ! All keys listed for reading & writing to any episode
-    """        
-    THUMBNAIL_PATH = 'thumbnailPath' 
-    ORIGINAL_VIDEO_PATH = 'path'
-    EPISODE_NUMBER = 'episodeNumber'
-    STATUS = 'status' 
-    MARKERS = 'markers'
-    TITLE = 'episodeTitle'
-    THUMBNAIL_FRAME = 'thumbnailFrame'
-    UPLOAD_AT = 'uploadAt'
-    ORIGINAL_AUDIO_PATH = 'audioFilePath'
-    ORIGINAL_DESKTOP_AUDIO_PATH = 'audioDesktopFilePath'
-    LOW_RES_VIDEO_PATH = 'lowResFilePath'
-    LOW_RES_AUDIO_PATH = 'lowResAudioFilePath'
-    ORIGINAL_VIDEO_SIZE = 'videoFileSize'
-    ORIGINAL_AUDIO_SIZE = 'audioFileSize'
-    ORIGINAL_VIDEO_LENGTH = 'videoLength'
-    ORIGINAL_AUDIO_LENGTH = 'audioLength'
-    ORIGINAL_AUDIO_WAVEFORM_PATH = 'waveFormPath'
-
-class LC:
-    """
-    ! All keys listed for reading & writing to any letsPlayFile
-    """
-    NAME = 'name'
-    ICON = 'icon'
-    EPISODE_LENGTH = 'episode_length'
-    GAME_NAME = 'gameName'
-    TITLE_ENDING = 'titleEnding'
-    DESCRIPTION = 'description'
-    EPISODES = 'episodes'
-    THUMBNAIL_AUTOMATION_DATA = 'thumbnailAutomationData'
-    TAGS = 'tags'
 
 DAVINCIRESOLVESCRIPTFOLDER = "C:\\Users\\Justus\\AppData\\Roaming\\Blackmagic Design\\DaVinci Resolve\\Support\\Fusion\\Scripts\\Edit"
