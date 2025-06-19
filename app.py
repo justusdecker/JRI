@@ -1,7 +1,7 @@
 from flask import Flask
 
 
-from bin.letsplay_file import LetsPlayFile,get_lpf_by_hash
+from bin.letsplay_file import LetsPlayFile,get_lpf_by_hash,get_ep_by_hash
 from bin.constants import PATHS
 from os import listdir,remove
 from os.path import isfile
@@ -80,8 +80,17 @@ def delete():
     """
     return redirect('/')
 
-@app.route('/lets-play/<lp_title>/<ep_id>')
-def get_episode(lp_title: str, ep_id: str):
+@app.route('/lets-play/<ep_hash>/<int:ep_id>')
+def get_episode(ep_hash: str, ep_id: int):
+    lp = get_lpf_by_hash([LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')],ep_hash)
+    if lp is None:
+        return f"<h1>Let's Play with {ep_hash} doesn't exist!</h1>", 404
+    if ep_id >= len(lp.episodes):
+        return f"<h1>Episode with ID: {ep_id} doesn't exist!</h1>", 404
+    
+    
+    
+    return f'<p>{dumps(lp.get_episode(ep_id).asdict(),indent=4)}</p>' , 404
     if not ep_id.isdecimal():
         return "<h1>Somethings went wrong: (1002) episode id must be an integer</h1>"
     lets_plays: list[LetsPlayFile] = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]

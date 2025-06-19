@@ -427,7 +427,16 @@ class LetsPlayFile:
             #DM.save()
     def save(self):
         DM.save(self.filePath,self.data)
+def get_ep_by_hash(lpf: list[LetsPlayFile],item: str) -> LetsPlayFile | None:
 
+    _ret = None
+    for lp in lpf:
+        for ep in lp.episodes:
+
+
+                
+            if item == lp.hash:
+                return ep
 def get_lpf_by_hash(lpf: list[LetsPlayFile],item: str) -> LetsPlayFile | None:
     hashmap = set()
     _ret = None
