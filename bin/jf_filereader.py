@@ -47,10 +47,11 @@ class JFFileReader:
         pool = {}
         current_segment = ''
         for line in data.splitlines():
+            if not line: continue
             if line.startswith('<') and line.endswith('>'):
                 # This is a segment
                 current_segment = line
-            elif not line.startswith('%'):
+            elif not line.startswith('%') and not line.startswith('?'):
                 # this is a variable
                 if '$' in line:
                     # this means the variable has a special type
@@ -70,4 +71,10 @@ class JFFileReader:
                     
                     var, val = get_var(line)
                     pool[f'{current_segment}::{var}'] = val
+            elif line.startswith('%'):
+                # A List object will be created
+                pool[f'{current_segment}::{line[1:]}'] = []
+            elif line.startswith('?'):
+                key, *rest = line[1:].split('::')
+                pool[f'{current_segment}::{key}'].append(rest)
         self.pool = pool

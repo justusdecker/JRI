@@ -17,6 +17,7 @@ JFFile
         # this will give you
 
 <EPISODES>
-%EP_TABLE; # Defines an array
+%EP_TABLE # Defines an array
 
-%%EP_TABLE::PATH::STATUS::TITLE;
+?EP_TABLE::PATH::STATUS::TITLE
+
