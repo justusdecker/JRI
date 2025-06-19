@@ -46,7 +46,6 @@ def load_file(file_path: str) -> str:
     with open(file_path,'r') as f_in:
         return f_in.read()
 
-
 def getsearch(string: str) -> str:
     if not string: return ""
     for i in string.split('?'):
@@ -59,7 +58,6 @@ def index():
 
 @app.route('/all_videos/')
 def video_show():
-    
     lets_plays: list[LetsPlayFile] = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     return render_template('all_videos.html', lps=lets_plays,isfile=isfile,l=len)
 
@@ -80,7 +78,7 @@ def delete():
     """
     return redirect('/')
 
-@app.route('/lets-play/<ep_hash>/<int:ep_id>')
+@app.route('/lp/<ep_hash>/<int:ep_id>')
 def get_episode(ep_hash: str, ep_id: int):
     lp = get_lpf_by_hash([LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')],ep_hash)
     if lp is None:
@@ -88,28 +86,17 @@ def get_episode(ep_hash: str, ep_id: int):
     if ep_id >= len(lp.episodes):
         return f"<h1>Episode with ID: {ep_id} doesn't exist!</h1>", 404
     
-    
-    
-    return f'<p>{dumps(lp.get_episode(ep_id).asdict(),indent=4)}</p>' , 404
-    if not ep_id.isdecimal():
-        return "<h1>Somethings went wrong: (1002) episode id must be an integer</h1>"
-    lets_plays: list[LetsPlayFile] = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
-    for lp in lets_plays:
-        if lp.name == lp_title:
-            return f"<p>{dumps(lp.get_episode(int(ep_id)).asdict(),indent=4).replace('\n','<br>')}</p>"
-    else:
-        return "<h1>Somethings went wrong: (1001) No Lets Play found!</h1>"
+    return f'<p>{dumps(lp.get_episode(ep_id).asdict(),indent=4)}</p>'
 
-
-@app.route('/lets-play/options/<lp_name>')
+@app.route('/lp/options/<lp_name>')
 def option_change(lp_name:str) -> str:
-    return 'WIP'
+    return 'WIP' ,404
 
 
 
 @app.route('/settings')
 def set_settings():
-    return "WIP"
+    return "WIP", 404
 
 
 
@@ -117,8 +104,6 @@ def set_settings():
 def set_lets_play():
     lpfs = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     if request.method == "POST" and 'lp' in request.form:
-        print(request.form['lp'])
-        
         OBS.load_lpf(get_lpf_by_hash(lpfs,request.form['lp']))
     return render_template('lets_play_picker.html', lps=lpfs)
 
@@ -136,9 +121,28 @@ def get_recording_status():
 def help_site():
     return render_template('help.html')
 
-@app.route('/thumbnail-generator')
+class ThumbnailGeneratorQuery:
+    """
+    
+    A Wrapper to get a bunch of values without a BIG HEADACHE because some elements don't exist!
+    
+    """
+    def __init__(self,query: str):
+        self.query = {}
+        for arg in query.split('&'):
+            v = arg.split('=')
+            if len(v) == 2:
+                self.query[v[0]] = v[1]
+    @property
+    def key(self) -> str:
+        return ''
+        
+        
+
+@app.route('/thumbnail-generator', methods=['GET', 'POST'])
 def thumbnail_gen():
-    return render_template('thumbnail_generator.html')
+    ThumbnailGeneratorQuery(request.query_string.decode()).query
+    return render_template('thumbnail_generator.html',lps=[LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')])
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
