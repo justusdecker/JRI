@@ -26,6 +26,15 @@ def get_var(text: str) -> list[str, str]:
     else:
         raise SyntaxError('JFFileError')
 
+def get_var_w_type(text: str) -> list[str, str]:
+
+    for i in (text.split(' = '), text.split(' ='), text.split('= ')):
+        l = len(i)
+        if l == 2:
+            v,t = i[0].split('$')
+            return v,t,i[1]
+    else:
+        raise SyntaxError('JFFileError')
 
 class JFFileReader:
     def __init__(self,filepath: str):
@@ -41,13 +50,24 @@ class JFFileReader:
             if line.startswith('<') and line.endswith('>'):
                 # This is a segment
                 current_segment = line
-            if not line.startswith('%'):
+            elif not line.startswith('%'):
                 # this is a variable
                 if '$' in line:
                     # this means the variable has a special type
-                    pass
+                    
+                    var,typ, val = get_var_w_type(line)
+                    match typ:
+                        case 'int':
+                            t = int
+                        case 'float':
+                            t = float
+                        case _:
+                            t = str
+                    pool[f'{current_segment}::{var}'] = t(val)
+                    
                 else:
                     # No type defined so it will be a string
                     
                     var, val = get_var(line)
-                    pool[f'{current_segment}::{var}'] = [val, str]
+                    pool[f'{current_segment}::{var}'] = val
+        self.pool = pool
