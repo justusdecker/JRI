@@ -7,6 +7,7 @@ from bin.constants import PATHS
 from os import listdir
 from typing import Any
 from pygame import key,K_LCTRL
+from os.path import isfile
 import hashlib
 class TADImage: 
     """
@@ -188,15 +189,22 @@ class Episode:
     @property
     def video_path(self) -> str:
         return self.data.get('path','')
+    
     @video_path.setter
     def video_path(self, value: str):
         self.data['path'] = value
     @property
+    def video_exist(self) -> str:
+        return isfile(self.video_path)
+    @property
+    def audio_exist(self) -> str:
+        return isfile(self.audio_path)
+    @property
     def episode_number(self) -> int:
-        return self.data.get('episodeNumber','')
+        return self.data.get('episode_number','')
     @episode_number.setter
     def episode_number(self, value: int):
-        self.data['episodeNumber'] = value
+        self.data['episode_number'] = value
     @property
     def status(self) -> int:
         return self.data.get('status','')
@@ -211,46 +219,52 @@ class Episode:
         self.data['markers'] = value
     @property
     def title(self) -> str:
-        return self.data.get('episodeTitle','')
+        return self.data.get('episode_title','')
     @title.setter
     def title(self, value: str):
-        self.data['episodeTitle'] = value
+        self.data['episode_title'] = value
     @property
     def thumbnail_path(self) -> str:
-        return self.data.get('thumbnailPath','')
+        return self.data.get('thumbnail_path','')
     @thumbnail_path.setter
     def thumbnail_path(self, value: str):
-        self.data['thumbnailPath'] = value
+        self.data['thumbnail_path'] = value
+    @property
+    def thumbnail_tmp(self) -> str:
+        return '../style'
+    @property
+    def thumbnail_exist(self) -> str:
+        return isfile(self.thumbnail_path)
     @property
     def frame(self) -> int | float:
-        return self.data.get('thumbnailFrame','')
+        return self.data.get('thumbnail_frame','')
     @frame.setter
     def frame(self, value: int | float):
-        self.data['thumbnailFrame'] = value
+        self.data['thumbnail_frame'] = value
     @property
     def upload_at(self) -> str:
-        return self.data.get('uploadAt','')
+        return self.data.get('upload_at','')
     @upload_at.setter
     def upload_at(self, value: str):
-        self.data['uploadAt'] = value
+        self.data['upload_at'] = value
     @property
     def audio_path(self) -> str:
-        return self.data.get('audioFilePath','')
+        return self.data.get('audio_file_path','')
     @audio_path.setter
     def audio_path(self, value: str):
-        self.data['audioFilePath'] = value
+        self.data['audio_file_path'] = value
     @property
     def video_size(self) -> int:
-        return self.data.get('videoFileSize',-1)
+        return self.data.get('video_file_size',-1)
     @video_size.setter
     def video_size(self, value: int):
-        self.data['videoFileSize'] = value
+        self.data['video_file_size'] = value
     @property
     def video_length(self) -> int:
-        return self.data.get('videoLength',-1)
+        return self.data.get('video_length',-1)
     @video_length.setter
     def video_length(self, value: int):
-        self.data['videoLength'] = value
+        self.data['video_length'] = value
 class LetsPlayFile:
     #Defaults
     default_ThumbnailAutomationData: dict = {
