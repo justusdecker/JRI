@@ -62,52 +62,6 @@ def video_show():
     
     lets_plays: list[LetsPlayFile] = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     return render_template('all_videos.html', lps=lets_plays,isfile=isfile,l=len)
-    
-    
-    
-    
-    # GET QUERY
-    search = getsearch(request.query_string.decode())
-    
-    OUTPUT_STRING = ""
-
-    
-    EPISODE = load_file("templates\\lets_play_episode.html")
-    
-    lets_plays: list[LetsPlayFile] = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
-    
-    
-    i = 0
-    for lp in lets_plays:
-        TMP_OP_STRING = ''
-
-        for ep in lp.episodes:
-            i += 1
-            TMP_EPISODE = EPISODE
-            _is_in = []
-            for before, after in (
-                ('__EP_VIDEO_EXISTS__','🟢' if isfile(ep.video_path) else '🔴'),
-                ('__EP_TRACK_1_EXISTS__','🟢' if ep.audio_path else '🔴'),#! Missing Attr Track 2
-                ('__EPISODE_NUMBER__',str(ep.episode_number)),
-                ('__EP_TITLE__',str(ep.title)),
-                ('__EP_VIDEO_FILE_SIZE__',str(ep.video_size)),
-                ('__EP_VIDEO_LENGTH__',str(ep.video_length)),
-                ('__EP_MARKER_COUNT__',str(len(ep.markers))),
-                ('__EP_THUMBNAIL_FRAME__',str(ep.frame)),
-                ('__VIDEO_PATH__',ep.video_path),
-                ('__AUDIO_TRACK_1_PATH__',ep.audio_path.replace('\\','/') if ep.audio_path is not None else 'n.a.'),
-                ('__THUMBNAIL__',f'../static/img/temps/{lp.name}_{ep.episode_number}.png'),
-                ('__ID__',f'{i}')
-            ):
-                TMP_EPISODE = TMP_EPISODE.replace(before, after)
-                _is_in.append(after) #nasty but it works
-            if not search or search.lower() in "".join(_is_in).lower():
-                TMP_OP_STRING += TMP_EPISODE + '\n'
-
-        
-        OUTPUT_STRING += TMP_OP_STRING
-        
-    return site.replace("__VIDEOS_GO_HERE__",OUTPUT_STRING)
 
 @app.route('/create')
 def create():
