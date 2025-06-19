@@ -1,7 +1,7 @@
 from flask import Flask
 
 
-from bin.letsplay_file import LetsPlayFile,get_lpf_by_hash,get_ep_by_hash
+from bin.letsplay_file import LetsPlayFile,get_lpf_by_hash,get_ep_by_hash, ThumbnailAutomationData
 from bin.constants import PATHS
 from os import listdir,remove
 from os.path import isfile
@@ -17,6 +17,7 @@ from pygame.transform import scale
 from bin.convert_help import whelp
 
 from bin.query.thumbnail_generator_query import ThumbnailGeneratorQuery
+from bin.automation.thumbnail_generator import ThumbnailGenerator
 whelp()
 
 """for file in listdir('static\\img\\temps'):
@@ -126,7 +127,20 @@ def help_site():
 @app.route('/thumbnail-generator', methods=['GET', 'POST'])
 def thumbnail_gen():
     TGQ = ThumbnailGeneratorQuery(request.query_string.decode())
-    
+    TG = ThumbnailGenerator()
+    lp = get_lpf_by_hash([LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')],TGQ.lp)
+    if lp is None:
+        return f"LP {TGQ.lp} does not exist" ,404
+    if TGQ.ep >= len(lp.episodes):
+        return f"EP {TGQ.ep} does not exist", 404
+    TG.create_thumbnail(
+        TGQ.ep,
+        lp.get_episode(TGQ.ep).video_path,
+        -1,
+        ThumbnailAutomationData(TGQ.asdict()),
+        "Nope"
+
+    )
     print(TGQ.asdict())
     return render_template('thumbnail_generator.html',lps=[LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')])
 
