@@ -4,5 +4,9 @@
 
 {% block c_content %}
 <h2>Select a Lets Play & submit</h2>
-__LETS_PLAY_GO_HERE__
+<form method="POST">'
+{% for lp in lps %}
+<p><input type="radio" name="lp" value="{{lp.hash}}">{{lp.name}}</p>
+{% endfor %}
+<p><input type="submit"></p></form>
 {% endblock %}

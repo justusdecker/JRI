@@ -149,18 +149,13 @@ def set_settings():
 
 @app.route('/picker', methods=['GET', 'POST'])
 def set_lets_play():
+    #! REWRITE TO JINJa
     lpfs = [LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')]
     if request.method == "POST" and 'lp' in request.form:
         print(request.form['lp'])
         
         OBS.load_lpf(get_lpf_by_hash(lpfs,request.form['lp']))
-        
-    site = render_template('lets_play_picker.html')
-    TMP = '<form method="POST">'
-    for idx, lp in enumerate(lpfs):
-       TMP += f'<p><input type="radio" name="lp" value="{lp.hash}">{lp.name}</p>'
-    site = site.replace('__LETS_PLAY_GO_HERE__', TMP) + '<p><input type="submit"></p></form>'
-    return site
+    return render_template('lets_play_picker.html', lps=lpfs)
 
 @app.route('/record')
 def get_recording_status():
