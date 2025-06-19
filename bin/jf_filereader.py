@@ -55,6 +55,13 @@ class JFFileReader:
         """
         sec, var = name.split('__')
         return self.pool[f'<{sec}>::{var}']
+    def write(self):
+        output = ''
+        for sec in self.pool:
+            for val in self.pool[sec]:
+                output += ''
+        with open(self.filepath,'w') as file_write:
+            file_write.write()
     def load(self):
         with open(self.filepath) as file_read:
             data = file_read.read()
