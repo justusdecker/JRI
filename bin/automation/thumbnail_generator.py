@@ -318,21 +318,20 @@ class ThumbnailGenerator:
         
         if tad.background:
             
-            bg_data: dict = tad['background']
-
-            center: bool = bg_data.get('center', False)
-
-            p: tuple[int,int] = bg_data.get('position', (0,0))
+            print(tad.background)
             
-            rp_x: int = bg_data.get('randomPositionX', 0)
-            
-            rp_y: int = bg_data.get('randomPositionY', 0)
+            bg_data = tad.background
+
+            center: bool = False # currently
+
+            p: tuple[int,int] = bg_data.position
+            rp_x, rp_y = bg_data.random_position
             
             rp_x, rp_y = self.__get_rnd_pos(rp_x,rp_y)
             
             p: tuple[int,int] = p[0] + rp_x , p[1] + rp_y
             
-            rr: tuple[int,int] = bg_data.get('randomRotation', (0,0))
+            rr: tuple[int,int] = bg_data.random_rotation
             
             if rint(0,1) == 1:
                 
@@ -342,11 +341,11 @@ class ThumbnailGenerator:
                 
                 rr: float = rnd() * rr[0]
             
-            r: float | int = bg_data.get('rotation', 0) + rr
+            r: float | int = bg_data.rotation + rr
             
-            s: float = bg_data.get('scale', 0)
+            s: float = bg_data.scale
             
-            rs: int = bg_data.get('randomScale', 0)
+            rs: int = bg_data.random_scale
             
             if rint(0,1) == 1:
                 
@@ -359,11 +358,11 @@ class ThumbnailGenerator:
             if rs != 0:#? The Random Values are 0 so dont add data
                 s = s + rs
             
-            hue = bg_data.get('hue', 0)
+            hue = bg_data.hue
             
-            saturation = bg_data.get('saturation', 0)
+            saturation = bg_data.sat
             
-            lightness = bg_data.get('lightness', 0)
+            lightness = bg_data.lig
             
             w,h = surf.get_size()
             

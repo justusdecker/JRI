@@ -104,32 +104,32 @@ class Background:
         }
     
     @property
-    def position(self) -> str:
-        return self.data.get('position','')
+    def position(self) -> list[int]:
+        return self.data.get('position',[0,0])
     @property
-    def random_position(self) -> str:
-        return self.data.get('random_position','')
+    def random_position(self) -> list[int]:
+        return self.data.get('random_position',[0,0])
     @property
-    def rotation(self) -> str:
-        return self.data.get('rotation','')
+    def rotation(self) -> float:
+        return self.data.get('rotation',0)
     @property
-    def random_rotation(self) -> str:
-        return self.data.get('random_rotation','')
+    def random_rotation(self) -> list[float]:
+        return self.data.get('random_rotation',[0,0])
     @property
-    def random_scale(self) -> str:
-        return self.data.get('random_scale','')
+    def random_scale(self) -> list[float]:
+        return self.data.get('random_scale',[0,0])
     @property
-    def scale(self) -> str:
-        return self.data.get('scale','')
+    def scale(self) -> float:
+        return self.data.get('scale',0)
     @property
-    def hue(self) -> str:
-        return self.data.get('hue','')
+    def hue(self) -> float:
+        return self.data.get('hue',0)
     @property
-    def sat(self) -> str:
-        return self.data.get('sat','')
+    def sat(self) -> float:
+        return self.data.get('sat',0)
     @property
-    def lig(self) -> str:
-        return self.data.get('lig','')
+    def lig(self) -> float:
+        return self.data.get('lig',0)
     @property
     def background(self) -> str:
         return self.data.get('background','')
@@ -137,7 +137,7 @@ class ThumbnailAutomationData:
     def __init__(self, data: dict):
         self.data = data
         self.image_tad_instances: list[TADImage] = [TADImage(i) for i in self.data.get('images',[])]
-        self.background = Background(self.data.get('background'))
+        self.background = Background(self.data.get('background',{}))
     def asdict(self) -> dict:
         #! Some data is missing for random rotating images and stuff!
         return {
