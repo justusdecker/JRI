@@ -13,7 +13,7 @@ Thumbnail Generator
         <tr>
             <td>Lets Play: </td>
             <td>
-                <select name="lp" id="">
+                <select name="lp">
                     {% for lp in lps %}
                     <option value="{{lp.hash}}">{{lp.name}}</option>
                     {% endfor %}
@@ -23,16 +23,16 @@ Thumbnail Generator
         <tr><td><h2>Text</h2></td></tr>
         <tr>
             <td>Position: </td>
-            <td><input id="text_p_x" type="number" placeholder="X" name="px"><input id="text_p_y" type="number" placeholder="Y"><br></td>
+            <td><input type="number" placeholder="X" name="px"><input type="number" placeholder="Y" name="py"><br></td>
         </tr>
         <tr>
             <td>Font: </td>
-            <td><input id="text_font" type="file" accept=".ttf"><br></td>
+            <td><input type="file" accept=".ttf"  name="text_font"><br></td>
         </tr>
         <tr>
             <td>Align: </td>
             <td>
-                <select name="text_align" id="">
+                <select name="text_align" >
                     <option value="align_center">center</option>
                     <option value="align_left">left</option>
                     <option value="align_right">right</option>
@@ -42,39 +42,39 @@ Thumbnail Generator
 
         <tr>
             <td>Size: </td>
-            <td><input id="font_s" type="number" placeholder="size"><br></td>
+            <td><input name="font_s" type="number" placeholder="size"><br></td>
         </tr>
 
         <tr>
             <td>Rotation: </td>
-            <td><input id="text_r" type="number" placeholder="R"><br></td>
+            <td><input name="text_r" type="number" placeholder="R"><br></td>
         </tr>
         
         <tr><td><h2>Logo</h2></td></tr>
 
         <tr>
             <td>Path </td>
-            <td><input id="logo_path" type="file" accept=".png"><br></td>
+            <td><input name="logo_path" type="file" accept=".png"><br></td>
         </tr>
 
         <tr>
             <td>Scale: </td>
-            <td><input id="logo_r" type="number" placeholder="R"><br></td>
+            <td><input name="logo_s" type="number" placeholder="R"><br></td>
         </tr>
 
         <tr>
             <td>Rotation: </td>
-            <td><input id="logo_r" type="number" placeholder="R"><br></td>
+            <td><input name="logo_r" type="number" placeholder="R"><br></td>
         </tr>
 
         <tr>
             <td>Position: </td>
-            <td><input id="logo_x" type="number" placeholder="X"><input id="logo_y" type="number" placeholder="Y"><br></td>
+            <td><input name="logo_x" type="number" placeholder="X"><input name="logo_y" type="number" placeholder="Y"><br></td>
         </tr>
         <tr>
             <td>Align: </td>
             <td>
-                <select name="logo_align" id="">
+                <select name="logo_align" name="">
                     <option value="align_center">center</option>
                     <option value="align_left">left</option>
                     <option value="align_right">right</option>
@@ -85,39 +85,39 @@ Thumbnail Generator
         <tr><td><h2>Background</h2></td></tr>
         <tr>
             <td>Position: </td>
-            <td><input id="p_x" type="number" placeholder="X"><input id="p_y" type="number" placeholder="Y"><br></td>
+            <td><input name="p_x" type="number" placeholder="X"><input name="p_y" type="number" placeholder="Y"><br></td>
         </tr>
         <tr>
             <td>Random position: </td>
-            <td><input id="rp_x" type="number" placeholder="X"><input id="rp_y" type="number" placeholder="Y"><br></td>
+            <td><input name="rp_x" type="number" placeholder="X"><input name="rp_y" type="number" placeholder="Y"><br></td>
         </tr>
         <tr>
             <td>Rotation: </td>
-            <td><input id="r" type="number" placeholder="ROT"><br></td>
+            <td><input name="r" type="number" placeholder="ROT"><br></td>
         </tr>
         <tr>
             <td>Random rotation: </td>
-            <td><input id="rr_x" type="number" placeholder="X"><input id="rr_y" type="number" placeholder="Y"><br></td>
+            <td><input name="rr_x" type="number" placeholder="X"><input name="rr_y" type="number" placeholder="Y"><br></td>
         </tr>
 
         <tr>
             <td>Scale: </td>
-            <td><input id="s" type="number" placeholder="S"><br></td>
+            <td><input name="s" type="number" placeholder="S"><br></td>
         </tr>
 
         <tr>
             <td>Random Scale: </td>
-            <td><input id="rs_x" type="number" placeholder="X"><input id="rs_y" type="number" placeholder="Y"><br></td>
+            <td><input name="rs_x" type="number" placeholder="X"><input name="rs_y" type="number" placeholder="Y"><br></td>
         </tr>
 
         <tr>
             <td>Random Scale: </td>
-            <td><input id="hue" type="number" placeholder="H"><input id="sat" type="number" placeholder="S"><input id="lig" type="number" placeholder="V"><br></td>
+            <td><input name="hue" type="number" placeholder="H"><input name="sat" type="number" placeholder="S"><input name="lig" type="number" placeholder="V"><br></td>
         </tr>
 
         <tr>
             <td>Center: </td>
-            <td><input id="center" type="checkbox" ><br></td>
+            <td><input name="center" type="checkbox" ><br></td>
         </tr>
 
         <tr>
