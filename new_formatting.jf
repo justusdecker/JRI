@@ -1,0 +1,22 @@
+<SEGMENT TITLE>
+EPISODE_LENGTH = 1800 # Defines a variable with a value. Is string
+STATUS$int # Defines a variable. Set the type. The value will be default 0
+NAME = Test # Defines a variable with a value. Is string
+
+In python this:
+
+<SEGMENT TITLE>
+EPISODE_LENGTH = 1800
+
+Will result in:
+
+JFFile
+    attr:
+        <SEGMENT TITLE>::EPISODE_LENGTH
+        # so you call gattr(<SEGMENT TITLE>::EPISODE_LENGTH)
+        # this will give you
+
+<EPISODES>
+%EP_TABLE; # Defines an array
+
+%%EP_TABLE::PATH::STATUS::TITLE;
