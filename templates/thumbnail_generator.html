@@ -9,10 +9,21 @@ Thumbnail Generator
 <img src="../static/img/temps/thumbnail_generator_tmp.png">
 <form action="/thumbnail-generator">
     <table>
+        <tr><td><h2>lets play</h2></td></tr>
+        <tr>
+            <td>Lets Play: </td>
+            <td>
+                <select name="lp" id="">
+                    {% for lp in lps %}
+                    <option value="{{lp.hash}}">{{lp.name}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
         <tr><td><h2>Text</h2></td></tr>
         <tr>
             <td>Position: </td>
-            <td><input id="text_p_x" type="number" placeholder="X"><input id="text_p_y" type="number" placeholder="Y"><br></td>
+            <td><input id="text_p_x" type="number" placeholder="X" name="px"><input id="text_p_y" type="number" placeholder="Y"><br></td>
         </tr>
         <tr>
             <td>Font: </td>
