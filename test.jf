@@ -1,7 +1,20 @@
-<SEGMENT TITLE>
-EPISODE_LENGTH = 1800
+<LPF>
+NAME = 1000 Days in Valheim
+GAME_NAME = Valheim
+ICON = None
+EPISODE_LENGTH$int = 1800
+<TAD>
+FONT = C:/Users/Justus/jri_data/fonts/ComicRunes.otf
+ALIGN = center
+SIZE = 150
+POSX = 950
+POSY = 100
+
+
+
+<SEGMENT_TITLE>
 STATUS$int = 8
 NAME = Test
 %EP_TABLE
 
-?EP_TABLE::PATH::STATUS::TITLE
+?EP_TABLE::PATH::123$int::TITLE
