@@ -10,7 +10,7 @@ TG = ThumbnailGenerator()
 
 lp = get_lpf_by_hash([LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')],TGQ.lp)
 
-print(dumps(TGQ.asdict(),indent=4))
+print(dumps(lp.asdict(),indent=4))
 
 TG.create_thumbnail(
     TGQ.ep,

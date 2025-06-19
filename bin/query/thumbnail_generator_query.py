@@ -144,7 +144,7 @@ class ThumbnailGeneratorQuery:
         Format the query into [LPF - TAD] like
         """
         return {
-            "tad": {
+
                 "text": {
                     "font": self.font,
                     "align": self.text_align,
@@ -188,7 +188,7 @@ class ThumbnailGeneratorQuery:
                     
                 
             }
-        }
+        
     # LP
     
     @property

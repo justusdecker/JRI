@@ -2,13 +2,26 @@ from bin.data_management import DM
 from bin.constants import VERSION
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from bin.minfuncs import getHexDoubleZeros
-from bin.constants import LC,EC,DEFAULT_LPF_FILE
+from bin.constants import DEFAULT_LPF_FILE
 from bin.constants import PATHS
 from os import listdir
 from typing import Any
 from pygame import key,K_LCTRL
 from os.path import isfile
 import hashlib
+
+"""
+
+The program will crash if values not exist! No more FAILSAVING! Its pain in the ass!
+
+LetsPlayFile
+    Episode
+    TAD
+        Text
+        Image
+        Background
+"""
+
 class TADImage: 
     """
     ThumbnailAutomationData Image Data
@@ -133,6 +146,7 @@ class Background:
     @property
     def background(self) -> str:
         return self.data.get('background','')
+
 class ThumbnailAutomationData:
     def __init__(self, data: dict):
         self.data = data
@@ -167,7 +181,7 @@ class ThumbnailAutomationData:
         return self.image_tad_instances
     @property
     def __epnum(self) -> dict:
-        return self.data.get('text_epNum',{}) #! Add a default value
+        return self.data.get('text',{}) #! Add a default value
     @property
     def text(self) -> str: # Currently unused
         return ""
@@ -319,53 +333,6 @@ class Episode:
         self.data['video_length'] = value
 class LetsPlayFile:
     #Defaults
-    default_ThumbnailAutomationData: dict = {
-        "text_epNum": {
-            "text": "",
-            "font": "E:\\Server\\Programmierung\\JRI\\bin\\fonts\\Jersey.ttf",
-            "align": "center",
-            "size": 100,
-            "pos": [
-                800,
-                260
-            ],
-            "rot": -15,
-            "cropping": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "outline": {
-                "xMinus": 2,
-                "xPlus": 2,
-                "yMinus": 2,
-                "yPlus": 2,
-                "color": [  [ 50, 50, 50 ],
-                            [ 14, 14, 14 ],
-                            [ 14, 14, 14 ],
-                            [ 50, 50, 50 ]]
-            }
-        },
-        "images": [
-            {
-                "path": "logos\\7d2d_logo.png",
-                "scale": 0.4,
-                "pos": [
-                    640,
-                    140
-                ],
-                "rot": 0,
-                "align": "center",
-                "cropping": [
-                    0,
-                    0,
-                    0,
-                    0
-                ]
-            }
-        ]
-    }
     def __init__(self,filePath:str) -> None:
         self.filePath = filePath
         self.load()
