@@ -194,7 +194,12 @@ class ThumbnailGeneratorQuery:
     @property
     def lp(self) -> str:
         return self.query.get('lp', '')
-    
+    @property
+    def __ep(self) -> str:
+        return self.query.get('ep', "")
+    @property
+    def ep(self) -> str:
+        return self.__ep if self.__ep.isdecimal() else 0
     # TEXT
          
     @property
