@@ -127,7 +127,7 @@ def help_site():
 def thumbnail_gen():
     TGQ = ThumbnailGeneratorQuery(request.query_string.decode())
     
-    print(TGQ.pos_x,TGQ.pos_y)
+    print(TGQ.asdict())
     return render_template('thumbnail_generator.html',lps=[LetsPlayFile(PATHS.letsplay + file) for file in listdir(PATHS.letsplay) if file.endswith('.json')])
 
 if __name__ == '__main__':
