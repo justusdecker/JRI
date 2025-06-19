@@ -16,10 +16,10 @@ The program will crash if values not exist! No more FAILSAVING! Its pain in the 
 
 LetsPlayFile
     Episode
-    TAD
-        Text
-        Image
-        Background
+TAD
+Text
+Image
+Background
 """
 
 class TADImage: 
