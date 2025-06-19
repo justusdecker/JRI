@@ -156,7 +156,9 @@ class ThumbnailAutomationData:
     
     def get_image(self,index: int) -> TADImage:
         return self.image_tad_instances[index]
-    
+    @property
+    def color(self) -> int:
+        return self.data.get('color',(255,255,255))
     @property
     def image_count(self) -> int:
         return len(self.image_tad_instances)
