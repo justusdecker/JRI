@@ -138,7 +138,7 @@ def thumbnail_gen():
         lp.get_episode(TGQ.ep).video_path,
         -1,
         ThumbnailAutomationData(TGQ.asdict()),
-        "Nope"
+        lp.name
 
     )
     print(TGQ.asdict())

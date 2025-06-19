@@ -239,7 +239,7 @@ class Episode:
             'flags': None
         }
     @property
-    def video_path(self) -> str:
+    def video_path(self) -> str | None:
         return self.data.get('path','')
     
     @video_path.setter
