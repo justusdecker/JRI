@@ -6,3 +6,8 @@ print(FR.LPF__EPISODE_LENGTH,FR.LPF__NAME)
 
 FR.set('<LPF>::EPISODE_LENGTH',1200)
 FR.write()
+
+from bin.lp_data_management import LetsPlay
+
+LP = LetsPlay('test_lp.jf')
+print(LP.header.name)
