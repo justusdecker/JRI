@@ -8,10 +8,12 @@ class DataManagement:
     Many Modules for loading and saving files
     """
     def ine(value:str,default):
-        return value if not value else default
+        raise DeprecationWarning()
+        return value if value else default
 
     def ifane(value:str,default):
         "Is float and not empty"
+        raise DeprecationWarning()
         spl = value.split('.')
         if value != '' and spl.__len__() == 2:
             id = spl[0].replace('-','').isdecimal() + spl[1].isdecimal()
@@ -28,6 +30,7 @@ class DataManagement:
     
     def idane(value:str,default):
         "Is decimal and not empty"
+        raise DeprecationWarning()
         if value != '' and value.replace('-','').isdecimal():
             return int(value)
         else:
@@ -46,6 +49,7 @@ class DataManagement:
         """
         Saves the Data in JSON File Format With Indent 4
         """
+        raise DeprecationWarning()
         #LOG.nlog(1,'save file: $',[filePath])
         with open(filePath,'w') as fOut:
             
@@ -60,6 +64,7 @@ class DataManagement:
         """
         Reads the Data from JSON File Format and converts it to Dict or List
         """
+        raise DeprecationWarning()
         #LOG.nlog(1,'load file: $',[filePath])
         with open(filePath,'r') as fIn:
             
@@ -94,7 +99,7 @@ class DataManagement:
                     
             return _ret
         
-    def load_save(filePath:str,data:dict | tuple | list):
+    def load_save(filePath:str,data:dict):
         """
         Load, Edit & Save
         """
@@ -107,6 +112,7 @@ class DataManagement:
     def exist_file(filePath):
         if filePath is not None:
             return path.isfile(filePath)
+        return False
     def create_folder(filePath):
         
         if not path.isdir(filePath):
