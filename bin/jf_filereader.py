@@ -45,7 +45,7 @@ def get_type(text: str) -> type:
         case _:
             return str
 
-class JFFileReader:
+class JFFile:
     def __init__(self,filepath: str):
         self.filepath = filepath
         
@@ -56,6 +56,8 @@ class JFFileReader:
         """
         sec, var = name.split('__')
         return self.pool[f'<{sec}>::{var}']
+    def get(self,name: str) -> str | float | int | list:
+        return self.pool[name]
     def set(self, name, value):
         """
         SECTIONTITLE__VAR
