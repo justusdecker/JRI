@@ -2,7 +2,7 @@ def get_var(text: str) -> list[str, str]:
     """Extracts a variable name and its value from a string.
 
     This function attempts to split the input string `text` based on common
-    assignment operators (' = ', ' =', or '= '). It iterates through these
+    assignment operators (' = ', ' =','=' or '= '). It iterates through these
     delimiters and returns the split parts as a list of two strings (variable
     name and value) if a split results in exactly two parts.
 
@@ -19,7 +19,7 @@ def get_var(text: str) -> list[str, str]:
         SyntaxError: If the input string cannot be successfully split into
                      a variable and a value using the defined delimiters.
     """
-    for i in (text.split(' = '), text.split(' ='), text.split('= ')):
+    for i in (text.split(' = '), text.split(' ='), text.split('= '),text.split('=')):
         l = len(i)
         if l == 2:
             return i
@@ -61,10 +61,35 @@ class JFFileReader:
         for key in self.pool:
             SECTION, VARIABLE, VALUE = *key.split('::'), self.pool[key]
             if not SECTION in output_dict:
-                output[SECTION] = []
-            output_dict[SECTION].append(f'{VARIABLE} = VALUE')
-            print(SECTION, VARIABLE, VALUE)
-            
+                output_dict[SECTION] = []
+            if isinstance(VALUE,list):
+                output_dict[SECTION].append(f'%{VARIABLE}\n')
+                new_val = []
+                for val in VALUE:
+                    if isinstance(val, int):
+                        typ = '$int'
+                    elif isinstance(val, float):
+                        typ = '$float'
+                    else:
+                        typ = ''
+                    new_val.append(f'{val}{typ}')
+                output_dict[SECTION].append(f'?{VARIABLE}' + f'::'.join(new_val) + '\n')
+                    
+            elif isinstance(VALUE,str):
+                output_dict[SECTION].append(f'{VARIABLE} = {VALUE}\n')
+            else:
+                if isinstance(VALUE, int):
+                    typ = '$int'
+                elif isinstance(VALUE, float):
+                    typ = '$float'
+
+                output_dict[SECTION].append(f'{VARIABLE}{typ} = {VALUE}\n')
+        
+        for sec in output_dict:
+            output += f'{sec}\n'
+            for value in output_dict[sec]:
+                output += f'{value}'
+        print(output)
         #with open(self.filepath,'w') as file_write:
         #    file_write.write()
     def load(self):
