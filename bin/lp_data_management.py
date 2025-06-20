@@ -42,29 +42,34 @@ class LetsPlayHeader:
         self.jf.set('<HEADER>::EPISODE_LENGTH', value)
 
 class LetsPlayEpisode:
-    def __init__(self):
-        """
+    """
         A Lets Play Episode must be formatted like:
         - video_path
-        - audio_path
+        - audio_mic_path
+        - audio_desktop_path
         - thumbnail_path
         - title
-        - episode_number
+        - thumbnail_frame
+        
+        a length of 6
         
         Generate:
         - video_length
-        - audio_length
+        - audio_mic_length
+        - audio_desktop_length
         - video_file_size
         - audio_file_size
         
         Status will be replaced by:
         - video_exist / not ""
-        - audio_exist / not ""
+        - audio_mic_exist / not ""
+        - audio_desktop_exist / not ""
         - thumbnail_exist / not ""
         
         """
-        pass
-
+    def __init__(self,l: list):
+        self.l = l # Reference to the JFFile List
+    
 class LetsPlayTADText:
     def __init__(self):
         pass
