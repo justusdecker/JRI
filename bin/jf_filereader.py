@@ -57,11 +57,16 @@ class JFFileReader:
         return self.pool[f'<{sec}>::{var}']
     def write(self):
         output = ''
-        for sec in self.pool:
-            for val in self.pool[sec]:
-                output += ''
-        with open(self.filepath,'w') as file_write:
-            file_write.write()
+        output_dict = {}
+        for key in self.pool:
+            SECTION, VARIABLE, VALUE = *key.split('::'), self.pool[key]
+            if not SECTION in output_dict:
+                output[SECTION] = []
+            output_dict[SECTION].append(f'{VARIABLE} = VALUE')
+            print(SECTION, VARIABLE, VALUE)
+            
+        #with open(self.filepath,'w') as file_write:
+        #    file_write.write()
     def load(self):
         with open(self.filepath) as file_read:
             data = file_read.read()
