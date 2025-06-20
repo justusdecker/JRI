@@ -48,6 +48,7 @@ def get_type(text: str) -> type:
 class JFFileReader:
     def __init__(self,filepath: str):
         self.filepath = filepath
+        
         self.load()
     def __getattr__(self, name):
         """
@@ -55,6 +56,27 @@ class JFFileReader:
         """
         sec, var = name.split('__')
         return self.pool[f'<{sec}>::{var}']
+    def set(self, name, value):
+        """
+        SECTIONTITLE__VAR
+        """
+        
+        TMP = self.pool[f'{name}']
+        
+        if isinstance(TMP, int):
+            typ = int
+        elif isinstance(TMP, float):
+            typ = float
+        else:
+            typ = str
+            
+        
+        if not isinstance(value,typ):
+            # value type is not correct
+            raise TypeError(f'{name} is {typ} not {get_type(value)}')
+        
+        # A normal setattr
+        self.pool[f'{name}'] = value
     def write(self):
         output = ''
         output_dict = {}
@@ -104,7 +126,10 @@ class JFFileReader:
                 if ' ' in line:
                     raise SyntaxError('No spaces allowed in Sections')
                 current_segment = line
-            elif not line.startswith('%') and not line.startswith('?'):
+                continue
+            if not current_segment:
+                raise SyntaxError('Every Variable must have a valid Section')
+            if not line.startswith('%') and not line.startswith('?'):
                 # this is a variable
                 if '$' in line:
                     # this means the variable has a special type
