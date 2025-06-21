@@ -1,4 +1,4 @@
-CREATE TABLE "episodes" (
+CREATE TABLE episodes (
 	"ID"	INTEGER,
 	"VIDEO_PATH"	TEXT,
 	"AUDIO_MIC_PATH"	TEXT,
