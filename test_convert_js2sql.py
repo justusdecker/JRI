@@ -2,25 +2,32 @@ from bin.data_management import DM
 LP = DM.loads('C:\\Users\\Justus\\jri_data\\lps\\thief simulator.json')
 import sqlite3
 from os.path import isfile
+
+def load(filepath) -> str:
+    with open(filepath) as f:
+        return f.read()
 def load_and_execute_sql(sql_connection,filepath: str,replacer: list[tuple[str,str]]):
-    with open(filepath) as f:
-        sql: str = f.read()
-        for old, new in replacer:
-            sql = sql.replace(old, new)
-        sql_connection.execute(sql)
-        sql_connection.commit()
+
+    sql = load(filepath)
+    for old, new in replacer:
+        sql = sql.replace(old, new)
+    sql_connection.execute(sql)
+    sql_connection.commit()
 def read_one_line_sql(sql_connection,filepath: str,id: int) -> list:
-    with open(filepath) as f:
-        sql: str = f.read().replace('__ID__',f'{id}')
+    sql = load(filepath).replace('__ID__',f'{id}')
     return sql_connection.execute(sql).fetchone()
-
 def remove_by_id_sql(sql_connection,filepath: str,id: int) -> list:
-    with open(filepath) as f:
-        sql: str = f.read().replace('__ID__',f'{id}')
-        sql_connection.execute(sql)
+    sql = load(filepath).replace('__ID__',f'{id}')
+    sql_connection.execute(sql)
 
-# TODO
-# Delete entry
+# Lets Plays.db -> Info, ThumbnailAutomationData
+#   Episode.db
+
+class LetsPlay:
+    def __init__(self):
+        pass
+
+
 class Episodes:
     def __init__(self, filepath: str):
         exist = isfile(filepath)
@@ -54,6 +61,9 @@ class Episodes:
             'bin\\sql\\ins_episode.sql',
             [('__VALUES__',str( (video_path,audio_mic_path,audio_desktop_path,thumbnail_path,thumbnail_frame) ))]
             )
+        
+ 
+
 EP = Episodes('ep.db')
 
 EP.create('abc','def','ghi','jkm',123.2)
