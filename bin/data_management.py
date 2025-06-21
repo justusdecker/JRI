@@ -64,7 +64,7 @@ class DataManagement:
         """
         Reads the Data from JSON File Format and converts it to Dict or List
         """
-        raise DeprecationWarning()
+        #raise DeprecationWarning()
         #LOG.nlog(1,'load file: $',[filePath])
         with open(filePath,'r') as fIn:
             
