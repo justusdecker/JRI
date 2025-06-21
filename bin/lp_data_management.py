@@ -1,4 +1,9 @@
 from bin.jf_filereader import JFFile
+from os.path import isfile, getsize
+
+from moviepy.audio.io.AudioFileClip import AudioFileClip
+from moviepy.video.io.VideoFileClip import VideoFileClip
+
 # Uploadat will be replaced with:
 # Header::start_date
 # Header::time_delta_between_uploads
@@ -44,21 +49,19 @@ class LetsPlayHeader:
 class LetsPlayEpisode:
     """
         A Lets Play Episode must be formatted like:
-        - video_path
-        - audio_mic_path
-        - audio_desktop_path
-        - thumbnail_path
-        - title
-        - thumbnail_frame
-        
-        a length of 6
+        - video_path            0
+        - audio_mic_path        1
+        - audio_desktop_path    2
+        - thumbnail_path        3
+        - title                 4
+        - thumbnail_frame       5
         
         Generate:
-        - video_length
-        - audio_mic_length
-        - audio_desktop_length
-        - video_file_size
-        - audio_file_size
+        - video_length              defaults to -1 if file not exist
+        - audio_mic_length          defaults to -1 if file not exist
+        - audio_desktop_length      defaults to -1 if file not exist 
+        - video_file_size           defaults to -1 if file not exist
+        - audio_file_size           defaults to -1 if file not exist
         
         Status will be replaced by:
         - video_exist / not ""
@@ -70,6 +73,82 @@ class LetsPlayEpisode:
     def __init__(self,l: list):
         self.l = l # Reference to the JFFile List
     
+    @property
+    def video_file_size(self) -> int:
+        return getsize(self.video_path) if self.video_exist else -1
+
+    @property
+    def audio_mic_file_size(self) -> int:
+        return getsize(self.audio_mic_path) if self.audio_mic_exist else -1
+    
+    @property
+    def audio_desktop_file_size(self) -> int:
+        return getsize(self.audio_desktop_path) if self.audio_desktop_exist else -1
+    
+    @property
+    def audio_desktop_duration(self) -> float:
+        return AudioFileClip(self.audio_desktop_path).duration if self.audio_desktop_exist else -1
+    @property
+    def audio_mic_duration(self) -> float:
+        return AudioFileClip(self.audio_mic_path).duration if self.audio_mic_exist else -1
+    @property
+    def video_duration(self) -> float:
+        return VideoFileClip(self.video_path).duration if self.video_exist else -1
+    
+    @property
+    def video_exist(self) -> bool:
+        return isfile(self.video_path)
+    @property
+    def audio_mic_exist(self) -> bool:
+        return isfile(self.audio_mic_path)
+    @property
+    def audio_desktop_exist(self) -> bool:
+        return isfile(self.audio_desktop_path)
+    @property
+    def thumbnail_exist(self) -> bool:
+        return isfile(self.thumbnail_path)
+    
+    @property
+    def video_path(self) -> str:
+        return self.l[0]
+    @video_path.setter
+    def video_path(self, value: str):
+        self.l[0] = value
+        
+    @property
+    def audio_mic_path(self) -> str:
+        return self.l[1]
+    @audio_mic_path.setter
+    def audio_mic_path(self, value: str):
+        self.l[1] = value
+        
+    @property
+    def audio_desktop_path(self) -> str:
+        return self.l[2]
+    @audio_desktop_path.setter
+    def audio_desktop_path(self, value: str):
+        self.l[2] = value
+    
+    @property
+    def thumbnail_path(self) -> str:
+        return self.l[3]
+    @thumbnail_path.setter
+    def thumbnail_path(self, value: str):
+        self.l[3] = value
+        
+    @property
+    def title(self) -> str:
+        return self.l[4]
+    @title.setter
+    def title(self, value: str):
+        self.l[4] = value
+    
+    @property
+    def thumbnail_frame(self) -> float:
+        return self.l[5]
+    @thumbnail_frame.setter
+    def thumbnail_frame(self, value: float):
+        return self.l[5]
 class LetsPlayTADText:
     def __init__(self):
         pass
