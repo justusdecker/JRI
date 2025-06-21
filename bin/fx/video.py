@@ -14,27 +14,6 @@ class IVFX:
         if isfile(filename):
             return VideoFileClip(filename).duration
         return -1
-    def manipulateColors(size,mul,rgb):
-        """
-        multiplies every pixel times mul
-        Its like gamma!
-        """
-        for x in range(size[0]):
-            for y in range(size[1]):
-                
-                if rgb[x][y] == 0 or rgb[x][y] == 255: continue
-                rgba = tuple(
-                    
-                        hex(
-                            int((int
-                            (str
-                            (hex
-                            (rgb[x][y])
-                            )[i+2:i+4], 16) * mul) % 256)).split('0x')[1]
-                        for i in (0, 2, 4, 6)
-                    )
-                rgb[x][y] = int('0x' + ''.join(rgba),16)
-        return rgb
 
     def cropping(xMinus:int,
                 xPlus:int,

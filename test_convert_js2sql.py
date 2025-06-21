@@ -23,6 +23,10 @@ def remove_by_id_sql(sql_connection,filepath: str,id: int) -> list:
 # Lets Plays.db -> Info, ThumbnailAutomationData
 #   Episode.db
 
+class LetsPlays:
+    def __init__(self):
+        pass
+
 class LetsPlay:
     def __init__(self):
         pass
