@@ -1,0 +1,1 @@
+DELETE FROM episodes WHERE ID = __ID__

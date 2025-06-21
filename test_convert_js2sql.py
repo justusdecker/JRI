@@ -9,7 +9,18 @@ def load_and_execute_sql(sql_connection,filepath: str,replacer: list[tuple[str,s
             sql = sql.replace(old, new)
         sql_connection.execute(sql)
         sql_connection.commit()
+def read_one_line_sql(sql_connection,filepath: str,id: int) -> list:
+    with open(filepath) as f:
+        sql: str = f.read().replace('__ID__',f'{id}')
+    return sql_connection.execute(sql).fetchone()
 
+def remove_by_id_sql(sql_connection,filepath: str,id: int) -> list:
+    with open(filepath) as f:
+        sql: str = f.read().replace('__ID__',f'{id}')
+        sql_connection.execute(sql)
+
+# TODO
+# Delete entry
 class Episodes:
     def __init__(self, filepath: str):
         exist = isfile(filepath)
@@ -21,13 +32,17 @@ class Episodes:
         self.filepath = filepath
     def on_close(self):
         self.connection.close()
-    def set_episode(self,id: int, key: str, value):
+    def delete(self,id: int) -> list:
+        return remove_by_id_sql(self.connection,'bin\\sql\\del_episode.sql',id)
+    def read(self,id: int) -> list:
+        return read_one_line_sql(self.connection,'bin\\sql\\rea_episode.sql',id)
+    def update(self,id: int, key: str, value):
         load_and_execute_sql(
             self.connection,
             'bin\\sql\\upd_episode.sql',
             [('__ID__',f'{id}'),('__KEY__',key),("__VALUE__",value)]
             )
-    def add_episode(self,
+    def create(self,
                     video_path: str,
                     audio_mic_path: str,
                     audio_desktop_path: str,
@@ -41,6 +56,8 @@ class Episodes:
             )
 EP = Episodes('ep.db')
 
-EP.add_episode('abc','def','ghi','jkm',123.2)
-EP.set_episode(1,'VIDEO_PATH', '"ABC"')
+EP.create('abc','def','ghi','jkm',123.2)
+EP.update(2,'VIDEO_PATH', '"ABC123"')
+print(EP.read(1))
+EP.delete(1)
 EP.on_close()
